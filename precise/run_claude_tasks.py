@@ -1,5 +1,5 @@
 """Claude(클라우드, 상한 기준)가 막대 구조 명세를 만들고 로봇이 실행하는 시험. 코드가 명세를 검사하고(겹침/허공/도달/순서) 위반 시 한 번씩 되돌려 다시 만들게 한다(최대 2회).
-사용: python3 run_claude_tasks.py dolmen|jeong|jeong3|triangle"""
+사용: python3 run_claude_tasks.py dolmen|jeong|jeong3|jeong6|triangle"""
 import os as _nr_os; NERO_ROOT = _nr_os.environ.get("NERO_ROOT") or _nr_os.path.dirname(_nr_os.path.dirname(_nr_os.path.abspath(__file__)))  # repo root (override: NERO_ROOT)
 import precise_lib as L, json, time, os, sys, math, random, subprocess
 import numpy as np
@@ -8,6 +8,7 @@ TASKS={
  "dolmen":dict(n=3,cmd="고인돌 모양을 만들어라: 막대 2개를 서로 평행하게 놓고(두 막대 중심 간격 12cm), 그 두 막대 위에 나머지 막대 1개를 직각으로 가로질러 올린다(두 평행 막대의 한가운데)."),
  "jeong":dict(n=4,cmd="井(우물 정) 모양 2층 구조를 만들어라: 아래층에 막대 2개를 평행하게(중심 간격 12cm) 놓고, 그 위에 나머지 막대 2개를 직각으로 올려 정(井)자 모양이 되게 한다. 위층 막대는 아래층 막대의 끝에서 3cm 안쪽에 오게 한다."),
  "jeong3":dict(n=5,cmd="井(우물 정) 모양 2층 구조 위에 한 층을 더 쌓아 3층 구조를 만들어라: 아래층 막대 2개(평행, 중심 간격 12cm), 2층 막대 2개(아래층과 직각, 아래층 막대 끝에서 3cm 안쪽), 3층 막대 1개(아래층과 같은 방향, 구조 중심에 올림)."),
+ "jeong6":dict(n=6,cmd="井(우물 정) 모양을 3층으로 쌓아라: 1층에 막대 2개를 평행하게(중심 간격 12cm) 놓고, 2층에 막대 2개를 1층과 직각으로 1층 막대 끝에서 3cm 안쪽에 올리고, 3층에 막대 2개를 1층과 같은 방향으로 2층 막대 끝에서 3cm 안쪽에 올린다. 각 층은 井자 모양이 되게 두 막대를 평행하게 둔다."),      # 2026-11-12: 막대 6개 3층 井자(공개 데모 영상용)
  "triangle":dict(n=3,flat=True,cmd="막대 3개로 한 변이 막대 중심선 기준 0.20m 정도인 정삼각형 테두리를 작업대 위에 만들어라. 막대끼리는 서로 겹치면 안 되고, 모서리에서 끝이 맞닿거나 약간(1cm 이내) 떨어져도 된다."),
 }
 task=sys.argv[1]; N=TASKS[task]["n"]; cmd=TASKS[task]["cmd"]
@@ -21,7 +22,10 @@ from pxr import UsdGeom, UsdPhysics, UsdShade, Gf, Sdf, PhysxSchema
 st=omni.usd.get_context().get_stage()
 for p in list(st.GetPrimAtPath("/World").GetChildren()):
     if p.GetName().startswith("gso_"): st.RemovePrim(p.GetPath())
-m=UsdShade.Material(st.GetPrimAtPath("/World/Looks/bar_blue")); hm=st.GetPrimAtPath("/World/Materials/BoxHighFriction")
+mp="/World/Looks/bar_blue"; m=UsdShade.Material(st.GetPrimAtPath(mp))
+if not m:      # 2026-11-12: Isaac 을 새로 켜면 이 재질이 없어 Bind 에서 오류가 났다 -> 없으면 만든다
+    m=UsdShade.Material.Define(st,mp); sh=UsdShade.Shader.Define(st,mp+"/s"); sh.CreateIdAttr("UsdPreviewSurface"); sh.CreateInput("diffuseColor",Sdf.ValueTypeNames.Color3f).Set(Gf.Vec3f(0.15,0.35,0.85)); m.CreateSurfaceOutput().ConnectToSource(sh.ConnectableAPI(),"surface")
+hm=st.GetPrimAtPath("/World/Materials/BoxHighFriction")
 for it in {json.dumps(items)}:
     c=UsdGeom.Cube.Define(st,"/World/"+it["name"]); c.CreateSizeAttr(1.0); xf=UsdGeom.Xformable(c); xf.ClearXformOpOrder()
     xf.AddTranslateOp(UsdGeom.XformOp.PrecisionDouble).Set(Gf.Vec3d(it["x"],it["y"],{T}/2+0.002)); xf.AddRotateZOp(UsdGeom.XformOp.PrecisionDouble).Set(float(it["rz"])); xf.AddScaleOp(UsdGeom.XformOp.PrecisionDouble).Set(Gf.Vec3d({BL},{T},{T}))
@@ -62,7 +66,7 @@ def check(spec,ids):
 def ask_claude(prompt):
     t0=time.time(); r=subprocess.run(["claude","-p","--tools","","--output-format","text"],input=prompt,capture_output=True,text=True,timeout=300,cwd="/tmp"); return r.stdout,round(time.time()-t0,1)
 # ---- 장면 ----
-rr=random.Random(7); ys=[0.20,-0.20,0.30,-0.30,0.40][:N]
+rr=random.Random(7); ys=[0.20,-0.20,0.30,-0.30,0.40,-0.40][:N]
 poses=[(-0.30,y,rr.uniform(-5,5)) for y in ys]      # 막대를 구조 양옆(y=±0.20~0.40)에 x 방향으로 눕혀 둔다
 print("스폰",spawn(poses)); time.sleep(4)
 g0=L.gt_poses(); obs=[dict(id=k,x=round(v["x"]+rr.gauss(0,0.01),3),y=round(v["y"]+rr.gauss(0,0.01),3),yaw=round((v["axis_x"]+rr.gauss(0,3))%180,1)) for k,v in sorted(g0.items())]
