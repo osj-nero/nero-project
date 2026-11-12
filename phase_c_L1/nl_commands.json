@@ -1,0 +1,1076 @@
+[
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "잉크 카트리지을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "Office_Depot_HP_71_Remanufactured_Ink_Cartridge_Black",
+   "place": "plate"
+  },
+  "id": 0
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "프린터 잉크 좀 접시 위에 놓아줘.",
+  "gt": {
+   "target_obj": "Office_Depot_HP_71_Remanufactured_Ink_Cartridge_Black",
+   "place": "plate"
+  },
+  "id": 1
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Put printer ink box on the plate, please.",
+  "gt": {
+   "target_obj": "Office_Depot_HP_71_Remanufactured_Ink_Cartridge_Black",
+   "place": "plate"
+  },
+  "id": 2
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Pick up the printer ink box and put it on the plate.",
+  "gt": {
+   "target_obj": "Office_Depot_HP_71_Remanufactured_Ink_Cartridge_Black",
+   "place": "plate"
+  },
+  "id": 3
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "접시에 초록색 안드로이드 인형 올려줄래?",
+  "gt": {
+   "target_obj": "Great_Dinos_Triceratops_Toy",
+   "place": "plate"
+  },
+  "id": 4
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "초록색 안드로이드 인형을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "Great_Dinos_Triceratops_Toy",
+   "place": "plate"
+  },
+  "id": 5
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Could you place the green android toy on the saucer?",
+  "gt": {
+   "target_obj": "Great_Dinos_Triceratops_Toy",
+   "place": "plate"
+  },
+  "id": 6
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Move the android robot figure onto the plate.",
+  "gt": {
+   "target_obj": "Great_Dinos_Triceratops_Toy",
+   "place": "plate"
+  },
+  "id": 7
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "게임 카트리지 좀 접시 위에 놓아줘.",
+  "gt": {
+   "target_obj": "Super_Mario_Kart_Super_Nintendo_Entertainment_System",
+   "place": "plate"
+  },
+  "id": 8
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "게임 카트리지을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "Super_Mario_Kart_Super_Nintendo_Entertainment_System",
+   "place": "plate"
+  },
+  "id": 9
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Could you place the game cartridge on the saucer?",
+  "gt": {
+   "target_obj": "Super_Mario_Kart_Super_Nintendo_Entertainment_System",
+   "place": "plate"
+  },
+  "id": 10
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Pick up the video game cartridge and put it on the plate.",
+  "gt": {
+   "target_obj": "Super_Mario_Kart_Super_Nintendo_Entertainment_System",
+   "place": "plate"
+  },
+  "id": 11
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "손전등을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "HeavyDuty_Flashlight",
+   "place": "plate"
+  },
+  "id": 12
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "플래시 좀 접시 위에 놓아줘.",
+  "gt": {
+   "target_obj": "HeavyDuty_Flashlight",
+   "place": "plate"
+  },
+  "id": 13
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Put torch on the plate, please.",
+  "gt": {
+   "target_obj": "HeavyDuty_Flashlight",
+   "place": "plate"
+  },
+  "id": 14
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Could you place the flashlight on the saucer?",
+  "gt": {
+   "target_obj": "HeavyDuty_Flashlight",
+   "place": "plate"
+  },
+  "id": 15
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "은색 테이프를 접시에 옮겨줘.",
+  "gt": {
+   "target_obj": "Shurtape_Gaffers_Tape_Silver_2_x_60_yd",
+   "place": "plate"
+  },
+  "id": 16
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "테이프을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "Shurtape_Gaffers_Tape_Silver_2_x_60_yd",
+   "place": "plate"
+  },
+  "id": 17
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Put roll of tape on the plate, please.",
+  "gt": {
+   "target_obj": "Shurtape_Gaffers_Tape_Silver_2_x_60_yd",
+   "place": "plate"
+  },
+  "id": 18
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Pick up the silver tape and put it on the plate.",
+  "gt": {
+   "target_obj": "Shurtape_Gaffers_Tape_Silver_2_x_60_yd",
+   "place": "plate"
+  },
+  "id": 19
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "하드디스크를 접시에 옮겨줘.",
+  "gt": {
+   "target_obj": "Seagate_Archive_HDD_8_TB_Internal_hard_drive_SATA_6Gbs_35_ST8000AS0002",
+   "place": "plate"
+  },
+  "id": 20
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "하드디스크을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "Seagate_Archive_HDD_8_TB_Internal_hard_drive_SATA_6Gbs_35_ST8000AS0002",
+   "place": "plate"
+  },
+  "id": 21
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Pick up the hard disk and put it on the plate.",
+  "gt": {
+   "target_obj": "Seagate_Archive_HDD_8_TB_Internal_hard_drive_SATA_6Gbs_35_ST8000AS0002",
+   "place": "plate"
+  },
+  "id": 22
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Could you place the hard drive on the saucer?",
+  "gt": {
+   "target_obj": "Seagate_Archive_HDD_8_TB_Internal_hard_drive_SATA_6Gbs_35_ST8000AS0002",
+   "place": "plate"
+  },
+  "id": 23
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "개 장난감를 접시에 옮겨줘.",
+  "gt": {
+   "target_obj": "Kong_Puppy_Teething_Rubber_Small_Pink",
+   "place": "plate"
+  },
+  "id": 24
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "분홍색 강아지 장난감 좀 접시 위에 놓아줘.",
+  "gt": {
+   "target_obj": "Kong_Puppy_Teething_Rubber_Small_Pink",
+   "place": "plate"
+  },
+  "id": 25
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Could you place the dog chew toy on the saucer?",
+  "gt": {
+   "target_obj": "Kong_Puppy_Teething_Rubber_Small_Pink",
+   "place": "plate"
+  },
+  "id": 26
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Put pink dog toy on the plate, please.",
+  "gt": {
+   "target_obj": "Kong_Puppy_Teething_Rubber_Small_Pink",
+   "place": "plate"
+  },
+  "id": 27
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "접시에 액션 피규어 올려줄래?",
+  "gt": {
+   "target_obj": "Playmates_nickelodeon_teenage_mutant_ninja_turtles_shredder",
+   "place": "plate"
+  },
+  "id": 28
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "닌자 거북이 피규어을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "Playmates_nickelodeon_teenage_mutant_ninja_turtles_shredder",
+   "place": "plate"
+  },
+  "id": 29
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Put ninja turtle figure on the plate, please.",
+  "gt": {
+   "target_obj": "Playmates_nickelodeon_teenage_mutant_ninja_turtles_shredder",
+   "place": "plate"
+  },
+  "id": 30
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Move the ninja turtle figure onto the plate.",
+  "gt": {
+   "target_obj": "Playmates_nickelodeon_teenage_mutant_ninja_turtles_shredder",
+   "place": "plate"
+  },
+  "id": 31
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "커피 상자 좀 접시 위에 놓아줘.",
+  "gt": {
+   "target_obj": "NESCAFE_NESCAFE_TC_STKS_DECAF_6_CT",
+   "place": "plate"
+  },
+  "id": 32
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "커피 상자을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "NESCAFE_NESCAFE_TC_STKS_DECAF_6_CT",
+   "place": "plate"
+  },
+  "id": 33
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Pick up the box of coffee sticks and put it on the plate.",
+  "gt": {
+   "target_obj": "NESCAFE_NESCAFE_TC_STKS_DECAF_6_CT",
+   "place": "plate"
+  },
+  "id": 34
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Move the box of coffee sticks onto the plate.",
+  "gt": {
+   "target_obj": "NESCAFE_NESCAFE_TC_STKS_DECAF_6_CT",
+   "place": "plate"
+  },
+  "id": 35
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "줄자를 접시에 옮겨줘.",
+  "gt": {
+   "target_obj": "SNAIL_MEASURING_TAPE",
+   "place": "plate"
+  },
+  "id": 36
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "줄자을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "SNAIL_MEASURING_TAPE",
+   "place": "plate"
+  },
+  "id": 37
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Move the measuring tape onto the plate.",
+  "gt": {
+   "target_obj": "SNAIL_MEASURING_TAPE",
+   "place": "plate"
+  },
+  "id": 38
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Put measuring tape on the plate, please.",
+  "gt": {
+   "target_obj": "SNAIL_MEASURING_TAPE",
+   "place": "plate"
+  },
+  "id": 39
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "판다 모양 장난감 좀 접시 위에 놓아줘.",
+  "gt": {
+   "target_obj": "Android_Figure_Panda",
+   "place": "plate"
+  },
+  "id": 40
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "판다 모양 장난감를 접시에 옮겨줘.",
+  "gt": {
+   "target_obj": "Android_Figure_Panda",
+   "place": "plate"
+  },
+  "id": 41
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Put panda figure on the plate, please.",
+  "gt": {
+   "target_obj": "Android_Figure_Panda",
+   "place": "plate"
+  },
+  "id": 42
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Pick up the panda toy and put it on the plate.",
+  "gt": {
+   "target_obj": "Android_Figure_Panda",
+   "place": "plate"
+  },
+  "id": 43
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "접시에 탁상시계 올려줄래?",
+  "gt": {
+   "target_obj": "Crosley_Alarm_Clock_Vintage_Metal",
+   "place": "plate"
+  },
+  "id": 44
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "알람시계을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "Crosley_Alarm_Clock_Vintage_Metal",
+   "place": "plate"
+  },
+  "id": 45
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Could you place the alarm clock on the saucer?",
+  "gt": {
+   "target_obj": "Crosley_Alarm_Clock_Vintage_Metal",
+   "place": "plate"
+  },
+  "id": 46
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Move the alarm clock onto the plate.",
+  "gt": {
+   "target_obj": "Crosley_Alarm_Clock_Vintage_Metal",
+   "place": "plate"
+  },
+  "id": 47
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "접시에 공룡 장난감 올려줄래?",
+  "gt": {
+   "target_obj": "Schleich_Allosaurus",
+   "place": "plate"
+  },
+  "id": 48
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "공룡 모형를 접시에 옮겨줘.",
+  "gt": {
+   "target_obj": "Schleich_Allosaurus",
+   "place": "plate"
+  },
+  "id": 49
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Pick up the dinosaur figure and put it on the plate.",
+  "gt": {
+   "target_obj": "Schleich_Allosaurus",
+   "place": "plate"
+  },
+  "id": 50
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Put toy dinosaur on the plate, please.",
+  "gt": {
+   "target_obj": "Schleich_Allosaurus",
+   "place": "plate"
+  },
+  "id": 51
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "마우스를 접시에 옮겨줘.",
+  "gt": {
+   "target_obj": "Razer_Abyssus_Ambidextrous_Gaming_Mouse",
+   "place": "plate"
+  },
+  "id": 52
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "마우스을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "Razer_Abyssus_Ambidextrous_Gaming_Mouse",
+   "place": "plate"
+  },
+  "id": 53
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Move the computer mouse onto the plate.",
+  "gt": {
+   "target_obj": "Razer_Abyssus_Ambidextrous_Gaming_Mouse",
+   "place": "plate"
+  },
+  "id": 54
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Put computer mouse on the plate, please.",
+  "gt": {
+   "target_obj": "Razer_Abyssus_Ambidextrous_Gaming_Mouse",
+   "place": "plate"
+  },
+  "id": 55
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "크레용 상자를 접시에 옮겨줘.",
+  "gt": {
+   "target_obj": "Crayola_Crayons_120_crayons",
+   "place": "plate"
+  },
+  "id": 56
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "크레파스 좀 접시 위에 놓아줘.",
+  "gt": {
+   "target_obj": "Crayola_Crayons_120_crayons",
+   "place": "plate"
+  },
+  "id": 57
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Move the box of crayons onto the plate.",
+  "gt": {
+   "target_obj": "Crayola_Crayons_120_crayons",
+   "place": "plate"
+  },
+  "id": 58
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Put box of crayons on the plate, please.",
+  "gt": {
+   "target_obj": "Crayola_Crayons_120_crayons",
+   "place": "plate"
+  },
+  "id": 59
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "카메라 렌즈 좀 접시 위에 놓아줘.",
+  "gt": {
+   "target_obj": "Nikon_1_AW1_w11275mm_Lens_Silver",
+   "place": "plate"
+  },
+  "id": 60
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "접시에 렌즈 올려줄래?",
+  "gt": {
+   "target_obj": "Nikon_1_AW1_w11275mm_Lens_Silver",
+   "place": "plate"
+  },
+  "id": 61
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Pick up the camera lens and put it on the plate.",
+  "gt": {
+   "target_obj": "Nikon_1_AW1_w11275mm_Lens_Silver",
+   "place": "plate"
+  },
+  "id": 62
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Could you place the camera lens on the saucer?",
+  "gt": {
+   "target_obj": "Nikon_1_AW1_w11275mm_Lens_Silver",
+   "place": "plate"
+  },
+  "id": 63
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "신발을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "Reebok_RETRO_RUSH_2V",
+   "place": "plate"
+  },
+  "id": 64
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "접시에 운동화 올려줄래?",
+  "gt": {
+   "target_obj": "Reebok_RETRO_RUSH_2V",
+   "place": "plate"
+  },
+  "id": 65
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Move the shoe onto the plate.",
+  "gt": {
+   "target_obj": "Reebok_RETRO_RUSH_2V",
+   "place": "plate"
+  },
+  "id": 66
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Put sneaker on the plate, please.",
+  "gt": {
+   "target_obj": "Reebok_RETRO_RUSH_2V",
+   "place": "plate"
+  },
+  "id": 67
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "접시에 비누 접시 올려줄래?",
+  "gt": {
+   "target_obj": "Threshold_Bamboo_Ceramic_Soap_Dish",
+   "place": "plate"
+  },
+  "id": 68
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "비누 접시 좀 접시 위에 놓아줘.",
+  "gt": {
+   "target_obj": "Threshold_Bamboo_Ceramic_Soap_Dish",
+   "place": "plate"
+  },
+  "id": 69
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Put soap dish on the plate, please.",
+  "gt": {
+   "target_obj": "Threshold_Bamboo_Ceramic_Soap_Dish",
+   "place": "plate"
+  },
+  "id": 70
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Move the ceramic soap dish onto the plate.",
+  "gt": {
+   "target_obj": "Threshold_Bamboo_Ceramic_Soap_Dish",
+   "place": "plate"
+  },
+  "id": 71
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "장난감 비행기 좀 접시 위에 놓아줘.",
+  "gt": {
+   "target_obj": "TURBOPROP_AIRPLANE_WITH_PILOT",
+   "place": "plate"
+  },
+  "id": 72
+ },
+ {
+  "kind": "direct",
+  "lang": "ko",
+  "text": "장난감 비행기을(를) 집어서 접시로 옮겨 주세요.",
+  "gt": {
+   "target_obj": "TURBOPROP_AIRPLANE_WITH_PILOT",
+   "place": "plate"
+  },
+  "id": 73
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Pick up the toy airplane and put it on the plate.",
+  "gt": {
+   "target_obj": "TURBOPROP_AIRPLANE_WITH_PILOT",
+   "place": "plate"
+  },
+  "id": 74
+ },
+ {
+  "kind": "direct",
+  "lang": "en",
+  "text": "Could you place the toy airplane on the saucer?",
+  "gt": {
+   "target_obj": "TURBOPROP_AIRPLANE_WITH_PILOT",
+   "place": "plate"
+  },
+  "id": 75
+ },
+ {
+  "kind": "exclude",
+  "lang": "ko",
+  "text": "하드디스크 빼고 전부 치워줘.",
+  "gt": {
+   "exclude_obj": "Seagate_Archive_HDD_8_TB_Internal_hard_drive_SATA_6Gbs_35_ST8000AS0002",
+   "place": "free"
+  },
+  "id": 76
+ },
+ {
+  "kind": "exclude",
+  "lang": "en",
+  "text": "Move everything away but leave the hard disk.",
+  "gt": {
+   "exclude_obj": "Seagate_Archive_HDD_8_TB_Internal_hard_drive_SATA_6Gbs_35_ST8000AS0002",
+   "place": "free"
+  },
+  "id": 77
+ },
+ {
+  "kind": "exclude",
+  "lang": "ko",
+  "text": "책상에서 장난감 비행기만 두고 정리해줘.",
+  "gt": {
+   "exclude_obj": "TURBOPROP_AIRPLANE_WITH_PILOT",
+   "place": "free"
+  },
+  "id": 78
+ },
+ {
+  "kind": "exclude",
+  "lang": "en",
+  "text": "Tidy up, but don't touch the toy plane.",
+  "gt": {
+   "exclude_obj": "TURBOPROP_AIRPLANE_WITH_PILOT",
+   "place": "free"
+  },
+  "id": 79
+ },
+ {
+  "kind": "exclude",
+  "lang": "ko",
+  "text": "판다 모양 장난감만 남기고 나머지는 다 치워줘.",
+  "gt": {
+   "exclude_obj": "Android_Figure_Panda",
+   "place": "free"
+  },
+  "id": 80
+ },
+ {
+  "kind": "exclude",
+  "lang": "en",
+  "text": "Clear the table except the panda toy.",
+  "gt": {
+   "exclude_obj": "Android_Figure_Panda",
+   "place": "free"
+  },
+  "id": 81
+ },
+ {
+  "kind": "exclude",
+  "lang": "ko",
+  "text": "커피 상자만 남기고 나머지는 다 치워줘.",
+  "gt": {
+   "exclude_obj": "NESCAFE_NESCAFE_TC_STKS_DECAF_6_CT",
+   "place": "free"
+  },
+  "id": 82
+ },
+ {
+  "kind": "exclude",
+  "lang": "en",
+  "text": "Move everything away but leave the coffee box.",
+  "gt": {
+   "exclude_obj": "NESCAFE_NESCAFE_TC_STKS_DECAF_6_CT",
+   "place": "free"
+  },
+  "id": 83
+ },
+ {
+  "kind": "exclude",
+  "lang": "ko",
+  "text": "책상에서 안드로이드 장난감만 두고 정리해줘.",
+  "gt": {
+   "exclude_obj": "Great_Dinos_Triceratops_Toy",
+   "place": "free"
+  },
+  "id": 84
+ },
+ {
+  "kind": "exclude",
+  "lang": "en",
+  "text": "Clear the table except the green android toy.",
+  "gt": {
+   "exclude_obj": "Great_Dinos_Triceratops_Toy",
+   "place": "free"
+  },
+  "id": 85
+ },
+ {
+  "kind": "exclude",
+  "lang": "ko",
+  "text": "달팽이 줄자만 남기고 나머지는 다 치워줘.",
+  "gt": {
+   "exclude_obj": "SNAIL_MEASURING_TAPE",
+   "place": "free"
+  },
+  "id": 86
+ },
+ {
+  "kind": "exclude",
+  "lang": "en",
+  "text": "Tidy up, but don't touch the measuring tape.",
+  "gt": {
+   "exclude_obj": "SNAIL_MEASURING_TAPE",
+   "place": "free"
+  },
+  "id": 87
+ },
+ {
+  "kind": "exclude",
+  "lang": "ko",
+  "text": "책상에서 닌자 거북이 피규어만 두고 정리해줘.",
+  "gt": {
+   "exclude_obj": "Playmates_nickelodeon_teenage_mutant_ninja_turtles_shredder",
+   "place": "free"
+  },
+  "id": 88
+ },
+ {
+  "kind": "exclude",
+  "lang": "en",
+  "text": "Tidy up, but don't touch the action figure.",
+  "gt": {
+   "exclude_obj": "Playmates_nickelodeon_teenage_mutant_ninja_turtles_shredder",
+   "place": "free"
+  },
+  "id": 89
+ },
+ {
+  "kind": "exclude",
+  "lang": "ko",
+  "text": "책상에서 운동화만 두고 정리해줘.",
+  "gt": {
+   "exclude_obj": "Reebok_RETRO_RUSH_2V",
+   "place": "free"
+  },
+  "id": 90
+ },
+ {
+  "kind": "exclude",
+  "lang": "en",
+  "text": "Move everything away but leave the sneaker.",
+  "gt": {
+   "exclude_obj": "Reebok_RETRO_RUSH_2V",
+   "place": "free"
+  },
+  "id": 91
+ },
+ {
+  "kind": "clear",
+  "lang": "ko",
+  "text": "책상 치워줘.",
+  "gt": {
+   "place": "free"
+  },
+  "id": 92
+ },
+ {
+  "kind": "clear",
+  "lang": "ko",
+  "text": "책상 위 물건 전부 정리해줘.",
+  "gt": {
+   "place": "free"
+  },
+  "id": 93
+ },
+ {
+  "kind": "clear",
+  "lang": "ko",
+  "text": "탁상 위를 비워줘.",
+  "gt": {
+   "place": "free"
+  },
+  "id": 94
+ },
+ {
+  "kind": "clear",
+  "lang": "en",
+  "text": "Clear the desk.",
+  "gt": {
+   "place": "free"
+  },
+  "id": 95
+ },
+ {
+  "kind": "clear",
+  "lang": "en",
+  "text": "Tidy up everything on the table.",
+  "gt": {
+   "place": "free"
+  },
+  "id": 96
+ },
+ {
+  "kind": "clear",
+  "lang": "en",
+  "text": "Remove all objects from the table.",
+  "gt": {
+   "place": "free"
+  },
+  "id": 97
+ },
+ {
+  "kind": "attribute",
+  "lang": "ko",
+  "text": "빨간 물체만 접시에 옮겨줘.",
+  "gt": {
+   "color": "red",
+   "place": "plate"
+  },
+  "id": 98
+ },
+ {
+  "kind": "attribute",
+  "lang": "en",
+  "text": "Move only the red objects onto the plate.",
+  "gt": {
+   "color": "red",
+   "place": "plate"
+  },
+  "id": 99
+ },
+ {
+  "kind": "attribute",
+  "lang": "ko",
+  "text": "초록 물체만 접시에 옮겨줘.",
+  "gt": {
+   "color": "green",
+   "place": "plate"
+  },
+  "id": 100
+ },
+ {
+  "kind": "attribute",
+  "lang": "en",
+  "text": "Put the green things on the plate.",
+  "gt": {
+   "color": "green",
+   "place": "plate"
+  },
+  "id": 101
+ },
+ {
+  "kind": "attribute",
+  "lang": "ko",
+  "text": "분홍 물체만 접시에 옮겨줘.",
+  "gt": {
+   "color": "pink",
+   "place": "plate"
+  },
+  "id": 102
+ },
+ {
+  "kind": "attribute",
+  "lang": "en",
+  "text": "Move only the pink objects onto the plate.",
+  "gt": {
+   "color": "pink",
+   "place": "plate"
+  },
+  "id": 103
+ },
+ {
+  "kind": "attribute",
+  "lang": "ko",
+  "text": "은색 물체만 접시에 옮겨줘.",
+  "gt": {
+   "color": "silver",
+   "place": "plate"
+  },
+  "id": 104
+ },
+ {
+  "kind": "attribute",
+  "lang": "en",
+  "text": "Put the silver things on the plate.",
+  "gt": {
+   "color": "silver",
+   "place": "plate"
+  },
+  "id": 105
+ },
+ {
+  "kind": "attribute",
+  "lang": "ko",
+  "text": "파란색인 것만 접시로 옮겨 주세요.",
+  "gt": {
+   "color": "blue",
+   "place": "plate"
+  },
+  "id": 106
+ },
+ {
+  "kind": "attribute",
+  "lang": "en",
+  "text": "Put the blue things on the plate.",
+  "gt": {
+   "color": "blue",
+   "place": "plate"
+  },
+  "id": 107
+ }
+]

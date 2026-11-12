@@ -1,0 +1,13 @@
+{"note": "2026-11-10 15:40 사전 등록(실행 전). VLM 실행 확인 10경우. 선정 기준: VLM 인식각 계획만 결과(eval_vlm_perc_g31.jsonl)의 종류별 커버리지 -- 막힘 없이 놓음 6 / 풀고 놓음 2 / 포기 2, 상자·판·막대, 뒤집힌 장면(box156.7, plate175.6, bar165.5/151.6) 포함, 장애물 있는 장면 포함. 실행에서는 Gemma 를 새 사진으로 다시 부르므로 판단이 계획만 결과와 달라질 수 있음(그대로 기록). 실패 이유 메시지는 relax_common 펼친 형식 수정본(11/10).",
+ "cases": [
+  {"scene": "R_box_y88.2", "item": "t3_box_arrow", "kind": "놓음", "why": "기본(장애물 없음)"},
+  {"scene": "R_box_y76.3", "item": "d_upright_left_leak", "kind": "놓음", "why": "안 보이는 사실(cmd_v)+위치 왼쪽"},
+  {"scene": "R_box_y111.4", "item": "b_glass_upright", "kind": "놓음", "why": "장애물 장면, 안 보이는 사실"},
+  {"scene": "R_plate_y38.5", "item": "t3_mirror", "kind": "놓음", "why": "판 눕히기"},
+  {"scene": "R_plate_y175.6", "item": "t3_wet_paint", "kind": "놓음", "why": "뒤집힌 판, 칠한 면 안 보임, 장애물"},
+  {"scene": "R_bar_y165.5", "item": "y_fb_aisle", "kind": "놓음", "why": "뒤집힌 막대, yaw 조건"},
+  {"scene": "R_box_y156.7", "item": "r_left_slot", "kind": "풀고 놓음", "why": "뒤집힌 상자, 장애물, 위치 막힘"},
+  {"scene": "R_bar_y151.6", "item": "y_fb_pref", "kind": "풀고 놓음", "why": "뒤집힌 막대, 바람 풀기"},
+  {"scene": "R_box_y32.8", "item": "b_arrow", "kind": "포기", "why": "표시 근거로 지키고 포기"},
+  {"scene": "R_box_y156.7", "item": "b_screws", "kind": "포기", "why": "나사 상자(입력 민감 사례)"}
+ ]}

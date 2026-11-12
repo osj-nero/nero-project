@@ -1,0 +1,353 @@
+{
+"note": "2026-11-10 밤: VLM 실행 87경우(판단 시험과 같은 장면x문항, 1회씩). 설정: stage2_vlm.py(물리=v4 직육면체+무늬 껍데기, NERO_HELD_COVER=1, 서버 8021 sha 631fa6f9, relax_common 펼친 형식 수정). 사용자 승인.",
+"cases": [
+{
+"scene": "R_box_y32.8",
+"item": "t3_box_screws"
+},
+{
+"scene": "R_box_y32.8",
+"item": "t3_box_left_upright"
+},
+{
+"scene": "R_box_y32.8",
+"item": "b_arrow"
+},
+{
+"scene": "R_box_y32.8",
+"item": "b_cereal_pref"
+},
+{
+"scene": "R_box_y32.8",
+"item": "b_screws"
+},
+{
+"scene": "R_box_y32.8",
+"item": "r_left_wet"
+},
+{
+"scene": "R_box_y32.8",
+"item": "r_left_pref"
+},
+{
+"scene": "R_box_y32.8",
+"item": "r_near_reach"
+},
+{
+"scene": "R_box_y33.1",
+"item": "t3_box_screws"
+},
+{
+"scene": "R_box_y33.1",
+"item": "t3_box_left_upright"
+},
+{
+"scene": "R_box_y33.1",
+"item": "b_cereal_pref"
+},
+{
+"scene": "R_box_y33.1",
+"item": "b_screws"
+},
+{
+"scene": "R_box_y33.1",
+"item": "b_book_closed"
+},
+{
+"scene": "R_box_y33.1",
+"item": "b_liquid_upright"
+},
+{
+"scene": "R_box_y33.1",
+"item": "r_left_wet"
+},
+{
+"scene": "R_box_y33.1",
+"item": "r_left_ifempty"
+},
+{
+"scene": "R_box_y33.1",
+"item": "r_near_pref"
+},
+{
+"scene": "R_box_y33.1",
+"item": "d_left_anypose_wet"
+},
+{
+"scene": "R_box_y76.3",
+"item": "b_empty_open"
+},
+{
+"scene": "R_box_y76.3",
+"item": "b_glass_upright"
+},
+{
+"scene": "R_box_y76.3",
+"item": "b_book_closed"
+},
+{
+"scene": "R_box_y76.3",
+"item": "b_liquid_upright"
+},
+{
+"scene": "R_box_y76.3",
+"item": "b_upright_pref"
+},
+{
+"scene": "R_box_y76.3",
+"item": "r_left_wet"
+},
+{
+"scene": "R_box_y76.3",
+"item": "r_left_pref"
+},
+{
+"scene": "R_box_y76.3",
+"item": "r_left_slot"
+},
+{
+"scene": "R_box_y76.3",
+"item": "r_left_ifempty"
+},
+{
+"scene": "R_box_y76.3",
+"item": "r_near_pref"
+},
+{
+"scene": "R_box_y76.3",
+"item": "d_upright_left_leak"
+},
+{
+"scene": "R_box_y88.2",
+"item": "t3_box_arrow"
+},
+{
+"scene": "R_box_y88.2",
+"item": "t3_box_cereal"
+},
+{
+"scene": "R_box_y88.2",
+"item": "t3_box_screws"
+},
+{
+"scene": "R_box_y88.2",
+"item": "b_arrow"
+},
+{
+"scene": "R_box_y88.2",
+"item": "b_cereal_pref"
+},
+{
+"scene": "R_box_y88.2",
+"item": "b_empty_open"
+},
+{
+"scene": "R_box_y88.2",
+"item": "b_glass_upright"
+},
+{
+"scene": "R_box_y88.2",
+"item": "b_upright_pref"
+},
+{
+"scene": "R_box_y88.2",
+"item": "r_left_ifempty"
+},
+{
+"scene": "R_box_y88.2",
+"item": "r_near_reach"
+},
+{
+"scene": "R_box_y88.2",
+"item": "r_near_pref"
+},
+{
+"scene": "R_box_y88.2",
+"item": "d_upright_left_leak"
+},
+{
+"scene": "R_box_y111.4",
+"item": "t3_box_arrow"
+},
+{
+"scene": "R_box_y111.4",
+"item": "t3_box_cereal"
+},
+{
+"scene": "R_box_y111.4",
+"item": "b_empty_open"
+},
+{
+"scene": "R_box_y111.4",
+"item": "b_glass_upright"
+},
+{
+"scene": "R_box_y111.4",
+"item": "b_liquid_upright"
+},
+{
+"scene": "R_box_y111.4",
+"item": "b_upright_pref"
+},
+{
+"scene": "R_box_y111.4",
+"item": "r_left_pref"
+},
+{
+"scene": "R_box_y111.4",
+"item": "r_left_slot"
+},
+{
+"scene": "R_box_y111.4",
+"item": "d_upright_left_leak"
+},
+{
+"scene": "R_box_y111.4",
+"item": "d_left_anypose_wet"
+},
+{
+"scene": "R_box_y156.7",
+"item": "t3_box_arrow"
+},
+{
+"scene": "R_box_y156.7",
+"item": "t3_box_cereal"
+},
+{
+"scene": "R_box_y156.7",
+"item": "t3_box_left_upright"
+},
+{
+"scene": "R_box_y156.7",
+"item": "b_arrow"
+},
+{
+"scene": "R_box_y156.7",
+"item": "b_screws"
+},
+{
+"scene": "R_box_y156.7",
+"item": "b_book_closed"
+},
+{
+"scene": "R_box_y156.7",
+"item": "r_left_slot"
+},
+{
+"scene": "R_box_y156.7",
+"item": "r_near_reach"
+},
+{
+"scene": "R_box_y156.7",
+"item": "d_left_anypose_wet"
+},
+{
+"scene": "R_plate_y29",
+"item": "t3_frame_photo"
+},
+{
+"scene": "R_plate_y29",
+"item": "t3_wet_paint"
+},
+{
+"scene": "R_plate_y36.9",
+"item": "t3_frame_photo"
+},
+{
+"scene": "R_plate_y36.9",
+"item": "t3_wet_paint"
+},
+{
+"scene": "R_plate_y36.9",
+"item": "t3_mirror"
+},
+{
+"scene": "R_plate_y36.9",
+"item": "t3_cutting_board"
+},
+{
+"scene": "R_plate_y38.5",
+"item": "t3_mirror"
+},
+{
+"scene": "R_plate_y38.5",
+"item": "t3_cutting_board"
+},
+{
+"scene": "R_plate_y157.8",
+"item": "t3_mirror"
+},
+{
+"scene": "R_plate_y175.6",
+"item": "t3_wet_paint"
+},
+{
+"scene": "R_plate_y175.6",
+"item": "t3_cutting_board"
+},
+{
+"scene": "R_plate_y178.9",
+"item": "t3_frame_photo"
+},
+{
+"scene": "R_bar_y54.5",
+"item": "t3_bar_lr"
+},
+{
+"scene": "R_bar_y54.5",
+"item": "y_lr_machine"
+},
+{
+"scene": "R_bar_y54.5",
+"item": "y_lr_pref"
+},
+{
+"scene": "R_bar_y54.5",
+"item": "y_fb_aisle"
+},
+{
+"scene": "R_bar_y54.5",
+"item": "y_fb_pref"
+},
+{
+"scene": "R_bar_y117.3",
+"item": "y_lr_machine"
+},
+{
+"scene": "R_bar_y117.3",
+"item": "y_lr_pref"
+},
+{
+"scene": "R_bar_y151.6",
+"item": "t3_bar_lr"
+},
+{
+"scene": "R_bar_y151.6",
+"item": "y_lr_pref"
+},
+{
+"scene": "R_bar_y151.6",
+"item": "y_fb_aisle"
+},
+{
+"scene": "R_bar_y151.6",
+"item": "y_fb_pref"
+},
+{
+"scene": "R_bar_y165.5",
+"item": "t3_bar_lr"
+},
+{
+"scene": "R_bar_y165.5",
+"item": "y_lr_machine"
+},
+{
+"scene": "R_bar_y165.5",
+"item": "y_fb_aisle"
+},
+{
+"scene": "R_bar_y165.5",
+"item": "y_fb_pref"
+}
+]
+}

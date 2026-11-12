@@ -1,0 +1,874 @@
+{
+ "version": "RQ1_PREREG_v3",
+ "date": "2026-11-07",
+ "note": "LLM 은 허용 자세를 목록에서 고르지 않고 제약 명세를 쓴다. 정답(gt)은 채점에만 쓰며 프롬프트에 넣지 않는다. v2 의 20문항은 이미 LLM 에 노출돼 dev 로만 쓴다. test 16문항은 이 초안 작성 시점까지 어떤 LLM 에도 보내지 않았다.",
+ "face_vocab": "면 이름은 지금 자세 기준: 윗면(지금 위), 바닥면(지금 바닥에 닿은 면), 앞면, 뒷면, 왼면, 오른면. 원통·컵·병은 윗면=입구/뚜껑 쪽.",
+ "face_axes": {
+  "윗면": [
+   0,
+   0,
+   1
+  ],
+  "바닥면": [
+   0,
+   0,
+   -1
+  ],
+  "앞면": [
+   0,
+   -1,
+   0
+  ],
+  "뒷면": [
+   0,
+   1,
+   0
+  ],
+  "왼면": [
+   -1,
+   0,
+   0
+  ],
+  "오른면": [
+   1,
+   0,
+   0
+  ]
+ },
+ "tolerance_words": {
+  "엄격": 10,
+  "보통": 20,
+  "느슨": 30
+ },
+ "directions": "로봇 기준: 앞뒤 = 로봇 베이스에서 목표면 중심으로 가는 수평 방향, 좌우 = 그에 수직. 왼쪽/오른쪽 = 로봇이 목표면을 바라볼 때. 가까운 쪽/먼 쪽 = 로봇과의 거리.",
+ "constraint_types": {
+  "up": "faces 중 하나의 바깥 법선이 연직 위와 tol 이내",
+  "vertical": "face 의 법선이 수평과 tol 이내(그 면이 옆을 향함 = 세워짐)",
+  "yaw": "긴 축의 수평 방향이 dir(앞뒤/좌우) 과 tol 이내(축은 양방향 같음)",
+  "region": "놓은 위치가 목표면의 where(가까운 쪽/먼 쪽/왼쪽/오른쪽/가운데) 안",
+  "not_down": "face 의 법선이 연직 아래와 min_from_down_deg 이상 떨어짐(그 면이 바닥을 향하지 않음)",
+  "manner": "place = 목표 자세로 천천히 내려놓기, topple = 기울여 세운 뒤 놓아 넘어뜨려 눕히기"
+ },
+ "soft": "선호(prefer): {type: keep_current | prefer_up(face)} 가중치. 채점에는 쓰지 않고 탐색 순위에만 쓴다.",
+ "items": [
+  {
+   "id": "plate_any",
+   "split": "dev",
+   "asset": "plate",
+   "obj": "얇은 판(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있고 넓은 면이 앞과 뒤를 향함",
+   "cmd": "이 판을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  },
+  {
+   "id": "plate_upright",
+   "split": "dev",
+   "asset": "plate",
+   "obj": "얇은 판(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있고 넓은 면이 앞과 뒤를 향함",
+   "cmd": "이 판을 세운 채로 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "vertical",
+      "face": "앞면",
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "plate_lay",
+   "split": "dev",
+   "asset": "plate",
+   "obj": "얇은 판(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있고 넓은 면이 앞과 뒤를 향함",
+   "cmd": "이 판을 눕혀서 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "앞면",
+       "뒷면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  },
+  {
+   "id": "plate_careful",
+   "split": "dev",
+   "asset": "plate",
+   "obj": "얇은 판(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있고 넓은 면이 앞과 뒤를 향함",
+   "cmd": "이 판을 높은 작업대 위에 조심히 내려놔 줘. 떨어뜨리거나 넘어뜨리면 안 돼",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "앞면",
+       "뒷면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "wood_plate",
+   "split": "dev",
+   "asset": "plate",
+   "obj": "나무 판(원목)(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있고 넓은 면이 앞과 뒤를 향함",
+   "cmd": "이 나무 판을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  },
+  {
+   "id": "glass_plate",
+   "split": "dev",
+   "asset": "plate",
+   "obj": "유리 판(얇은 판유리)(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있고 넓은 면이 앞과 뒤를 향함",
+   "cmd": "이 유리 판을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "앞면",
+       "뒷면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "bar_any",
+   "split": "dev",
+   "asset": "bar",
+   "obj": "긴 막대(직육면체 20x3x3cm, 플라스틱). 지금 긴 쪽이 좌우로 놓이게 바닥에 눕혀져 있음",
+   "cmd": "이 막대를 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면",
+       "바닥면",
+       "앞면",
+       "뒷면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  },
+  {
+   "id": "box_topup",
+   "split": "dev",
+   "asset": "box",
+   "obj": "상자(직육면체 7x10x15cm), 윗면에 글씨가 인쇄돼 있고 지금 그 면이 위를 향해 서 있음",
+   "cmd": "글씨가 있는 윗면이 위로 오게 이 상자를 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "mug_water",
+   "split": "dev",
+   "asset": "mug",
+   "obj": "머그컵(ACE 커피 머그 16oz), 지금 입구가 위를 향해 서 있음",
+   "cmd": "물이 든 이 컵을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "엄격"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "bottle_open",
+   "split": "dev",
+   "asset": "bottle",
+   "obj": "크림 병(Marc Anthony Curl Cream 6 fl oz 병), 지금 입구가 위를 향해 서 있음",
+   "cmd": "뚜껑이 열린 이 병을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "엄격"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t_bowl_soup",
+   "split": "dev",
+   "asset": null,
+   "obj": "그릇(지름 15cm, 높이 6cm 도자기 그릇). 지금 입구가 위를 향함",
+   "cmd": "수프가 담긴 이 그릇을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "엄격"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t_wood_block",
+   "split": "dev",
+   "asset": "block",
+   "obj": "나무 블록(직육면체 5x5x10cm). 지금 10cm 쪽이 위로 서 있음",
+   "cmd": "이 나무 블록을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  },
+  {
+   "id": "t_ceramic_plate",
+   "split": "dev",
+   "asset": "plate",
+   "obj": "세라믹 타일 판(깨지기 쉬움)(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있고 넓은 면이 앞과 뒤를 향함",
+   "cmd": "이 타일 판을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "앞면",
+       "뒷면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t_plate_stand",
+   "split": "dev",
+   "asset": "plate",
+   "obj": "얇은 판(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있고 넓은 면이 앞과 뒤를 향함",
+   "cmd": "이 판을 세워서 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "vertical",
+      "face": "앞면",
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t_plate_flat",
+   "split": "dev",
+   "asset": "plate",
+   "obj": "얇은 판(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있고 넓은 면이 앞과 뒤를 향함",
+   "cmd": "이 판을 작업대 위에 평평하게 눕혀서 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "앞면",
+       "뒷면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  },
+  {
+   "id": "t_plate_anyway",
+   "split": "dev",
+   "asset": "plate",
+   "obj": "얇은 판(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있고 넓은 면이 앞과 뒤를 향함",
+   "cmd": "방향은 상관없으니 이 판을 높은 작업대 위에 아무렇게나 올려 줘",
+   "gt": {
+    "hard": [],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  },
+  {
+   "id": "t_candle_lit",
+   "split": "dev",
+   "asset": null,
+   "obj": "양초(지름 5cm, 높이 10cm 원기둥). 지금 심지가 위를 향해 서 있고 불이 붙어 있음",
+   "cmd": "불 붙은 이 초를 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "엄격"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t_egg_box",
+   "split": "dev",
+   "asset": "eggbox",
+   "obj": "계란 상자(직육면체 10x15x7cm, 뚜껑 없음). 지금 계란이 든 칸이 위를 향함",
+   "cmd": "계란이 든 이 상자를 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "엄격"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t_sealed_bottle",
+   "split": "dev",
+   "asset": null,
+   "obj": "플라스틱 물병(지름 6cm, 높이 20cm). 지금 뚜껑이 위를 향해 서 있고 뚜껑은 꽉 닫혀 있음",
+   "cmd": "뚜껑이 꽉 닫힌 이 물병을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t_box_label_front",
+   "split": "dev",
+   "asset": "box",
+   "obj": "상자(직육면체 7x10x15cm). 지금 바코드 스티커가 붙은 면이 위를 향해 서 있음",
+   "cmd": "바코드가 위에서 보이게 이 상자를 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "느슨"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t3_frame_photo",
+   "split": "test",
+   "asset": "plate",
+   "obj": "튼튼한 나무 사진 액자(유리 없음)(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있음. 넓은 두 면이 앞면과 뒷면. 사진은 앞면에 있음",
+   "cmd": "사진이 위에서 보이게 이 액자를 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "앞면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  },
+  {
+   "id": "t3_wet_paint",
+   "split": "test",
+   "asset": "plate",
+   "obj": "나무 판(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있음. 넓은 두 면이 앞면과 뒷면. 앞면에 바른 페인트가 아직 마르지 않았음",
+   "cmd": "이 판을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "not_down",
+      "face": "앞면",
+      "min_from_down_deg": 90
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t3_mirror",
+   "split": "test",
+   "asset": "plate",
+   "obj": "유리 손거울 판(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있음. 넓은 두 면이 앞면과 뒷면",
+   "cmd": "이 거울 판을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "앞면",
+       "뒷면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t3_cutting_board",
+   "split": "test",
+   "asset": "plate",
+   "obj": "플라스틱 도마(직육면체 가로 12cm, 두께 1.5cm, 높이 10cm). 지금 긴 모서리(12cm)가 바닥에 닿게 세워져 있음. 넓은 두 면이 앞면과 뒷면",
+   "cmd": "이 도마를 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  },
+  {
+   "id": "t3_box_arrow",
+   "split": "test",
+   "asset": "box",
+   "obj": "종이 상자(직육면체 가로 7cm, 깊이 10cm, 높이 15cm). 옆면에 '이쪽이 위' 화살표가 지금 윗면을 가리킴. 지금 그대로 서 있음",
+   "cmd": "이 상자를 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t3_box_cereal",
+   "split": "test",
+   "asset": "box",
+   "obj": "닫힌 시리얼 종이 상자(직육면체 가로 7cm, 깊이 10cm, 높이 15cm). 지금 서 있음",
+   "cmd": "이 시리얼 상자를 높은 작업대 위에 올려 줘. 눕혀도 괜찮아",
+   "gt": {
+    "hard": [],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  },
+  {
+   "id": "t3_box_screws",
+   "split": "test",
+   "asset": "box",
+   "obj": "윗면이 뚫린 상자(직육면체 가로 7cm, 깊이 10cm, 높이 15cm). 안에 작은 나사가 반쯤 들어 있음. 지금 열린 윗면이 위를 향함",
+   "cmd": "이 상자를 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t3_ruler",
+   "split": "test",
+   "asset": "ruler",
+   "obj": "나무 자(직육면체 길이 20cm, 두께 0.6cm, 폭 3cm). 지금 긴 좁은 모서리가 바닥에 닿게 세워져 있음. 넓은 두 면이 앞면과 뒷면. 눈금은 앞면에 있음",
+   "cmd": "눈금이 위에서 보이게 이 자를 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "앞면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  },
+  {
+   "id": "t3_block_tower",
+   "split": "test",
+   "asset": "block",
+   "obj": "장난감 블록(직육면체 5x5x10cm, 나무). 지금 10cm 쪽이 위로 서 있음",
+   "cmd": "이 블록을 높은 작업대 위에 세워서 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면",
+       "바닥면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t3_tool_tray",
+   "split": "test",
+   "asset": "eggbox",
+   "obj": "뚜껑 없는 트레이(직육면체 가로 15cm, 깊이 10cm, 높이 7cm). 안에 작은 공구들이 담겨 있음. 지금 열린 쪽이 위를 향함",
+   "cmd": "이 트레이를 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "엄격"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t3_mug_dry",
+   "split": "test",
+   "asset": "mug",
+   "obj": "빈 머그컵(도자기). 설거지 직후라 엎어서 말려야 함. 지금 입구가 위를 향해 서 있음",
+   "cmd": "이 컵을 엎어서 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "바닥면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t3_jar_closed",
+   "split": "test",
+   "asset": "bottle",
+   "obj": "뚜껑이 꽉 닫힌 플라스틱 크림 통. 지금 뚜껑이 위를 향해 서 있음",
+   "cmd": "이 크림 통을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t3_bottle_oil",
+   "split": "test",
+   "asset": "bottle",
+   "obj": "뚜껑이 없는 작은 기름병(플라스틱). 기름이 반쯤 들어 있음. 지금 입구가 위를 향해 서 있음",
+   "cmd": "이 병을 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면"
+      ],
+      "tol": "엄격"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t3_bar_lr",
+   "split": "test",
+   "asset": "bar",
+   "obj": "플라스틱 막대(직육면체 길이 20cm, 폭 3cm, 높이 3cm). 지금 바닥에 눕혀져 있음",
+   "cmd": "이 막대를 로봇이 보기에 좌우로 길게 놓이도록 높은 작업대 위에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "yaw",
+      "dir": "좌우",
+      "tol": "보통"
+     }
+    ],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  },
+  {
+   "id": "t3_box_left_upright",
+   "split": "test",
+   "asset": "box",
+   "obj": "종이 상자(직육면체 가로 7cm, 깊이 10cm, 높이 15cm). 지금 서 있음",
+   "cmd": "이 상자를 세운 채로 작업대 위 로봇이 보기에 왼쪽 부분에 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "up",
+      "faces": [
+       "윗면",
+       "바닥면"
+      ],
+      "tol": "보통"
+     },
+     {
+      "type": "region",
+      "where": "왼쪽"
+     }
+    ],
+    "manner": [
+     "place"
+    ]
+   }
+  },
+  {
+   "id": "t3_block_far",
+   "split": "test",
+   "asset": "block",
+   "obj": "나무 블록(직육면체 5x5x10cm). 지금 10cm 쪽이 위로 서 있음",
+   "cmd": "이 블록을 작업대의 로봇에서 먼 쪽에 아무렇게나 올려 줘",
+   "gt": {
+    "hard": [
+     {
+      "type": "region",
+      "where": "먼 쪽"
+     }
+    ],
+    "manner": [
+     "place",
+     "topple"
+    ]
+   }
+  }
+ ],
+ "category_table_C": {
+  "note": "가장 강한 비-LLM 기준선. 사람이 물체 범주(이름/재질 키워드)만 보고 미리 작성, 명령은 읽지 않는다. 범주는 obj 문자열의 키워드로 정한다(먼저 맞는 규칙).",
+  "rules": [
+   {
+    "keyword": [
+     "유리",
+     "도자기",
+     "세라믹",
+     "깨지"
+    ],
+    "orient": [
+     "U",
+     "Lx+",
+     "Lx-",
+     "Ey+",
+     "Ey-",
+     "F"
+    ],
+    "manner": [
+     "P"
+    ]
+   },
+   {
+    "keyword": [
+     "컵",
+     "머그",
+     "병",
+     "용기",
+     "그릇",
+     "초",
+     "계란"
+    ],
+    "orient": [
+     "U"
+    ],
+    "manner": [
+     "P"
+    ]
+   },
+   {
+    "keyword": [
+     "판",
+     "막대",
+     "상자",
+     "블록"
+    ],
+    "orient": [
+     "U",
+     "Lx+",
+     "Lx-",
+     "Ey+",
+     "Ey-",
+     "F"
+    ],
+    "manner": [
+     "P",
+     "T"
+    ]
+   }
+  ],
+  "default": {
+   "orient": [
+    "U"
+   ],
+   "manner": [
+    "P"
+   ]
+  }
+ },
+ "scoring": {
+  "execution": "Isaac 실행 후 최종 자세: 작업대 위(중심 xy 가 윗면 안, 높이가 윗면 근처)이고 gt hard 제약을 모두 만족하고, 실행한 방식이 gt manner 안이면 성공. 놓였지만 하나라도 어기면 위반. 안 놓음 = 포기. 실행 중 떨어짐 = 실패",
+  "llm_accuracy": "LLM 제약과 gt 제약을 같은 판정 격자(직육면체 안정 자세 6개 x 방식 2, 각 자세 기울기 0/10/20/30도)에서 평가해 허용 집합의 정밀도/재현율, 위반 = gt 밖 허용",
+  "solvable": "정답 제약 안의 어떤 자세로든 실제로 놓이면 그 (문항, 장면)은 풀 수 있는 문제"
+ },
+ "changelog": [
+  "v3_draft: 2026-11-07 (2차: 허용 각을 단어로, yaw·region 조건과 test 3문항 추가) 연속 놓기 설계(DESIGN_CONT_PLACE_v0.md). v2 정답을 제약 형식으로 변환(허용 각 명시). 새 test 16문항.",
+  "review1: 2026-11-08 사용자 검토 -- dev: bar_any(세우기 제외), t_sealed_bottle(세움), glass_plate/t_ceramic_plate(눕혀서 놓기만). test: t3_wet_paint(놓기만), t3_mirror(눕혀서), t3_ruler(세워진 얇은 자로 바꿈), t3_jar_closed(세움, 사용자 확인). plate_careful(눕혀서 놓기만). dev 변경은 모델 답을 본 뒤 사람이 판정한 것(dev 점수 해석 주의)."
+ ],
+ "frozen": "2026-11-08 사용자 검토 1차 반영 후 고정. test 16문항은 고정 시점까지 어떤 LLM 에도 보내지 않음.",
+ "analysis_plan": {
+  "model": "Thor vLLM gemma-4-31B-it-qat-w4a16-ct (served name qwen3-vl); 비교 모델은 같은 절차로 교체해 실행",
+  "runs": [
+   "조건 쓰기 direct: 온도 0 x1, 온도 0.7 x3",
+   "고르기: noU(그대로만 불가, 전 문항) 온도 0 x1, 0.7 x3",
+   "고르기: 도달 지도 CGN 가능 집합(reach_conds_cgn.json, plate/box/bar 문항) 온도 0 x1, 0.7 x3"
+  ],
+  "baselines": [
+   "S 그대로만",
+   "F 아무거나(기대값)",
+   "C 범주 규칙표"
+  ],
+  "primary": "정책별 위반 수(정답 밖 자세로 실행)와 맞게 실행 수. 보조: 괜히 거절, 맞게 거절, 조건 쓰기 자세만 일치율",
+  "note": "프롬프트·채점 코드는 dev 에서 정한 그대로(rq1_decide3.py, rq1_select.py, rq1_eval2.py). test 결과를 본 뒤 정답·프롬프트를 바꾸지 않는다."
+ }
+}

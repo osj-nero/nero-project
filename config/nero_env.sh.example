@@ -1,0 +1,24 @@
+# nero_env.sh -- 이 파일을 config/nero_env.sh 로 복사해 값을 채운 뒤, 모든 터미널에서 `source config/nero_env.sh` 한다.
+# (config/nero_env.sh 는 .gitignore 에 들어 있어 저장소에 올라가지 않는다.)
+
+# --- 저장소 위치 (PC) ---
+export NERO_ROOT="$HOME/nero-manip"            # 이 저장소를 clone 한 폴더
+
+# --- Thor(Jetson) 접속 ---
+# PC 의 ~/.ssh/config 에 `Host thor` 별칭(키 인증)이 있어야 한다. 코드가 `ssh thor ...` 를 그대로 부른다.
+export NERO_THOR_IP="192.168.0.10"             # Thor 의 IP (CGN 서버 :8012 에 직접 접속할 때 사용)
+export NERO_THOR_IP_LAN="$NERO_THOR_IP"
+
+# --- 서버 주소 ---
+export NERO_RT_IKURL="http://127.0.0.1:8020"   # PC cuRobo IK 서버
+export NERO_RT_CUROBO="http://127.0.0.1:8021"  # Thor cuRobo 계획 서버 (ssh 터널: ssh -fN -L 8021:127.0.0.1:8021 thor)
+export NERO_RT_THOR="http://$NERO_THOR_IP:8012" # Thor Contact-GraspNet 서버
+
+# --- 폴더 ---
+export NERO_GRASP_DIR="$HOME/grasp"            # PC 와 Thor 양쪽에 같은 경로로 있어야 하는 작업 폴더
+export NERO_CUROBO_DIR="$NERO_ROOT/config"     # 로봇 설정 yml (PC). Thor 는 ~/nero/curobo_nero
+export NERO_RUNS_DIR="$HOME/nero_runs"         # 실행 기록
+export NERO_MODEL_DIR="$HOME/nero_models"      # (선택) 학습된 놓기 순위 모델
+
+# --- ROS ---
+export ROS_LOCALHOST_ONLY=1

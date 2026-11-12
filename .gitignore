@@ -1,0 +1,34 @@
+__pycache__/
+*.pyc
+build/
+install/
+log/
+
+# 개인 설정
+config/nero_env.sh
+
+# 모델 가중치 (릴리스 첨부로 배포)
+*.pt
+*.pth
+*.onnx
+*.engine
+*.joblib
+
+# 실행 결과·기록
+*.npz
+*.log
+*.pid
+*.bak
+*.bak_*
+precise/claude_*/
+precise/floor_pillars_lid_*/
+rq1/capture_*/
+.claude/
+rq1/stage2_vlm/
+rq1/stage2_rules*/
+rq1/exec_main/
+precise/stage0_pillars_lid/*.json
+goalpose_impl/results*.json
+**/bhome/
+**/creq/
+**/frames/

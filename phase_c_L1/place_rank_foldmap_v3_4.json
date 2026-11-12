@@ -1,0 +1,13 @@
+{
+ "names": {
+  "Phillips_Colon_Health_Pr": 0,
+  "Marc_Anthony_True_Profes": 1,
+  "Perricone_MD_Vitamin_C_E": 1,
+  "Polar_Herring_Fillets_Sm": 1,
+  "Schleich_African_Black_R": 2,
+  "Office_Depot_Canon_CL_41": 3
+ },
+ "note": "사례 물체 이름(접두 일치) -> 제외 폴드. 없는 물체는 전체 ABC 모델(사례 아님)",
+ "source": "<NERO_MODEL_DIR>/exp_pro_ml_20261104/hardcase_v3_4/oof/FROZEN_OOF_v3_4.json",
+ "source_sha256": "3f31beb60a3e4794def06a9ab29df09b078750c0a5c4f50614e08539ad8abbab"
+}
