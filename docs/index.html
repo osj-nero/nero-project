@@ -153,14 +153,14 @@
   .lr em { display: block; font-style: normal; font-size: 13.5px; color: var(--ink-3); }
   .fig { padding: 18px 20px 10px; display: flex; align-items: center; background: var(--bg); }
   .fig svg { display: block; width: 100%; height: auto; }
-  .fig rect { stroke: var(--ink); stroke-width: 1.2; stroke-linejoin: round; }
-  .fig .plat { fill: #F4F4F1; } .fig .obst { fill: #CBCBC5; } .fig .obj { fill: #FFFFFF; }
-  .fig .gnd { stroke: var(--ink); stroke-width: 1.2; }
-  .fig .fg { fill: #2B3038; stroke: var(--ink); }
-  .fig .topf { stroke: var(--accent); stroke-width: 4; stroke-linecap: round; fill: none; }
+  .fig polygon { stroke: var(--ink); stroke-width: 1.1; stroke-linejoin: round; }
+  .fig .plat.f-top { fill: #FFFFFF; } .fig .plat.f-left { fill: #F4F4F1; } .fig .plat.f-right { fill: #E9E9E5; }
+  .fig .obst.f-top { fill: #DADAD5; } .fig .obst.f-left { fill: #CBCBC5; } .fig .obst.f-right { fill: #BDBDB6; }
+  .fig .obj { fill: #FFFFFF; } .fig .obj.f-right { fill: #F1F1EE; }
+  .fig .fg.f-top { fill: #4A515C; } .fig .fg.f-left { fill: #343A43; } .fig .fg.f-right { fill: #23272E; }
+  .fig .hatch { fill: url(#ht); stroke: none; }
   .fig .hit { fill: url(#ht); stroke: var(--accent); stroke-dasharray: 3 3; }
   .fig .hl { stroke: var(--accent); stroke-width: 1.3; }
-  .fig .lead { stroke: var(--accent); stroke-width: 1; fill: none; }
   .fig .go { stroke: var(--ink-2); stroke-width: 1.3; fill: none; } .fig .ghd { fill: var(--ink-2); }
   .fig text { font-family: var(--font); }
   .fig .an { font-size: 11.5px; fill: var(--ink-3); } .fig .an.r { fill: var(--accent); font-weight: 600; }
@@ -212,13 +212,13 @@
   .motion .diagram .back { animation: march 1.6s linear infinite; }
   .fig .grip-a, .fig .grip-b { display: none; }
   .fig .ghost { fill: none; }
-  /* (a) 옆에서 들고 내려오다 아래쪽 핑거가 작업대에 닿아 멈춤 → 그대로 후퇴 */
-  @keyframes gripA { 0% { opacity: 0; transform: translate(46px, -86px); } 10% { opacity: 1; } 42% { transform: translate(0, -7px); } 70% { opacity: 1; transform: translate(0, -7px); } 100% { opacity: 0; transform: translate(46px, -86px); } }
+  /* (a) 앞쪽에서 들고 내려오다 아래쪽 핑거가 작업대에 닿아 멈춤 → 그대로 후퇴 */
+  @keyframes gripA { 0% { opacity: 0; transform: translate(-31px, -54px); } 10% { opacity: 1; } 42% { opacity: 1; transform: translate(0, -7.2px); } 52% { opacity: .28; transform: translate(0, -7.2px); } 72% { opacity: .28; transform: translate(0, -7.2px); } 100% { opacity: 0; transform: translate(-31px, -54px); } }
   /* (b) 위에서 내려와 놓고, 핑거를 벌린 뒤 위로 후퇴 */
-  @keyframes gripB { 0% { opacity: 0; transform: translateY(-90px); } 10% { opacity: 1; } 40% { transform: none; } 62% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-90px); } }
-  @keyframes boxB { 0% { opacity: 0; transform: translateY(-90px); } 10% { opacity: 1; } 40%, 100% { opacity: 1; transform: none; } }
-  @keyframes openL { 0%, 46% { transform: none; } 58%, 100% { transform: translateX(-7px); } }
-  @keyframes openR { 0%, 46% { transform: none; } 58%, 100% { transform: translateX(7px); } }
+  @keyframes gripB { 0% { opacity: 0; transform: translateY(-80px); } 10% { opacity: 1; } 40% { transform: none; } 62% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-80px); } }
+  @keyframes boxB { 0% { opacity: 0; transform: translateY(-80px); } 10% { opacity: 1; } 40%, 100% { opacity: 1; transform: none; } }
+  @keyframes openL { 0%, 46% { transform: none; } 58%, 100% { transform: translate(4.7px, -2.7px); } }
+  @keyframes openR { 0%, 46% { transform: none; } 58%, 100% { transform: translate(-4.7px, 2.7px); } }
   .motion .fig .grip-a, .motion .fig .grip-b { display: inline; }
   .motion .replan .lr, .motion .replan .sc, .motion .replan .grip-a, .motion .replan .grip-b, .motion .replan .box-b { opacity: 0; }
   .motion .replan.play .lr, .motion .replan.play .sc { opacity: 1; transition: opacity .45s ease var(--d, 0s); }
@@ -413,24 +413,25 @@
           <div class="lr" style="--d:4.9s"><span class="role">PLANNER</span><span><code>feasible</code><em>측면 자세는 핑거가 상자 양옆에 있어 간섭 없음. 궤적 확보</em></span></div>
           <div class="lr" style="--d:7s"><span class="role">ROBOT</span><span>작업대 위 측면 배치 후 그리퍼 후퇴</span></div>
         </div>
-        <div class="fig"><svg viewBox="0 0 620 366" role="img" aria-label="측면도. (a) 윗면이 위인 자세는 그리퍼 아래쪽 핑거가 상자 밑면과 작업대 사이에 끼어 놓을 수 없다. (b) 상자를 옆으로 세우면 핑거가 상자 양옆에 있어 그대로 내려놓고 후퇴한다">
+        <div class="fig"><svg viewBox="0 -44 620 410" role="img" aria-label="(a) 윗면이 위인 자세는 그리퍼 아래쪽 핑거가 상자 밑면과 작업대 사이에 끼어 놓을 수 없다. (b) 상자를 옆으로 세우면 핑거가 상자 앞뒤에 있어 그대로 내려놓고 위로 후퇴한다">
           <defs>
             <pattern id="ht" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V5" class="hl"/></pattern>
             <marker id="gh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="ghd"/></marker>
           </defs>
-          <g class="sc" style="--d:.6s"><rect class="plat" x="40" y="250" width="190" height="72"/><path class="gnd" d="M18 322H252"/><rect class="obst" x="50" y="205" width="42" height="45"/></g>
-          <g class="grip-a" style="--d:1s"><rect class="fg" x="137" y="250" width="63" height="7"/><rect class="obj" x="112" y="225" width="60" height="25"/><path class="topf" d="M116 228H168"/><rect class="fg" x="137" y="218" width="63" height="7"/><rect class="fg" x="200" y="214" width="12" height="47"/><rect class="fg" x="212" y="228" width="34" height="19"/></g>
-          <g class="sc" style="--d:3.3s"><rect class="obj ghost" x="112" y="225" width="60" height="25" stroke-dasharray="5 4"/><path class="topf" d="M116 228H168"/></g>
-          <g class="sc" style="--d:2.3s"><rect class="hit" x="137" y="250" width="63" height="7"/><path class="lead" d="M192 255L216 233"/><text class="an r" x="172" y="221">핑거–작업대 간섭</text></g>
-          <text class="cap sc" style="--d:3.3s" x="135" y="350" text-anchor="middle">(a) top-up — 핑거 간섭, 해 없음</text>
-          <g class="sc" style="--d:4.2s"><path class="go" d="M286 150H336" marker-end="url(#gh)"/><text class="an" x="311" y="140" text-anchor="middle">제약 완화</text></g>
-          <g class="sc" style="--d:4.5s"><rect class="plat" x="370" y="250" width="190" height="72"/><path class="gnd" d="M348 322H582"/><rect class="obst" x="380" y="205" width="42" height="45"/></g>
-          <g class="box-b" style="--d:4.8s"><rect class="obj" x="470" y="190" width="25" height="60"/><path class="topf" d="M473 194V246"/></g>
-          <g class="grip-b" style="--d:4.8s"><g class="fl"><rect class="fg" x="463" y="162" width="7" height="63"/></g><g class="fr"><rect class="fg" x="495" y="162" width="7" height="63"/></g><rect class="fg" x="459" y="150" width="47" height="12"/><rect class="fg" x="473" y="116" width="19" height="34"/></g>
-          <text class="cap sc" style="--d:7s" x="465" y="350" text-anchor="middle">(b) not top-down — 배치 후 후퇴</text>
+          <g class="sc" style="--d:.6s"><polygon class="plat f-top" points="160.0,97.0 253.5,151.0 160.0,205.0 66.5,151.0"/><polygon class="plat f-right" points="253.5,259.0 160.0,313.0 160.0,205.0 253.5,151.0"/><polygon class="plat f-left" points="66.5,259.0 160.0,313.0 160.0,205.0 66.5,151.0"/><polygon class="obst f-top" points="163.1,70.0 237.9,113.2 200.5,134.8 125.7,91.6"/><polygon class="obst f-right" points="237.9,149.2 200.5,170.8 200.5,134.8 237.9,113.2"/><polygon class="obst f-left" points="125.7,127.6 200.5,170.8 200.5,134.8 125.7,91.6"/></g>
+          <g class="sc" style="--d:3.3s"><polygon class="obj ghost f-top" points="125.7,116.8 188.1,152.8 150.6,174.4 88.3,138.4" stroke-dasharray="5 4"/><polygon class="hatch" points="125.7,116.8 188.1,152.8 150.6,174.4 88.3,138.4"/><polygon class="obj ghost f-right" points="188.1,170.8 150.6,192.4 150.6,174.4 188.1,152.8" stroke-dasharray="5 4"/><polygon class="obj ghost f-left" points="88.3,156.4 150.6,192.4 150.6,174.4 88.3,138.4" stroke-dasharray="5 4"/></g>
+          <g class="sc" style="--d:2.3s"><polygon class="hit" points="103.9,179.8 122.6,190.6 122.6,183.4 103.9,172.6"/><polygon class="hit" points="110.1,169.0 128.8,179.8 122.6,183.4 103.9,172.6"/><text class="an r" x="113.2" y="222.4" text-anchor="middle">핑거–작업대 간섭</text></g>
+          <g class="grip-a" style="--d:1s"><polygon class="fg f-top" points="135.1,154.6 153.8,165.4 103.9,194.2 85.2,183.4"/><polygon class="fg f-right" points="153.8,172.6 103.9,201.4 103.9,194.2 153.8,165.4"/><polygon class="fg f-left" points="85.2,190.6 103.9,201.4 103.9,194.2 85.2,183.4"/><polygon class="obj f-top" points="125.7,116.8 188.1,152.8 150.6,174.4 88.3,138.4"/><polygon class="hatch" points="125.7,116.8 188.1,152.8 150.6,174.4 88.3,138.4"/><polygon class="obj f-right" points="188.1,170.8 150.6,192.4 150.6,174.4 188.1,152.8"/><polygon class="obj f-left" points="88.3,156.4 150.6,192.4 150.6,174.4 88.3,138.4"/><polygon class="fg f-top" points="135.1,129.4 153.8,140.2 103.9,169.0 85.2,158.2"/><polygon class="fg f-right" points="153.8,147.4 103.9,176.2 103.9,169.0 153.8,140.2"/><polygon class="fg f-left" points="85.2,165.4 103.9,176.2 103.9,169.0 85.2,158.2"/><polygon class="fg f-top" points="75.8,147.4 113.2,169.0 103.9,174.4 66.5,152.8"/><polygon class="fg f-right" points="113.2,212.2 103.9,217.6 103.9,174.4 113.2,169.0"/><polygon class="fg f-left" points="66.5,196.0 103.9,217.6 103.9,174.4 66.5,152.8"/><polygon class="fg f-top" points="75.8,170.8 94.5,181.6 66.5,197.8 47.8,187.0"/><polygon class="fg f-right" points="94.5,199.6 66.5,215.8 66.5,197.8 94.5,181.6"/><polygon class="fg f-left" points="47.8,205.0 66.5,215.8 66.5,197.8 47.8,187.0"/></g>
+          <text class="cap sc" style="--d:3.3s" x="160" y="350" text-anchor="middle">(a) top-up — 핑거 간섭, 해 없음</text>
+          <g class="sc" style="--d:4.2s"><path class="go" d="M290 150H340" marker-end="url(#gh)"/><text class="an" x="315" y="140" text-anchor="middle">제약 완화</text></g>
+          <g class="sc" style="--d:4.5s"><polygon class="plat f-top" points="470.0,97.0 563.5,151.0 470.0,205.0 376.5,151.0"/><polygon class="plat f-right" points="563.5,259.0 470.0,313.0 470.0,205.0 563.5,151.0"/><polygon class="plat f-left" points="376.5,259.0 470.0,313.0 470.0,205.0 376.5,151.0"/><polygon class="obst f-top" points="473.1,70.0 547.9,113.2 510.5,134.8 435.7,91.6"/><polygon class="obst f-right" points="547.9,149.2 510.5,170.8 510.5,134.8 547.9,113.2"/><polygon class="obst f-left" points="435.7,127.6 510.5,170.8 510.5,134.8 435.7,91.6"/></g>
+          <g class="grip-b" style="--d:4.8s"><g class="fl"><polygon class="fg f-top" points="451.3,75.4 470.0,86.2 463.8,89.8 445.1,79.0"/><polygon class="fg f-right" points="470.0,143.8 463.8,147.4 463.8,89.8 470.0,86.2"/><polygon class="fg f-left" points="445.1,136.6 463.8,147.4 463.8,89.8 445.1,79.0"/></g></g>
+          <g class="box-b" style="--d:4.8s"><polygon class="obj f-top" points="423.2,98.8 485.6,134.8 470.0,143.8 407.6,107.8"/><polygon class="obj f-right" points="485.6,178.0 470.0,187.0 470.0,143.8 485.6,134.8"/><polygon class="obj f-left" points="407.6,151.0 470.0,187.0 470.0,143.8 407.6,107.8"/><polygon class="hatch" points="407.6,151.0 470.0,187.0 470.0,143.8 407.6,107.8"/></g>
+          <g class="grip-b" style="--d:4.8s"><g class="fr"><polygon class="fg f-top" points="429.5,88.0 448.2,98.8 441.9,102.4 423.2,91.6"/><polygon class="fg f-right" points="448.2,156.4 441.9,160.0 441.9,102.4 448.2,98.8"/><polygon class="fg f-left" points="423.2,149.2 441.9,160.0 441.9,102.4 423.2,91.6"/></g><polygon class="fg f-top" points="446.6,56.5 484.0,78.1 446.6,99.7 409.2,78.1"/><polygon class="fg f-right" points="484.0,88.9 446.6,110.5 446.6,99.7 484.0,78.1"/><polygon class="fg f-left" points="409.2,88.9 446.6,110.5 446.6,99.7 409.2,78.1"/><polygon class="fg f-top" points="445.1,35.8 463.8,46.6 448.2,55.6 429.5,44.8"/><polygon class="fg f-right" points="463.8,79.0 448.2,88.0 448.2,55.6 463.8,46.6"/><polygon class="fg f-left" points="429.5,77.2 448.2,88.0 448.2,55.6 429.5,44.8"/></g>
+          <text class="cap sc" style="--d:7s" x="470" y="350" text-anchor="middle">(b) not top-down — 배치 후 후퇴</text>
         </svg></div>
       </div>
-      <p class="small" style="margin-top:14px"><button class="replay" type="button">↻ 다시 재생</button>측면도. 빨간 선: 상자 윗면. 회색: 장애물. 그리퍼는 같은 면을 집은 채 자세만 바꾼다. 제약 표기는 설명용 약식이다. 계획기는 현재 도달 불가와 배치 영역 충돌을 구분해 보고하지 못한다.</p>
+      <p class="small" style="margin-top:14px"><button class="replay" type="button">↻ 다시 재생</button>빗금: 상자 윗면. 회색: 장애물. 그리퍼는 같은 면을 집은 채 자세만 바꾼다. 제약 표기는 설명용 약식이다. 계획기는 현재 도달 불가와 배치 영역 충돌을 구분해 보고하지 못한다.</p>
     </section>
   </div>
 </main>
