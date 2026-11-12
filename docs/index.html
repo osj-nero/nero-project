@@ -12,7 +12,7 @@
   :root {
     --bg: #F4F1EA; --bg-elevated: #FFFFFF; --bg-dark: #15140F;
     --ink: #1A1A1A; --ink-soft: #4A4A4A; --ink-faint: #8A8A8A; --ink-on-dark: #F4F1EA;
-    --rule: #D8D2C5; --accent: #C7702A; --accent-soft: #E8D3B5; --negative: #B33A1F;
+    --rule: #D8D2C5; --accent: #C7702A; --accent-soft: #E8D3B5; --negative: #B33A1F; --bg-elevated-2: #EDE7DA;
     --display: "Inter", "Noto Sans KR", "Helvetica Neue", Arial, sans-serif;
     --body: "Inter", "Noto Sans KR", "Helvetica Neue", Arial, sans-serif;
     --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
@@ -35,17 +35,21 @@
   .accent { color: var(--accent); }
 
   /* ── Hero ─────────────────────────────────────────── */
-  .hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); min-height: 88vh; align-items: stretch; }
+  .hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); min-height: max(100vh, 720px); align-items: stretch; }
   .hero-text { padding: clamp(40px, 8vw, 128px) clamp(24px, 4vw, 64px) clamp(40px, 6vw, 96px) var(--pad); display: flex; flex-direction: column; justify-content: space-between; }
   .brand { font: 700 15px/1 var(--mono); letter-spacing: 0.14em; color: var(--ink-soft); }
   .hero h1 { font: 800 clamp(56px, 7.4vw, 136px)/0.95 var(--display); letter-spacing: -0.025em; margin: clamp(32px, 6vw, 96px) 0 clamp(24px, 3vw, 40px); }
   .hero .lead { font-size: clamp(20px, 1.7vw, 28px); line-height: 1.5; color: var(--ink); max-width: 20em; margin: 0 0 clamp(28px, 3vw, 48px); }
   .links { display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: clamp(16px, 1.2vw, 19px); font-weight: 500; }
-  .links a { border-bottom: 2px solid var(--ink); padding-bottom: 3px; }
+  .links a { border-bottom: 2px solid var(--ink); padding-bottom: 3px; transition: border-color 200ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms; }
+  .links a:hover, .links a:focus-visible { color: var(--accent); border-color: var(--accent); outline: none; }
   .links a.src::before { content: ""; display: inline-block; width: 9px; height: 9px; background: var(--accent); margin-right: 10px; vertical-align: 1px; }
   .hero-photo { position: relative; min-height: 48vh; margin: 0; }
   .hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 55% 50%; }
   .hero-photo figcaption { position: absolute; left: 0; bottom: 0; padding: 12px 18px; background: var(--bg-dark); color: var(--ink-on-dark); font: 400 14px/1.4 var(--mono); letter-spacing: 0.04em; }
+  .hero-photo img { opacity: 0.92; }
+  .scroll-cue { font: 400 16px/1 var(--mono); letter-spacing: 0.08em; color: var(--ink-faint); display: inline-flex; align-items: center; gap: 12px; }
+  .scroll-cue::after { content: ""; width: 1px; height: 40px; background: var(--ink-faint); display: inline-block; }
 
   /* ── What is ──────────────────────────────────────── */
   .two { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(32px, 5vw, 96px); align-items: start; }
@@ -63,7 +67,10 @@
   .n { font: 500 14px/1 var(--mono); letter-spacing: 0.08em; color: var(--ink-faint); display: block; margin-bottom: 14px; }
   .comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(32px, 4vw, 64px) clamp(24px, 3vw, 48px); }
   .comp-grid h3 { font-size: clamp(22px, 1.8vw, 28px); margin-bottom: 8px; }
-  .comp-grid p { font-size: clamp(17px, 1.3vw, 21px); color: var(--ink-soft); margin: 0; }
+  .comp-grid p { font-size: clamp(17px, 1.4vw, 22px); color: var(--ink-soft); margin: 0; }
+  .details { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 3vw, 48px); margin-top: clamp(48px, 6vw, 96px); }
+  .details figure { margin: 0; }
+  .details figcaption { margin-top: 10px; }
 
   /* ── Flow ─────────────────────────────────────────── */
   .flow-wrap { background: var(--bg-elevated); padding: clamp(16px, 2.5vw, 40px); overflow-x: auto; }
@@ -85,12 +92,12 @@
   .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 3vw, 48px); margin-top: clamp(40px, 5vw, 80px); }
   .steps .sn { font: 800 clamp(40px, 3.6vw, 64px)/1 var(--display); letter-spacing: -0.03em; }
   .steps h3 { font-size: clamp(21px, 1.7vw, 26px); margin: 10px 0 6px; }
-  .steps p { font-size: clamp(16px, 1.25vw, 20px); color: var(--ink-soft); margin: 0; }
+  .steps p { font-size: clamp(16px, 1.4vw, 22px); color: var(--ink-soft); margin: 0; }
 
   /* ── Demo ─────────────────────────────────────────── */
   .demo { display: grid; gap: clamp(56px, 7vw, 112px); }
   .task { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
-  .task p { font-size: clamp(17px, 1.3vw, 21px); color: var(--ink-soft); }
+  .task p { font-size: clamp(17px, 1.4vw, 22px); color: var(--ink-soft); }
   .clips { display: grid; gap: 20px; }
   .clip { position: relative; aspect-ratio: 16 / 9; background: var(--bg-dark); overflow: hidden; }
   .clip iframe, .clip img { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
@@ -99,12 +106,15 @@
 
   /* ── Configuration ────────────────────────────────── */
   .conf { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: clamp(32px, 5vw, 96px); align-items: start; }
-  table { width: 100%; border-collapse: collapse; font-size: clamp(16px, 1.25vw, 20px); line-height: 1.4; }
-  th, td { text-align: left; vertical-align: top; padding: 16px 20px 16px 0; border-bottom: 1px solid var(--rule); }
+  table { width: 100%; border-collapse: collapse; font-size: clamp(16px, 1.4vw, 22px); line-height: 1.4; }
+  th, td { text-align: left; vertical-align: top; padding: 22px 20px 22px 0; border-bottom: 1px solid var(--rule); }
+  tbody tr { transition: background 200ms cubic-bezier(0.22, 1, 0.36, 1); }
+  tbody tr:hover { background: var(--bg-elevated-2); }
   thead th { font: 500 14px/1 var(--mono); letter-spacing: 0.1em; color: var(--ink-soft); padding-bottom: 12px; }
   thead th .chip { display: inline-block; width: 10px; height: 10px; background: var(--accent); margin-right: 10px; }
   tbody th { font-weight: 700; white-space: nowrap; width: 8em; }
   td code { font-family: var(--mono); font-size: 0.9em; }
+  .conf-photo { margin: 0 0 clamp(24px, 3vw, 40px); }
   .meta-list { border-top: 1px solid var(--rule); }
   .meta-list div { display: grid; grid-template-columns: 6em 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: clamp(15px, 1.1vw, 18px); line-height: 1.45; }
   .meta-list b { font-weight: 500; color: var(--ink-soft); letter-spacing: 0.04em; }
@@ -115,11 +125,13 @@
   footer img { width: 100%; aspect-ratio: 2200 / 688; object-fit: cover; }
   .foot { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding: 28px 0 48px; font-size: 15px; color: var(--ink-faint); letter-spacing: 0.04em; }
 
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
   @media (max-width: 1024px) {
     .hero { grid-template-columns: 1fr; min-height: 0; }
     .hero-text { padding-right: var(--pad); }
     .hero-photo { min-height: 56vw; }
     .two, .comp-lead, .task, .conf { grid-template-columns: 1fr; }
+    .details { grid-template-columns: 1fr; }
     .steps { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 640px) {
@@ -142,6 +154,7 @@
         <a href="#flow">시스템 흐름</a>
       </nav>
     </div>
+    <a class="scroll-cue" href="#what">아래로</a>
   </div>
   <figure class="hero-photo">
     <img src="img/hero.jpg" alt="바닥에 세운 막대 기둥 네 개 옆에서 판을 향해 내려오는 7축 로봇팔" width="2200" height="1238">
@@ -149,7 +162,7 @@
   </figure>
 </header>
 
-<section>
+<section id="what">
   <div class="wrap two">
     <div>
       <h2>무엇을 하는가</h2>
@@ -170,7 +183,7 @@
     <h2>구성 요소</h2>
     <div class="comp-lead">
       <div>
-        <span class="n">01 — 판단</span>
+        <span class="n">판단</span>
         <h3>놓기 조건은 LLM이 쓰고, 실행 가능성은 계획기가 검증합니다</h3>
         <p>사진 두 장과 깊이로 잰 형상, 사용자 명령을 받아 멀티모달 LLM이 놓을 면과 방향 조건을 정합니다. 파지는 LLM이 고르지 않습니다. 조건에 맞는 파지와 경로는 cuRobo가 찾고, 없으면 그 이유가 LLM에게 돌아갑니다.</p>
       </div>
@@ -180,11 +193,15 @@
       </figure>
     </div>
     <div class="comp-grid">
-      <div><span class="n">02 — 인식</span><h3>이름 없는 덩어리에서 시작</h3><p>팔을 돌려 장면을 훑고 덩어리를 검출한 뒤, CLIP으로 자연어 대상과 연결합니다. 물체 종류를 미리 정해 두지 않습니다.</p></div>
-      <div><span class="n">03 — 파지 후보</span><h3>Contact-GraspNet</h3><p>물체 점군에서 6자유도 파지 후보를 만듭니다. 기하·IK 필터와 학습 모델이 순위를 매깁니다.</p></div>
-      <div><span class="n">04 — 동작 계획</span><h3>cuRobo, 집기와 놓기를 함께</h3><p>집는 자세와 놓는 자세를 한 번에 계획합니다. 충돌과 놓기 조건을 같이 검사하므로 "집었는데 놓을 수 없는" 파지를 피합니다.</p></div>
-      <div><span class="n">05 — 실행</span><h3>ros2_control 궤적</h3><p>계획된 궤적을 Isaac Sim의 로봇이 그대로 따릅니다. 놓은 뒤에는 카메라로 결과를 확인합니다.</p></div>
-      <div><span class="n">06 — 분담</span><h3>PC와 Jetson</h3><p>PC가 시뮬레이션과 실행을, Jetson AGX Thor가 파지 후보·계획·접지·LLM 추론을 맡습니다.</p></div>
+      <div><span class="n">인식</span><h3>이름 없는 덩어리에서 시작</h3><p>팔을 돌려 장면을 훑고 덩어리를 검출한 뒤, CLIP으로 자연어 대상과 연결합니다. 물체 종류를 미리 정해 두지 않습니다.</p></div>
+      <div><span class="n">파지 후보</span><h3>Contact-GraspNet</h3><p>물체 점군에서 6자유도 파지 후보를 만듭니다. 기하·IK 필터와 학습 모델이 순위를 매깁니다.</p></div>
+      <div><span class="n">동작 계획</span><h3>cuRobo, 집기와 놓기를 함께</h3><p>집는 자세와 놓는 자세를 한 번에 계획합니다. 충돌과 놓기 조건을 같이 검사하므로 "집었는데 놓을 수 없는" 파지를 피합니다.</p></div>
+      <div><span class="n">실행</span><h3>ros2_control 궤적</h3><p>계획된 궤적을 Isaac Sim의 로봇이 그대로 따릅니다. 놓은 뒤에는 카메라로 결과를 확인합니다.</p></div>
+      <div><span class="n">분담</span><h3>PC와 Jetson</h3><p>PC가 시뮬레이션과 실행을, Jetson AGX Thor가 파지 후보·계획·접지·LLM 추론을 맡습니다.</p></div>
+    </div>
+    <div class="details">
+      <figure><img src="img/gripper.jpg" alt="평행 그리퍼 손가락 두 개의 클로즈업" width="1400" height="1050" loading="lazy"><figcaption class="cap">평행 그리퍼. 벌림 폭은 최대 5cm라서 큰 물체는 가장자리를 쥡니다.</figcaption></figure>
+      <figure><img src="img/wrist_cam.jpg" alt="손목에 붙은 RGB-D 카메라 클로즈업" width="1400" height="1050" loading="lazy"><figcaption class="cap">손목 RGB-D 카메라. 탐색, 접지, 놓은 뒤 확인에 모두 이 카메라를 씁니다.</figcaption></figure>
     </div>
   </div>
 </section>
@@ -292,12 +309,15 @@
         </tbody>
       </table>
     </div>
+    <div>
+    <figure class="conf-photo"><img src="img/joint.jpg" alt="로봇팔 관절과 받침의 클로즈업" width="1400" height="1050" loading="lazy"></figure>
     <div class="meta-list">
       <div><b>저장소</b><span><a id="repo-link3" href="#">github.com/osj-nero/nero-project</a></span></div>
       <div><b>설치·실행</b><span>저장소 README의 4·5절</span></div>
       <div><b>라이선스</b><span>MIT. 로봇 모델, cuRobo, Contact-GraspNet, CLIP, Gemma는 각자의 라이선스를 따릅니다.</span></div>
       <div><b>환경</b><span>시뮬레이션 전용. 채점과 일부 판정은 Isaac Sim의 정답 자세를 읽습니다.</span></div>
       <div><b>갱신</b><span>2026-11-12</span></div>
+    </div>
     </div>
   </div>
 </section>
@@ -317,15 +337,15 @@
   const TASKS = [
     { tag: "과제 1", title: "높은 작업대 위 의미 배치",
       text: "30cm 높이 작업대 위에 물체를 명령의 뜻에 맞는 자세로 놓습니다. 장애물로 막힌 장면에서는 LLM이 조건을 풀지 포기할지 판단합니다.",
-      photo: "img/task1_platform.jpg", alt: "작업대 위에 놓인 상자와 그 옆의 로봇팔",
+      photo: "img/task1_platform.jpg", alt: "작업대 위에 놓인 상자와 그 옆의 로봇팔", still: "장애물이 놓인 작업대. 처음 조건으로는 계획이 서지 않아 LLM이 조건을 푼 뒤 놓은 결과",
       videos: [ { label: "장애물 없음", id: "" }, { label: "장애물 있음 — 조건을 풀어 성공", id: "" } ] },
     { tag: "과제 2", title: "정밀 배치",
       text: "막대로 井(우물 정)자와 삼각형 구조를 만들고, 기둥 네 개 위에 판을 얹습니다. LLM이 구조 명세를 쓰고 코드가 검사한 뒤 로봇이 실행합니다.",
-      photo: "img/task2_pillars.jpg", alt: "막대 기둥 네 개 위에 얹힌 판",
+      photo: "img/task2_pillars.jpg", alt: "막대 기둥 네 개 위에 얹힌 판", still: "간격 7cm로 세운 기둥 네 개 위에 12cm 판을 얹은 결과",
       videos: [ { label: "井 구조 쌓기", id: "" }, { label: "삼각형 테두리", id: "" }, { label: "기둥 네 개 위에 판 얹기", id: "" } ] },
     { tag: "과제 3", title: "여러 물체 분류 정리",
       text: "여러 물체가 섞인 장면을 조사하고, LLM이 물체마다 목적지를 정해 순서대로 옮겨 놓습니다.",
-      photo: "img/task3_sort.jpg", alt: "바닥에 놓인 머그컵, 상자, 바나나",
+      photo: "img/task3_sort.jpg", alt: "바닥에 놓인 머그컵, 상자, 바나나", still: "분류 전 장면. 머그컵, 상자, 바나나를 조사한 뒤 목적지를 정한다",
       videos: [ { label: "분류 정리", id: "" } ] },
   ];
   // ────────────────────────────────────────────────────────────────
@@ -355,9 +375,8 @@
       const box = document.createElement("div");
       const c = document.createElement("div"); c.className = "clip";
       const im = document.createElement("img"); im.src = t.photo; im.alt = t.alt; im.loading = "lazy";
-      const m = document.createElement("div"); m.className = "meta"; m.textContent = "영상 추가 예정 · " + t.videos.map(v => v.label).join(" / ");
-      c.append(im, m);
-      const cap = document.createElement("div"); cap.className = "clip-cap"; cap.textContent = "실행 기록에서 가져온 장면";
+      c.append(im);
+      const cap = document.createElement("div"); cap.className = "clip-cap"; cap.textContent = t.still;
       box.append(c, cap); clips.appendChild(box);
     }
     el.append(txt, clips); root.appendChild(el);
