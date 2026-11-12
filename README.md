@@ -74,10 +74,10 @@
 ```text
 USER     이 상자를 높은 작업대 위에 올려 줘
 LLM      constraint = top_up          # 내용물이 쏟아지지 않도록 윗면 법선을 +z로 지정
-PLANNER  infeasible                   # 도달 불가 또는 배치 영역 충돌. 원인을 LLM에 반환
+PLANNER  infeasible                   # 이 자세는 아래쪽 핑거가 상자 밑면과 작업대 사이에 끼어 해 없음
 LLM      constraint = not_top_down    # 윗면이 -z를 향하지만 않으면 허용하도록 완화
-PLANNER  feasible                     # 측면 자세로 파지–배치 궤적 확보
-ROBOT    작업대 위 측면 배치 완료
+PLANNER  feasible                     # 측면 자세는 핑거가 상자 양옆에 있어 간섭 없음. 궤적 확보
+ROBOT    작업대 위 측면 배치 후 그리퍼 후퇴
 ```
 
 ## System
