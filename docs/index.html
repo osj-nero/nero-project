@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://osj-nero.github.io/nero-project/">
 <meta property="og:image" content="https://osj-nero.github.io/nero-project/img/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23B3122E'/%3E%3Cpath d='M12 4v5M7 9h10M7 9v6.5l2.2 2.7M17 9v6.5l-2.2 2.7' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23fff'/%3E%3Cpath d='M3.5%2021h9M6%2021v-3h4v3M8%2018l2.5-8.5M10.5%209.5l7-2.5M17.5%207v3.5M14.8%2010.5h5.4M14.8%2010.5v3M20.2%2010.5v3' fill='none' stroke='%230E1116' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='10.5' cy='9.5' r='1.7' fill='%23fff' stroke='%230E1116' stroke-width='2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
@@ -55,8 +55,8 @@
   .top { position: sticky; top: 0; z-index: 10; background: rgba(250,250,248,0.82); -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px); border-bottom: 1px solid var(--line); }
   .top .wrap { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; height: 64px; }
   .brand { justify-self: start; font-weight: 700; letter-spacing: -0.02em; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
-  .brand i { width: 24px; height: 24px; background: var(--accent); display: grid; place-items: center; }
-  .brand i svg { width: 17px; height: 17px; display: block; }
+  .brand i { width: 28px; height: 28px; background: #fff; color: var(--ink); border: 1px solid var(--line-2); display: grid; place-items: center; }
+  .brand i svg { width: 22px; height: 22px; display: block; }
   .seg { display: inline-flex; gap: 28px; align-self: stretch; }
   .seg button { border: 0; background: transparent; padding: 0 2px; font-size: 15px; font-weight: 550; color: var(--ink-3); white-space: nowrap; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .18s, border-color .18s; }
   .seg button:hover { color: var(--ink); }
@@ -249,7 +249,7 @@
 
 <div class="top">
   <div class="wrap">
-    <a class="brand" href="#demo" data-go="demo"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v5M6 8h12M6 8v8l2.6 3.2M18 8v8l-2.6 3.2" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>NERO Manipulation</a>
+    <a class="brand" href="#demo" data-go="demo"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 21h9M6 21v-3h4v3M8 18l2.5-8.5M10.5 9.5l7-2.5M17.5 7v3.5M14.8 10.5h5.4M14.8 10.5v3M20.2 10.5v3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10.5" cy="9.5" r="1.7" fill="#fff" stroke="currentColor" stroke-width="1.8"/></svg></i>NERO Manipulation</a>
     <div class="seg" role="tablist" aria-label="화면 선택">
       <button role="tab" data-tab="demo" aria-controls="demo" aria-selected="true" class="on">Demo</button>
       <button role="tab" data-tab="how" aria-controls="how" aria-selected="false">How it works</button>
