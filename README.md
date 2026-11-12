@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/img/hero.jpg" alt="NERO 로봇팔이 마지막 막대를 들고 3층 井자 구조 위로 옮기는 장면" width="620">
+<a href="https://osj-nero.github.io/nero-project/#demo"><img src="docs/img/hero_trio.png" alt="세 과제: 01 책이 든 상자를 작업대 위로 옮기는 의미 기반 배치, 02 3층 井자를 쌓는 정밀 배치, 03 물체를 받침과 보관함으로 나누는 다물체 분류" width="100%"></a>
 
 # NERO Manipulation
 
