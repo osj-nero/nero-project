@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NERO Manipulation</title>
-<meta name="description" content="자연어 명령으로 7축 로봇팔이 물체를 집어, LLM이 정한 자리와 자세로 놓는 시스템. 동작 방식, 과제, 결과, 구성.">
+<meta name="description" content="LLM 판단 기반 로봇 Pick-and-Place. 7축 로봇팔이 자연어 명령으로 물체를 집어 LLM이 정한 자리와 자세로 놓는 시스템. 과제, 결과, 동작 방식, 구성.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="NERO Manipulation">
-<meta property="og:description" content="자연어 명령으로 7축 로봇팔이 물체를 집어, LLM이 정한 자리와 자세로 놓는 시스템. Isaac Sim.">
+<meta property="og:title" content="NERO Manipulation — LLM 판단 기반 로봇 Pick-and-Place">
+<meta property="og:description" content="7축 로봇팔이 자연어 명령으로 물체를 집어 LLM이 정한 자리와 자세로 놓는 시스템. Isaac Sim 87경우 평가.">
 <meta property="og:url" content="https://osj-nero.github.io/nero-project/">
 <meta property="og:image" content="https://osj-nero.github.io/nero-project/img/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23111'/%3E%3Ctext x='32' y='44' font-family='Helvetica,Arial,sans-serif' font-size='36' font-weight='700' fill='%23fff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%231F3A5F'/%3E%3Ctext x='32' y='44' font-family='Helvetica,Arial,sans-serif' font-size='36' font-weight='700' fill='%23fff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-  /* 레이아웃: 거의 흰 바탕, 1200px 컨테이너, 섹션마다 제목. 강조색 하나(짙은 청회색)를 숫자와 링크에만 */
+  /* 레이아웃: 거의 흰 바탕 + 짙은 청회색 한 가지. 제목 아래 요약 블록에 핵심이 모두 나오고, 과제 3개가 가로로 바로 이어짐 */
   :root {
-    --bg: #FAFAFA; --bg-elevated: #FFFFFF; --bg-section: #F2F2F2;
+    --bg: #FAFAFA; --bg-elevated: #FFFFFF; --bg-section: #F1F2F4;
     --ink: #111111; --ink-soft: #3F3F3F; --ink-faint: #666666;
     --rule: #E2E2E2; --rule-strong: #BDBDBD;
-    --accent: #1F3A5F;
-    --font: "Inter", "Noto Sans KR", "Helvetica Neue", Arial, sans-serif;
+    --accent: #1F3A5F; --accent-soft: #E3E9F1; --dark: #16243A; --on-dark: #F5F7FA; --on-dark-soft: #B8C2D1;
+    --font: "Inter", "Noto Sans KR", "Helvetica Neue", Arial, sans-serif; --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
     --max: 1200px; --pad: clamp(20px, 5vw, 72px);
   }
   * { box-sizing: border-box; }
@@ -34,36 +34,59 @@
   p { margin: 0 0 0.9em; }
   .wrap { max-width: var(--max); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
   section { padding-top: clamp(48px, 6vw, 88px); }
-  h2 { font-size: clamp(26px, 2.6vw, 34px); line-height: 1.2; letter-spacing: -0.01em; font-weight: 600; margin: 0 0 20px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font: 500 12.5px/1 var(--mono); letter-spacing: 0.12em; color: var(--accent); margin-bottom: 14px; }
+  .eyebrow::before { content: ""; width: 22px; height: 2px; background: var(--accent); }
+  h2 { font-size: clamp(26px, 2.6vw, 34px); line-height: 1.2; letter-spacing: -0.01em; font-weight: 700; margin: 0 0 18px; }
   h3 { font-size: 19px; line-height: 1.3; font-weight: 600; margin: 0 0 6px; }
   .measure { max-width: 760px; }
   .small { font-size: 14.5px; line-height: 1.5; color: var(--ink-faint); }
   .num { color: var(--accent); font-variant-numeric: tabular-nums; }
 
-  /* 상단 바로가기 */
+  /* 상단 */
   .top { position: sticky; top: 0; z-index: 5; background: rgba(250,250,250,0.94); backdrop-filter: blur(6px); border-bottom: 1px solid var(--rule); }
   .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 52px; }
-  .top .name { font-weight: 700; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
+  .top .name { font-weight: 800; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+  .top .name i { width: 12px; height: 12px; background: var(--accent); display: inline-block; }
   .top nav { display: flex; gap: 20px; flex-wrap: wrap; font-size: 15px; }
   .top nav a { color: var(--ink-soft); text-decoration: none; }
   .top nav a:hover { color: var(--accent); }
 
-  /* Hero */
-  .hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; padding-top: clamp(40px, 6vw, 72px); }
-  .hero h1 { font-size: clamp(40px, 5.2vw, 72px); line-height: 1.02; letter-spacing: -0.02em; font-weight: 700; margin: 0 0 18px; }
-  .hero .sub { font-size: clamp(18px, 1.5vw, 21px); line-height: 1.55; max-width: 24em; margin-bottom: 22px; }
+  /* 표지: 제목 + 요약표 → 흐름 띠 → 사진 */
+  .hero { padding-top: clamp(40px, 6vw, 72px); }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+  .hero h1 { font-size: clamp(38px, 5vw, 68px); line-height: 1.05; letter-spacing: -0.02em; font-weight: 800; margin: 0 0 16px; }
+  .hero h1 small { display: block; font-size: 0.42em; font-weight: 600; letter-spacing: 0; color: var(--ink-soft); margin-top: 10px; }
+  .hero .lead { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.6; max-width: 32em; margin-bottom: 18px; }
   .hero .links { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 15.5px; }
-  .hero figure { margin: 0; }
-  .hero img { width: 100%; aspect-ratio: 5 / 3; object-fit: cover; }
+  .facts { border-top: 2px solid var(--ink); }
+  .facts div { display: grid; grid-template-columns: 6.5em 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--rule); font-size: 15.5px; line-height: 1.5; }
+  .facts b { font: 500 12.5px/1.6 var(--mono); letter-spacing: 0.08em; color: var(--ink-faint); padding-top: 3px; }
+  .flowbar { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; margin-top: clamp(28px, 4vw, 48px); }
+  .flowbar div { background: var(--bg-elevated); border: 1px solid var(--rule); border-top: 3px solid var(--accent); padding: 10px 12px 12px; min-width: 0; }
+  .flowbar .n { font: 700 22px/1 var(--font); color: var(--accent); letter-spacing: -0.02em; }
+  .flowbar b { display: block; font-size: 15px; margin-top: 8px; }
+  .flowbar span { display: block; font-size: 13px; color: var(--ink-faint); line-height: 1.4; margin-top: 2px; }
+  .hero figure { margin: clamp(20px, 3vw, 32px) 0 0; }
+  .hero img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; object-position: 50% 60%; }
   figcaption { margin-top: 8px; font-size: 14.5px; line-height: 1.5; color: var(--ink-faint); }
 
-  /* 동작 방식: 왼쪽 6단계, 오른쪽 구성도 */
+  /* 과제 카드 3열 */
+  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2.5vw, 28px); }
+  .card { background: var(--bg-elevated); border: 1px solid var(--rule); position: relative; }
+  .card .idx { position: absolute; top: 0; left: 0; background: var(--accent); color: var(--on-dark); font: 700 13px/1 var(--mono); padding: 8px 10px; letter-spacing: 0.08em; }
+  .card .frame { aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg-section); }
+  .card .frame img, .card .frame iframe { width: 100%; height: 100%; object-fit: cover; border: 0; display: block; }
+  .card .body { padding: 16px 18px 18px; }
+  .card p { color: var(--ink-soft); font-size: 15.5px; line-height: 1.55; margin: 0 0 10px; }
+  .card .small { margin: 0; }
+
+  /* 동작 방식 */
   .how { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(28px, 4vw, 64px); align-items: start; }
-  .steps { border-top: 1px solid var(--rule); }
-  .step { display: grid; grid-template-columns: 2.4rem 1fr; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
-  .step .n { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; }
+  .steps { border-top: 2px solid var(--ink); }
+  .step { display: grid; grid-template-columns: 2.4rem 1fr; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+  .step .n { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; line-height: 1; }
   .step b { font-weight: 600; }
-  .step span { color: var(--ink-soft); font-size: 16px; line-height: 1.5; display: block; }
+  .step span { color: var(--ink-soft); font-size: 15.5px; line-height: 1.5; display: block; }
   .diagram { background: var(--bg-elevated); border: 1px solid var(--rule); padding: 16px; overflow-x: auto; }
   .diagram svg { display: block; width: 100%; height: auto; min-width: 560px; }
   .diagram text { font-family: var(--font); fill: var(--ink); font-size: 14px; }
@@ -72,82 +95,106 @@
   .diagram .lane { fill: var(--bg-section); }
   .diagram .lane-t { fill: var(--ink-faint); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; }
   .diagram .box { fill: var(--bg-elevated); stroke: var(--ink); stroke-width: 1.2; }
-  .diagram .llm { fill: var(--bg-elevated); stroke: var(--accent); stroke-width: 1.6; }
+  .diagram .llm { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.6; }
   .diagram .line { stroke: var(--ink); stroke-width: 1.4; fill: none; }
-  .diagram .back { stroke: var(--accent); stroke-width: 1.6; fill: none; stroke-dasharray: 6 4; }
+  .diagram .back { stroke: var(--accent); stroke-width: 1.8; fill: none; stroke-dasharray: 6 4; }
   .diagram .back-l { fill: var(--accent); font-size: 12.5px; font-weight: 600; }
   .diagram .head { fill: var(--ink); }
   .diagram .head-a { fill: var(--accent); }
 
-  /* 과제: 카드 3열 */
-  .cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2.5vw, 32px); }
-  .card { background: var(--bg-elevated); border: 1px solid var(--rule); }
-  .card .frame { aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg-section); }
-  .card .frame img, .card .frame iframe { width: 100%; height: 100%; object-fit: cover; border: 0; display: block; }
-  .card .body { padding: 16px 18px 18px; }
-  .card p { color: var(--ink-soft); font-size: 16px; line-height: 1.55; margin: 0 0 10px; }
-  .card .small { margin: 0; }
+  /* 결과: 짙은 띠 */
+  .results { background: var(--dark); color: var(--on-dark); padding-block: clamp(48px, 6vw, 80px); margin-top: clamp(48px, 6vw, 88px); }
+  .results .eyebrow { color: var(--on-dark-soft); } .results .eyebrow::before { background: var(--on-dark-soft); }
+  .results h2 { color: var(--on-dark); }
+  .results p { color: var(--on-dark-soft); }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2.5vw, 32px); margin: 12px 0 0; }
+  .stat { border-top: 2px solid var(--on-dark-soft); padding-top: 14px; }
+  .stat .v { font-size: clamp(40px, 4.4vw, 60px); font-weight: 700; letter-spacing: -0.025em; line-height: 1; color: var(--on-dark); font-variant-numeric: tabular-nums; }
+  .stat .v small { font-size: 0.45em; font-weight: 600; margin-left: 2px; }
+  .stat .l { font-weight: 600; margin-top: 10px; color: var(--on-dark); }
+  .stat .s { font-size: 14.5px; line-height: 1.5; margin-top: 4px; color: var(--on-dark-soft); }
 
-  /* 결과 */
-  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2.5vw, 32px); margin: 8px 0 28px; }
-  .stat { border-top: 2px solid var(--accent); padding-top: 12px; }
-  .stat .v { font-size: clamp(34px, 3.6vw, 48px); font-weight: 600; letter-spacing: -0.02em; line-height: 1.05; }
-  .stat .l { font-weight: 600; margin-top: 6px; }
-  .stat .s { font-size: 14.5px; color: var(--ink-faint); line-height: 1.5; margin-top: 4px; }
-  .trace { background: var(--bg-elevated); border: 1px solid var(--rule); padding: clamp(18px, 2.5vw, 28px); display: grid; grid-template-columns: 9.5em 1fr; gap: 10px 20px; align-items: baseline; }
-  .trace .k { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: var(--ink-faint); }
+  /* 재판단 기록 */
+  .trace { background: var(--bg-elevated); border: 1px solid var(--rule); border-left: 4px solid var(--accent); padding: clamp(18px, 2.5vw, 28px); display: grid; grid-template-columns: 9em 1fr; gap: 10px 20px; align-items: baseline; }
+  .trace .k { font: 500 12.5px/1.6 var(--mono); letter-spacing: 0.08em; color: var(--accent); }
   .trace .v { font-size: 16px; line-height: 1.55; }
-  .trace .v.cmd { font-size: 18px; font-weight: 600; color: var(--ink); }
+  .trace .v.cmd { font-size: 19px; font-weight: 700; }
   .trace q { quotes: "“" "”"; color: var(--ink-soft); }
   .trace .arrow { grid-column: 1 / -1; height: 1px; background: var(--rule); }
 
-  /* 시스템 구성 */
-  table { width: 100%; border-collapse: collapse; font-size: 16px; line-height: 1.5; background: var(--bg-elevated); border: 1px solid var(--rule); }
+  /* 구성 */
+  table { width: 100%; border-collapse: collapse; font-size: 15.5px; line-height: 1.5; background: var(--bg-elevated); border: 1px solid var(--rule); }
   th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--rule); }
-  thead th { font-size: 13px; letter-spacing: 0.06em; color: var(--ink-faint); font-weight: 600; background: var(--bg-section); }
+  thead th { font: 500 12.5px/1.6 var(--mono); letter-spacing: 0.08em; color: var(--ink-faint); background: var(--bg-section); }
   tbody th { font-weight: 600; white-space: nowrap; }
   tr:last-child td, tr:last-child th { border-bottom: 0; }
   .tablewrap { overflow-x: auto; }
-  .about { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px 32px; margin-top: 24px; }
-  .about div { border-top: 1px solid var(--rule-strong); padding-top: 10px; }
-  .about b { display: block; font-size: 13px; letter-spacing: 0.06em; color: var(--ink-faint); font-weight: 600; margin-bottom: 4px; }
+
+  /* 만든 사람 */
+  .author { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px 48px; border-top: 2px solid var(--ink); padding-top: 20px; margin-top: 28px; }
+  .author .who { font-size: clamp(22px, 2.2vw, 28px); font-weight: 700; letter-spacing: -0.01em; line-height: 1.25; }
+  .author .who small { display: block; font-size: 16px; font-weight: 500; color: var(--ink-soft); margin-top: 6px; }
+  .author dl { margin: 0; display: grid; grid-template-columns: 6.5em 1fr; gap: 8px 12px; font-size: 15.5px; }
+  .author dt { font: 500 12.5px/1.7 var(--mono); letter-spacing: 0.08em; color: var(--ink-faint); }
+  .author dd { margin: 0; }
 
   footer { padding: clamp(40px, 5vw, 64px) 0 48px; }
   footer .row { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; border-top: 1px solid var(--rule); padding-top: 18px; }
 
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   @media (max-width: 960px) {
-    .hero, .how { grid-template-columns: 1fr; }
+    .hero-grid, .how, .author { grid-template-columns: 1fr; }
     .cards, .stats { grid-template-columns: 1fr; }
+    .flowbar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .trace { grid-template-columns: 1fr; gap: 4px; }
     .trace .k { margin-top: 10px; }
+    .hero img { aspect-ratio: 16 / 9; }
   }
+  @media (max-width: 560px) { .flowbar { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 </style>
 </head>
 <body>
 
 <div class="top">
   <div class="wrap">
-    <a class="name" href="#">NERO Manipulation</a>
+    <a class="name" href="#"><i></i>NERO Manipulation</a>
     <nav>
-      <a href="#overview">개요</a>
-      <a href="#how">동작 방식</a>
       <a href="#tasks">과제</a>
+      <a href="#how">동작 방식</a>
       <a href="#results">결과</a>
       <a href="#system">시스템 구성</a>
+      <a href="#author">만든 사람</a>
     </nav>
   </div>
 </div>
 
 <header class="wrap hero" id="overview">
-  <div>
-    <h1>LLM이 정하고,<br>로봇이 놓습니다</h1>
-    <p class="sub">자연어 명령을 받아 7축 로봇팔이 물체를 찾아 집고, 어디에 어떤 자세로 놓을지는 LLM이 정합니다. 계획이 막히면 LLM이 이유를 듣고 조건을 풀거나 포기를 판단합니다.</p>
-    <nav class="links">
-      <a href="https://github.com/osj-nero/nero-project">GitHub 저장소</a>
-      <a href="https://github.com/osj-nero/nero-project#readme">설치와 실행 방법</a>
-      <a href="#tasks">과제 보기</a>
-    </nav>
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">NERO MANIPULATION · ISAAC SIM</div>
+      <h1>LLM 판단 기반<br>로봇 Pick-and-Place<small>7축 로봇팔 · 자연어 명령 · 놓기 자세 판단 · 실패 시 재판단</small></h1>
+      <p class="lead">자연어 명령을 받아 7축 로봇팔이 물체를 찾아 집습니다. 어디에 어떤 자세로 놓을지는 로컬 멀티모달 LLM(Gemma 4)이 정하고, 계획이 막히면 이유를 받아 조건을 풀거나 포기를 판단합니다. 파지는 Contact-GraspNet, 경로는 cuRobo가 맡습니다.</p>
+      <nav class="links">
+        <a href="https://github.com/osj-nero/nero-project">GitHub 저장소</a>
+        <a href="https://github.com/osj-nero/nero-project#readme">설치와 실행</a>
+        <a href="#results">결과 보기</a>
+      </nav>
+    </div>
+    <div class="facts">
+      <div><b>과제</b><span>높은 작업대 의미 배치 · 정밀 배치(井·삼각형·기둥+판) · 여러 물체 분류</span></div>
+      <div><b>평가</b><span>Isaac Sim 16장면 87경우, 집어서 놓기 성공 <span class="num">96%</span>(장애물 없음) · <span class="num">58%</span>(장애물 있음)</span></div>
+      <div><b>계획 시간</b><span>집기 동작 계획 <span class="num">0.5~2.4초</span>(cuRobo, 이전 MoveIt STOMP 10~35초)</span></div>
+      <div><b>구성</b><span>PC(Isaac Sim, ROS 2) + Jetson AGX Thor(Contact-GraspNet, cuRobo, CLIP, Gemma 4)</span></div>
+      <div><b>만든 사람</b><span>오세준 · 서강대학교 대학원 BPDL · LG이노텍 산학장학생</span></div>
+    </div>
+  </div>
+  <div class="flowbar" aria-label="동작 흐름 여섯 단계">
+    <div><div class="n">1</div><b>탐색·인식</b><span>훑기, 덩어리 검출, CLIP 접지</span></div>
+    <div><div class="n">2</div><b>파지 후보</b><span>Contact-GraspNet</span></div>
+    <div><div class="n">3</div><b>후보 선별</b><span>IK 필터, 학습 순위</span></div>
+    <div><div class="n">4</div><b>동작 계획</b><span>cuRobo, 집기+놓기 동시</span></div>
+    <div><div class="n">5</div><b>실행</b><span>ros2_control 궤적</span></div>
+    <div><div class="n">6</div><b>검증·재판단</b><span>실패 이유를 LLM에게</span></div>
   </div>
   <figure>
     <img src="img/hero.jpg" alt="바닥에 세워 둔 막대 기둥 네 개 옆에서 로봇팔이 판을 집으러 내려오는 장면" width="2000" height="1200">
@@ -155,8 +202,46 @@
   </figure>
 </header>
 
+<section id="tasks">
+  <div class="wrap">
+    <div class="eyebrow">TASKS</div>
+    <h2>과제</h2>
+    <p class="measure">세 과제를 같은 시스템으로 수행합니다. 영상은 녹화 뒤 이 자리에 넣고, 지금은 실행 기록의 장면입니다.</p>
+    <div class="cards">
+      <article class="card">
+        <span class="idx">01</span>
+        <div class="frame"><img src="img/task1_platform.jpg" alt="장애물이 놓인 30cm 작업대 위에 상자를 놓은 결과" width="1600" height="900" loading="lazy"></div>
+        <div class="body">
+          <h3>높은 작업대 의미 배치</h3>
+          <p>30cm 작업대 위에 물체를 명령의 뜻에 맞는 자세로 놓습니다. 장애물로 막히면 LLM이 조건을 풀지 포기할지 판단합니다.</p>
+          <p class="small">장애물이 놓인 작업대. 처음 조건으로는 계획이 서지 않아 LLM이 조건을 푼 뒤 놓은 결과.</p>
+        </div>
+      </article>
+      <article class="card">
+        <span class="idx">02</span>
+        <div class="frame"><img src="img/task2_jeong.jpg" alt="로봇팔이 막대 네 개로 우물 정자 구조를 쌓는 장면" width="1600" height="900" loading="lazy"></div>
+        <div class="body">
+          <h3>정밀 배치</h3>
+          <p>막대로 井자와 삼각형 구조를 만들고, 기둥 네 개 위에 판을 얹습니다. LLM이 구조 명세를 쓰고 코드가 검사한 뒤 로봇이 실행합니다.</p>
+          <p class="small">井 구조 쌓기. 명세를 검사한 뒤 막대를 하나씩 올립니다.</p>
+        </div>
+      </article>
+      <article class="card">
+        <span class="idx">03</span>
+        <div class="frame"><img src="img/task3_sort.jpg" alt="바닥에 놓인 머그컵, 상자, 바나나" width="1280" height="720" loading="lazy"></div>
+        <div class="body">
+          <h3>여러 물체 분류 정리</h3>
+          <p>섞인 물체를 조사하고, LLM이 물체마다 목적지를 정해 순서대로 옮깁니다.</p>
+          <p class="small">분류 전 장면. 로봇과 결과가 담긴 장면은 영상 녹화 때 바꿉니다.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <section id="how">
   <div class="wrap">
+    <div class="eyebrow">HOW IT WORKS</div>
     <h2>동작 방식</h2>
     <p class="measure">집는 방법은 <a href="https://github.com/NVlabs/contact_graspnet">Contact-GraspNet</a>이, 팔이 움직이는 경로는 <a href="https://github.com/NVlabs/curobo">cuRobo</a>가 맡습니다. 로봇이 스스로 정하기 어려운 것, 곧 이 물체를 어디에 어떤 자세로 놓아야 명령의 뜻에 맞는가를 LLM이 판단합니다. 6번 단계는 다시 LLM으로 돌아가는 고리입니다.</p>
     <div class="how">
@@ -174,12 +259,10 @@
             <marker id="h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="head"/></marker>
             <marker id="ha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="head-a"/></marker>
           </defs>
-          <!-- lanes -->
           <rect class="lane" x="0" y="118" width="760" height="130"/>
           <text class="lane-t" x="12" y="138">PC · ISAAC SIM, ROS 2</text>
           <rect class="lane" x="0" y="262" width="760" height="130"/>
           <text class="lane-t" x="12" y="282">JETSON AGX THOR · 추론 서버</text>
-          <!-- command + LLM -->
           <text class="t" x="12" y="40">자연어 명령</text>
           <text class="d" x="12" y="60">"이 상자를 높은 작업대 위에 올려 줘"</text>
           <path class="line" d="M250 46H292" marker-end="url(#h)"/>
@@ -189,7 +272,6 @@
           <text class="d" x="316" y="76">놓기 조건: 로컬 Gemma 4 · 분류 과제 계획: MCP 도구로 연결된 LLM</text>
           <path class="line" d="M400 84V150" marker-end="url(#h)"/>
           <text class="d" x="408" y="112">대상 · 목적지 · 놓기 조건</text>
-          <!-- PC lane boxes -->
           <rect class="box" x="24" y="156" width="150" height="72"/>
           <text class="t" x="36" y="184"><tspan class="num">1</tspan> 탐색·인식</text>
           <text class="d" x="36" y="206">손목 카메라, 덩어리 검출</text>
@@ -199,7 +281,6 @@
           <rect class="box" x="500" y="156" width="150" height="72"/>
           <text class="t" x="512" y="184"><tspan class="num">6</tspan> 검증</text>
           <text class="d" x="512" y="206">그리퍼 폭, 카메라 확인</text>
-          <!-- Thor lane boxes -->
           <rect class="box" x="24" y="300" width="150" height="72"/>
           <text class="t" x="36" y="328"><tspan class="num">2</tspan> 파지 후보</text>
           <text class="d" x="36" y="350">Contact-GraspNet</text>
@@ -212,7 +293,6 @@
           <rect class="box" x="540" y="300" width="110" height="72"/>
           <text class="t" x="552" y="328">CLIP</text>
           <text class="d" x="552" y="350">자연어 접지</text>
-          <!-- flows -->
           <path class="line" d="M99 228V298" marker-end="url(#h)"/>
           <path class="line" d="M174 336H194" marker-end="url(#h)"/>
           <path class="line" d="M346 336H366" marker-end="url(#h)"/>
@@ -220,8 +300,6 @@
           <path class="line" d="M478 192H498" marker-end="url(#h)"/>
           <path class="line" d="M174 192H326" marker-end="url(#h)"/>
           <text class="d" x="190" y="184">점군·장면</text>
-          <path class="line" d="M174 170Q230 100 250 146" style="display:none"/>
-          <!-- feedback to LLM -->
           <path class="back" d="M518 318H690V84" marker-end="url(#ha)"/>
           <text class="back-l" x="560" y="296">계획 실패 이유</text>
           <path class="back" d="M650 192H720V84" marker-end="url(#ha)"/>
@@ -232,50 +310,24 @@
   </div>
 </section>
 
-<section id="tasks">
+<section class="results" id="results">
   <div class="wrap">
-    <h2>과제</h2>
-    <p class="measure">세 과제를 같은 시스템으로 수행합니다. 영상은 녹화 뒤 이 자리에 넣습니다. 지금은 실행 기록의 장면입니다.</p>
-    <div class="cards">
-      <article class="card">
-        <div class="frame"><img src="img/task1_platform.jpg" alt="장애물이 놓인 30cm 작업대 위에 상자를 놓은 결과" width="1600" height="900" loading="lazy"></div>
-        <div class="body">
-          <h3>높은 작업대 위 의미 배치</h3>
-          <p>30cm 높이 작업대 위에 물체를 명령의 뜻에 맞는 자세로 놓습니다. 장애물로 막힌 장면에서는 LLM이 조건을 풀지 포기할지 판단합니다.</p>
-          <p class="small">사진: 장애물이 놓인 작업대. 처음 조건으로는 계획이 서지 않아 LLM이 조건을 푼 뒤 놓은 결과.</p>
-        </div>
-      </article>
-      <article class="card">
-        <div class="frame"><img src="img/task2_jeong.jpg" alt="로봇팔이 막대 네 개로 우물 정자 구조를 쌓는 장면" width="1600" height="900" loading="lazy"></div>
-        <div class="body">
-          <h3>정밀 배치</h3>
-          <p>막대로 井(우물 정)자와 삼각형 구조를 만들고, 기둥 네 개 위에 판을 얹습니다. LLM이 구조 명세를 쓰고 코드가 검사한 뒤 로봇이 실행합니다.</p>
-          <p class="small">사진: 井 구조 쌓기. 명세를 검사한 뒤 막대를 하나씩 올립니다.</p>
-        </div>
-      </article>
-      <article class="card">
-        <div class="frame"><img src="img/task3_sort.jpg" alt="바닥에 놓인 머그컵, 상자, 바나나" width="1280" height="720" loading="lazy"></div>
-        <div class="body">
-          <h3>여러 물체 분류 정리</h3>
-          <p>여러 물체가 섞인 장면을 조사하고, LLM이 물체마다 목적지를 정해 순서대로 옮겨 놓습니다.</p>
-          <p class="small">사진: 분류 전 장면. 로봇과 결과가 담긴 장면은 영상 녹화 때 바꿉니다.</p>
-        </div>
-      </article>
+    <div class="eyebrow">RESULTS</div>
+    <h2>평가 결과</h2>
+    <p class="measure">높은 작업대 과제, Isaac Sim 16장면 87경우. 경우마다 한 번씩 실행했고 판단(LLM이 쓴 조건)과 실행(로봇이 놓은 결과)을 따로 채점했습니다.</p>
+    <div class="stats">
+      <div class="stat"><div class="v">96<small>%</small></div><div class="l">장애물 없음 · 집어서 놓기 성공</div><div class="s">24 / 25 경우</div></div>
+      <div class="stat"><div class="v">58<small>%</small></div><div class="l">장애물 있음 · 집어서 놓기 성공</div><div class="s">18 / 31 경우. 실패 13건은 모두 계획이 선 뒤 파지·운반·해제·안착 단계에서 생겼고, 구현 결함으로 인한 실패는 없었습니다.</div></div>
+      <div class="stat"><div class="v">0.5~2.4<small>초</small></div><div class="l">집기 동작 계획 시간</div><div class="s">MoveIt STOMP 10~35초를 cuRobo로 바꾼 뒤. 2026-10 측정.</div></div>
     </div>
   </div>
 </section>
 
-<section id="results">
+<section id="trace">
   <div class="wrap">
-    <h2>결과</h2>
-    <p class="measure">높은 작업대 과제를 Isaac Sim에서 16장면 87경우로 평가했습니다. 경우마다 한 번씩 실행했고, 판단(LLM이 쓴 조건)과 실행(로봇이 놓은 결과)을 따로 채점했습니다.</p>
-    <div class="stats">
-      <div class="stat"><div class="v num">96%</div><div class="l">장애물 없음, 집어서 놓기 성공</div><div class="s">24 / 25 경우</div></div>
-      <div class="stat"><div class="v num">58%</div><div class="l">장애물 있음, 집어서 놓기 성공</div><div class="s">18 / 31 경우. 실패 13건은 모두 계획이 선 뒤 파지·운반·해제·안착 단계에서 생겼고, 구현 결함으로 인한 실패는 없었습니다.</div></div>
-      <div class="stat"><div class="v num">0.5~2.4<span style="font-size:0.5em">초</span></div><div class="l">집기 동작 계획 시간</div><div class="s">MoveIt STOMP 10~35초를 cuRobo로 바꾼 뒤. 2026-10 측정.</div></div>
-    </div>
-    <h3 style="margin-top:28px">실제 기록 한 건: 막히면 LLM이 조건을 다시 씁니다</h3>
-    <p class="measure small" style="margin-bottom:14px">장면 R_box_y33.1, 장애물 있음. 상자 안에 얇은 책이 들어 있습니다.</p>
+    <div class="eyebrow">LOG</div>
+    <h2>재판단 기록</h2>
+    <p class="measure small" style="margin-bottom:14px">실제 기록 한 건. 장면 R_box_y33.1, 장애물 있음, 상자 안에 얇은 책이 들어 있음.</p>
     <div class="trace">
       <div class="k">명령</div><div class="v cmd">이 상자를 높은 작업대 위에 올려 줘</div>
       <div class="k">LLM 조건 1</div><div class="v">윗면이 위를 향하게, 윗면이 바닥을 향하면 안 됨. <q>상자 안에 얇은 책이 들어 있으므로 내용물이 쏟아지거나 상자가 뒤집히지 않도록 윗면이 위를 향하게 안정적으로 놓아야 합니다.</q></div>
@@ -286,12 +338,13 @@
       <div class="arrow"></div>
       <div class="k">결과</div><div class="v">계획이 서고, 로봇이 상자를 옆면이 위로 가게 작업대 위에 놓았습니다. 완화된 조건을 만족합니다.</div>
     </div>
-    <p class="small" style="margin-top:14px">계획기가 돌려주는 이유는 지금 '팔이 닿지 않음'과 '자리가 막힘'을 구분하지 않습니다. 이 점은 개선 과제로 두고 있습니다.</p>
+    <p class="small" style="margin-top:14px">계획기가 돌려주는 이유는 지금 '팔이 닿지 않음'과 '자리가 막힘'을 구분하지 않습니다. 개선 과제로 두고 있습니다.</p>
   </div>
 </section>
 
 <section id="system">
   <div class="wrap">
+    <div class="eyebrow">SYSTEM</div>
     <h2>시스템 구성</h2>
     <p class="measure">PC가 시뮬레이션과 궤적 실행을, Jetson AGX Thor가 추론 서버를 맡습니다. 놓기 조건은 Thor의 로컬 멀티모달 LLM(Gemma 4)이 쓰고, 분류 과제의 과제 계획은 MCP 도구(nero-rt)로 연결된 LLM이 맡습니다.</p>
     <div class="tablewrap">
@@ -308,18 +361,22 @@
         </tbody>
       </table>
     </div>
-    <div class="about">
-      <div><b>로봇</b><span>AgileX NERO 7축 팔, 평행 그리퍼(최대 5cm), 손목 RGB-D 카메라</span></div>
-      <div><b>논문</b><span>판단과 실행을 나눈 평가와 실패 분석을 KRoC 2027 제출용으로 정리 중</span></div>
-      <div><b>코드</b><span><a href="https://github.com/osj-nero/nero-project">github.com/osj-nero/nero-project</a>, MIT. 설치와 실행은 README 4·5절</span></div>
-      <div><b>범위</b><span>시뮬레이션 전용. 채점과 일부 판정은 Isaac Sim의 정답 자세를 읽습니다</span></div>
+    <div class="author" id="author">
+      <div class="who">오세준<small>서강대학교 대학원 BPDL(Robot Learning) · LG이노텍 산학장학생</small></div>
+      <dl>
+        <dt>연락</dt><dd>osj8476@sogang.ac.kr</dd>
+        <dt>로봇</dt><dd>AgileX NERO 7축 팔, 평행 그리퍼(최대 5cm), 손목 RGB-D 카메라</dd>
+        <dt>논문</dt><dd>판단과 실행을 나눈 평가와 실패 분석, KRoC 2027 제출 준비 중</dd>
+        <dt>코드</dt><dd><a href="https://github.com/osj-nero/nero-project">github.com/osj-nero/nero-project</a>, MIT. 설치와 실행은 README 4·5절</dd>
+        <dt>범위</dt><dd>시뮬레이션 전용. 채점과 일부 판정은 Isaac Sim의 정답 자세를 읽음</dd>
+      </dl>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap row small">
-    <span>NERO Manipulation · <a href="https://github.com/osj-nero/nero-project">GitHub</a></span>
+    <span>NERO Manipulation · 오세준 · <a href="https://github.com/osj-nero/nero-project">GitHub</a></span>
     <span>갱신 2026-11-12</span>
   </div>
 </footer>
