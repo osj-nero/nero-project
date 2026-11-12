@@ -134,9 +134,11 @@ def safe_home(s, asset, sc):
     if s:
         Rm = np.array(s["R"], float); dm = list(S.GRID_DIMS[asset]); k = int(np.argmax(np.abs(Rm[2, :]))); i, j = [a for a in range(3) if a != k]
         obs.append(dict(id="placed", xyz=s["xyz"], raw=[dm[i], dm[j], dm[k]], yaw=float(np.arctan2(Rm[1, i], Rm[0, i]))))
-    tries = [("", obs)] + ([("(놓인 물체 제외) ", obs[:-1])] if s else []); parts = []
-    for tag, ob in tries:
-        out = subprocess.run(["python3", os.path.join(H, "home_safe.py"), json.dumps(ob), "0.005"], cwd=EM.PC, env=dict(os.environ, ROS_LOCALHOST_ONLY="1"), capture_output=True, text=True, timeout=120).stdout.strip().splitlines()
+    margins = [m.strip() for m in os.environ.get("S2V_HOME_MARGIN", "0.03,0.005").split(",") if m.strip()]      # 2026-11-12: 복귀 경로 여유(m). 여러 값이면 앞에서부터 시도(예 "0.03,0.005": 3cm 로 먼저, 시작 자세가 막히면 0.5cm). 기본 "0.03,0.005": 0.5cm 만 쓰면 손목 카메라가 작업대 모서리를 스쳤음(2026-11-12 촬영에서 확인), 3cm 로 2/2 접촉 없이 복귀
+    tries = [(f"[여유 {m}] ", ob, m) for m in margins for ob in ([obs] + ([obs[:-1]] if s else []))]; parts = []
+    tries = [(t + ("(놓인 물체 제외) " if ob is not obs else ""), ob, m) for t, ob, m in tries]
+    for tag, ob, mg in tries:
+        out = subprocess.run(["python3", os.path.join(H, "home_safe.py"), json.dumps(ob), mg], cwd=EM.PC, env=dict(os.environ, ROS_LOCALHOST_ONLY="1"), capture_output=True, text=True, timeout=120).stdout.strip().splitlines()
         m_ = out[-1] if out else "FAIL 출력 없음"; parts.append(tag + m_)
         if not m_.startswith("FAIL"): return " | ".join(parts)
     subprocess.run(["python3", "home_and_get_armq.py"], cwd=EM.PC, env=dict(os.environ, ROS_LOCALHOST_ONLY="1"), capture_output=True, timeout=90)
