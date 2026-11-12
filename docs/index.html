@@ -4,93 +4,187 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>NERO Manipulation</title>
-<meta name="description" content="LLM이 판단하고 로봇이 집어 놓는 시스템: 소개, 흐름도, 과제별 데모 영상">
+<meta name="description" content="자연어 명령으로 7축 로봇팔이 물체를 집어, LLM이 정한 자리와 자세로 놓는 시스템. 소개, 흐름도, 과제별 데모 영상.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f7f6f2; --surface: #ffffff; --ink: #1b1d22; --muted: #5d6470; --line: #dcd9d0;
-    --accent: #0f6e6a; --accent-soft: #dff0ee; --llm: #7a4a12; --llm-soft: #f6e9d6;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #14161a; --surface: #1d2026; --ink: #eceae4; --muted: #a2a8b3; --line: #33373f;
-      --accent: #5cc4bd; --accent-soft: #17302f; --llm: #e3b06b; --llm-soft: #33291a;
-    }
+    --bg: #F4F1EA; --bg-elevated: #FFFFFF; --bg-dark: #15140F;
+    --ink: #1A1A1A; --ink-soft: #4A4A4A; --ink-faint: #8A8A8A; --ink-on-dark: #F4F1EA;
+    --rule: #D8D2C5; --accent: #C7702A; --accent-soft: #E8D3B5; --negative: #B33A1F;
+    --display: "Inter", "Noto Sans KR", "Helvetica Neue", Arial, sans-serif;
+    --body: "Inter", "Noto Sans KR", "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+    --pad: clamp(16px, 6vw, 112px); --max: 1440px;
+    --t-body: clamp(18px, 1.5vw, 24px);
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink);
-    font: 16px/1.65 "Pretendard", "Noto Sans KR", system-ui, -apple-system, "Segoe UI", sans-serif; }
-  .wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
-  header { padding: 64px 0 40px; border-bottom: 1px solid var(--line); }
-  .eyebrow { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
-  h1 { font-size: clamp(30px, 6vw, 46px); line-height: 1.2; margin: 10px 0 14px; text-wrap: balance; }
-  .lead { font-size: 18px; color: var(--muted); max-width: 44em; margin: 0 0 24px; }
-  .btns { display: flex; flex-wrap: wrap; gap: 10px; }
-  .btn { display: inline-block; padding: 10px 18px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px;
-    border: 1px solid var(--line); color: var(--ink); background: var(--surface); }
-  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
-  section { padding: 48px 0; border-bottom: 1px solid var(--line); }
-  h2 { font-size: 24px; margin: 0 0 8px; }
-  .sub { color: var(--muted); margin: 0 0 24px; max-width: 46em; }
-  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 8px; }
-  .fact { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
-  .fact b { display: block; font-size: 14px; color: var(--accent); margin-bottom: 2px; }
-  .fact span { font-size: 14.5px; color: var(--muted); }
-  .flow { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; overflow-x: auto; }
-  .flow svg { display: block; min-width: 640px; width: 100%; height: auto; }
-  .flow text { font-family: inherit; fill: var(--ink); }
-  .flow .box { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.2; }
-  .flow .llm { fill: var(--llm-soft); stroke: var(--llm); stroke-width: 1.2; }
-  .flow .t { font-size: 15px; font-weight: 700; }
-  .flow .d { font-size: 12.5px; fill: var(--muted); }
-  .flow .arrow { stroke: var(--muted); stroke-width: 1.5; fill: none; }
-  .flow .dash { stroke: var(--llm); stroke-width: 1.5; fill: none; stroke-dasharray: 5 4; }
-  .flow .lab { font-size: 12px; fill: var(--llm); font-weight: 600; }
-  .tasks { display: grid; gap: 28px; }
-  .task { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-  .task .body { padding: 18px 20px 20px; }
-  .task h3 { margin: 0 0 6px; font-size: 19px; }
-  .task p { margin: 0; color: var(--muted); font-size: 15px; }
-  .task .tag { display: inline-block; font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: .08em; margin-bottom: 6px; }
-  .video { position: relative; aspect-ratio: 16 / 9; background: #0d0f12; }
-  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  .video .empty { position: absolute; inset: 0; display: grid; place-items: center; color: #9aa1ac; font-size: 15px; }
-  table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
-  .tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
-  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
-  td:last-child, th:last-child { white-space: normal; min-width: 220px; }
-  tr:last-child td { border-bottom: 0; }
-  th { font-size: 13px; color: var(--muted); font-weight: 600; }
-  code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 13.5px; }
-  footer { padding: 32px 0 56px; color: var(--muted); font-size: 14px; }
-  a { color: var(--accent); }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 400 var(--t-body)/1.55 var(--body); -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  img { display: block; max-width: 100%; height: auto; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding-left: var(--pad); padding-right: var(--pad); }
+  section { padding: clamp(72px, 9vw, 160px) 0 0; }
+  h2 { font: 700 clamp(34px, 4vw, 64px)/1.08 var(--display); letter-spacing: -0.015em; margin: 0 0 clamp(24px, 3vw, 40px); }
+  h3 { font: 600 clamp(24px, 2.4vw, 40px)/1.15 var(--display); letter-spacing: -0.01em; margin: 0 0 12px; }
+  p { margin: 0 0 1em; }
+  .cap { font-size: clamp(15px, 1.1vw, 18px); line-height: 1.5; letter-spacing: 0.04em; color: var(--ink-soft); }
+  .faint { color: var(--ink-faint); }
+  .mono { font-family: var(--mono); font-size: 0.9em; }
+  .accent { color: var(--accent); }
+
+  /* ── Hero ─────────────────────────────────────────── */
+  .hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); min-height: 88vh; align-items: stretch; }
+  .hero-text { padding: clamp(40px, 8vw, 128px) clamp(24px, 4vw, 64px) clamp(40px, 6vw, 96px) var(--pad); display: flex; flex-direction: column; justify-content: space-between; }
+  .brand { font: 700 15px/1 var(--mono); letter-spacing: 0.14em; color: var(--ink-soft); }
+  .hero h1 { font: 800 clamp(56px, 7.4vw, 136px)/0.95 var(--display); letter-spacing: -0.025em; margin: clamp(32px, 6vw, 96px) 0 clamp(24px, 3vw, 40px); }
+  .hero .lead { font-size: clamp(20px, 1.7vw, 28px); line-height: 1.5; color: var(--ink); max-width: 20em; margin: 0 0 clamp(28px, 3vw, 48px); }
+  .links { display: flex; flex-wrap: wrap; gap: 12px 28px; font-size: clamp(16px, 1.2vw, 19px); font-weight: 500; }
+  .links a { border-bottom: 2px solid var(--ink); padding-bottom: 3px; }
+  .links a.src::before { content: ""; display: inline-block; width: 9px; height: 9px; background: var(--accent); margin-right: 10px; vertical-align: 1px; }
+  .hero-photo { position: relative; min-height: 48vh; margin: 0; }
+  .hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 55% 50%; }
+  .hero-photo figcaption { position: absolute; left: 0; bottom: 0; padding: 12px 18px; background: var(--bg-dark); color: var(--ink-on-dark); font: 400 14px/1.4 var(--mono); letter-spacing: 0.04em; }
+
+  /* ── What is ──────────────────────────────────────── */
+  .two { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(32px, 5vw, 96px); align-items: start; }
+  .big { font-size: clamp(22px, 2vw, 32px); line-height: 1.5; letter-spacing: -0.005em; max-width: 30em; }
+  .facts { border-top: 1px solid var(--rule); }
+  .facts div { display: grid; grid-template-columns: 7em 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: clamp(15px, 1.1vw, 18px); line-height: 1.45; }
+  .facts b { font-weight: 500; color: var(--ink-soft); letter-spacing: 0.04em; }
+  .facts a { border-bottom: 1px solid var(--ink); }
+
+  /* ── Components ───────────────────────────────────── */
+  .comp-lead { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); gap: clamp(32px, 5vw, 96px); align-items: center; margin-bottom: clamp(48px, 6vw, 96px); }
+  .comp-lead h3 { font-size: clamp(30px, 3.2vw, 56px); }
+  .comp-lead figure { margin: 0; }
+  .comp-lead figcaption { margin-top: 10px; }
+  .n { font: 500 14px/1 var(--mono); letter-spacing: 0.08em; color: var(--ink-faint); display: block; margin-bottom: 14px; }
+  .comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: clamp(32px, 4vw, 64px) clamp(24px, 3vw, 48px); }
+  .comp-grid h3 { font-size: clamp(22px, 1.8vw, 28px); margin-bottom: 8px; }
+  .comp-grid p { font-size: clamp(17px, 1.3vw, 21px); color: var(--ink-soft); margin: 0; }
+
+  /* ── Flow ─────────────────────────────────────────── */
+  .flow-wrap { background: var(--bg-elevated); padding: clamp(16px, 2.5vw, 40px); overflow-x: auto; }
+  .flow-wrap svg { display: block; min-width: 880px; width: 100%; height: auto; }
+  .flow text { font-family: var(--display); fill: var(--ink); }
+  .flow .num { font-size: 64px; font-weight: 800; letter-spacing: -0.03em; }
+  .flow .name { font-size: 24px; font-weight: 700; }
+  .flow .desc { font-size: 16px; fill: var(--ink-soft); }
+  .flow .band { fill: var(--bg); }
+  .flow .band-t { font-size: 24px; font-weight: 700; }
+  .flow .band-d { font-size: 17px; fill: var(--ink-soft); }
+  .flow .box { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+  .flow .line { stroke: var(--ink); stroke-width: 2; fill: none; }
+  .flow .back { stroke: var(--negative); stroke-width: 2; fill: none; stroke-dasharray: 8 6; }
+  .flow .back-l { font-size: 16px; font-weight: 500; fill: var(--negative); }
+  .flow .head { fill: var(--accent); }
+  .flow .head-neg { fill: var(--negative); }
+  .flow-texture { aspect-ratio: 2000 / 594; width: 100%; object-fit: cover; }
+  .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 3vw, 48px); margin-top: clamp(40px, 5vw, 80px); }
+  .steps .sn { font: 800 clamp(40px, 3.6vw, 64px)/1 var(--display); letter-spacing: -0.03em; }
+  .steps h3 { font-size: clamp(21px, 1.7vw, 26px); margin: 10px 0 6px; }
+  .steps p { font-size: clamp(16px, 1.25vw, 20px); color: var(--ink-soft); margin: 0; }
+
+  /* ── Demo ─────────────────────────────────────────── */
+  .demo { display: grid; gap: clamp(56px, 7vw, 112px); }
+  .task { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(24px, 4vw, 64px); align-items: start; }
+  .task p { font-size: clamp(17px, 1.3vw, 21px); color: var(--ink-soft); }
+  .clips { display: grid; gap: 20px; }
+  .clip { position: relative; aspect-ratio: 16 / 9; background: var(--bg-dark); overflow: hidden; }
+  .clip iframe, .clip img { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; object-fit: cover; }
+  .clip .meta { position: absolute; left: 0; bottom: 0; padding: 10px 14px; background: var(--bg-dark); color: var(--ink-on-dark); font: 400 14px/1.4 var(--mono); letter-spacing: 0.04em; }
+  .clip-cap { font-size: clamp(15px, 1.1vw, 18px); color: var(--ink-soft); margin-top: 8px; letter-spacing: 0.02em; }
+
+  /* ── Configuration ────────────────────────────────── */
+  .conf { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: clamp(32px, 5vw, 96px); align-items: start; }
+  table { width: 100%; border-collapse: collapse; font-size: clamp(16px, 1.25vw, 20px); line-height: 1.4; }
+  th, td { text-align: left; vertical-align: top; padding: 16px 20px 16px 0; border-bottom: 1px solid var(--rule); }
+  thead th { font: 500 14px/1 var(--mono); letter-spacing: 0.1em; color: var(--ink-soft); padding-bottom: 12px; }
+  thead th .chip { display: inline-block; width: 10px; height: 10px; background: var(--accent); margin-right: 10px; }
+  tbody th { font-weight: 700; white-space: nowrap; width: 8em; }
+  td code { font-family: var(--mono); font-size: 0.9em; }
+  .meta-list { border-top: 1px solid var(--rule); }
+  .meta-list div { display: grid; grid-template-columns: 6em 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); font-size: clamp(15px, 1.1vw, 18px); line-height: 1.45; }
+  .meta-list b { font-weight: 500; color: var(--ink-soft); letter-spacing: 0.04em; }
+  .meta-list a { border-bottom: 1px solid var(--ink); }
+
+  /* ── Footer ───────────────────────────────────────── */
+  footer { margin-top: clamp(72px, 9vw, 160px); }
+  footer img { width: 100%; aspect-ratio: 2200 / 688; object-fit: cover; }
+  .foot { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding: 28px 0 48px; font-size: 15px; color: var(--ink-faint); letter-spacing: 0.04em; }
+
+  @media (max-width: 1024px) {
+    .hero { grid-template-columns: 1fr; min-height: 0; }
+    .hero-text { padding-right: var(--pad); }
+    .hero-photo { min-height: 56vw; }
+    .two, .comp-lead, .task, .conf { grid-template-columns: 1fr; }
+    .steps { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .steps { grid-template-columns: 1fr; }
+    .facts div, .meta-list div { grid-template-columns: 1fr; gap: 4px; }
+  }
 </style>
 </head>
 <body>
 
-<header>
-  <div class="wrap">
-    <div class="eyebrow">NERO Manipulation</div>
-    <h1>LLM이 판단하고, 로봇이 집어 놓습니다</h1>
-    <p class="lead">자연어 명령을 받아 7축 로봇팔이 물체를 찾아 집고, 어디에 어떤 자세로 놓을지를 LLM이 정합니다. 계획이 막히면 LLM이 이유를 듣고 조건을 풀거나 포기를 판단합니다. 모든 실행은 NVIDIA Isaac Sim에서 이뤄집니다.</p>
-    <div class="btns">
-      <a class="btn primary" id="repo-link" href="#">GitHub 저장소</a>
-      <a class="btn" href="#videos">데모 영상</a>
-      <a class="btn" href="#flow">시스템 흐름</a>
+<header class="hero">
+  <div class="hero-text">
+    <div class="brand">NERO · PICK AND PLACE · ISAAC SIM</div>
+    <div>
+      <h1>NERO<br><span class="accent">Manipulation</span></h1>
+      <p class="lead">자연어 명령을 받아 7축 로봇팔이 물체를 찾아 집고, 어디에 어떤 자세로 놓을지는 LLM이 정합니다.</p>
+      <nav class="links">
+        <a class="src" id="repo-link" href="#">GitHub 저장소</a>
+        <a href="#demo">데모 영상</a>
+        <a href="#flow">시스템 흐름</a>
+      </nav>
     </div>
   </div>
+  <figure class="hero-photo">
+    <img src="img/hero.jpg" alt="바닥에 세운 막대 기둥 네 개 옆에서 판을 향해 내려오는 7축 로봇팔" width="2200" height="1238">
+    <figcaption>기둥 네 개 위에 판 얹기 — Isaac Sim</figcaption>
+  </figure>
 </header>
 
 <section>
-  <div class="wrap">
-    <h2>시스템 소개</h2>
-    <p class="sub">집는 방법과 움직이는 경로는 검증된 도구가 맡고, "무엇을 어디에 어떻게 놓을지"라는 판단은 LLM이 맡습니다.</p>
+  <div class="wrap two">
+    <div>
+      <h2>무엇을 하는가</h2>
+      <p class="big">집는 방법과 팔이 움직이는 경로는 검증된 도구가 맡습니다. 로봇이 스스로 정하기 어려운 것, 곧 "이 물체를 어디에 어떤 자세로 놓아야 명령의 뜻에 맞는가"를 LLM이 판단합니다.</p>
+      <p class="big">계획이 서지 않으면 계획기가 이유를 돌려주고, LLM은 그 이유를 보고 조건을 풀지, 포기할지를 다시 판단합니다.</p>
+    </div>
     <div class="facts">
-      <div class="fact"><b>로봇</b><span>AgileX NERO 7축 팔, 평행 그리퍼, 손목 RGB-D 카메라</span></div>
-      <div class="fact"><b>판단</b><span>로컬 멀티모달 LLM(Gemma 4)과 MCP 도구로 연결된 LLM</span></div>
-      <div class="fact"><b>파지</b><span>Contact-GraspNet 후보를 기하·IK·학습 모델로 선별</span></div>
-      <div class="fact"><b>동작 계획</b><span>cuRobo로 집기와 놓기를 함께 계획, 충돌과 놓기 조건 검사</span></div>
-      <div class="fact"><b>인식</b><span>이름 없는 덩어리 검출 뒤 CLIP으로 자연어 대상 접지</span></div>
-      <div class="fact"><b>환경</b><span>Isaac Sim, ROS 2, PC 1대와 Jetson AGX Thor 1대</span></div>
+      <div><b>로봇</b><span>AgileX NERO 7축 팔, 평행 그리퍼, 손목 RGB-D 카메라</span></div>
+      <div><b>판단</b><span>로컬 멀티모달 LLM(Gemma 4), MCP 도구로 연결된 LLM</span></div>
+      <div><b>환경</b><span>NVIDIA Isaac Sim, ROS 2. PC 1대와 Jetson AGX Thor 1대</span></div>
+      <div><b>코드</b><span>MIT 라이선스, <a id="repo-link2" href="#">GitHub</a></span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>구성 요소</h2>
+    <div class="comp-lead">
+      <div>
+        <span class="n">01 — 판단</span>
+        <h3>놓기 조건은 LLM이 쓰고, 실행 가능성은 계획기가 검증합니다</h3>
+        <p>사진 두 장과 깊이로 잰 형상, 사용자 명령을 받아 멀티모달 LLM이 놓을 면과 방향 조건을 정합니다. 파지는 LLM이 고르지 않습니다. 조건에 맞는 파지와 경로는 cuRobo가 찾고, 없으면 그 이유가 LLM에게 돌아갑니다.</p>
+      </div>
+      <figure>
+        <img src="img/jeong.jpg" alt="로봇팔이 막대 네 개로 우물 정자 구조를 쌓는 장면" width="1600" height="1200" loading="lazy">
+        <figcaption class="cap">井 구조 쌓기. LLM이 쓴 명세를 코드가 검사한 뒤 로봇이 막대를 하나씩 올립니다.</figcaption>
+      </figure>
+    </div>
+    <div class="comp-grid">
+      <div><span class="n">02 — 인식</span><h3>이름 없는 덩어리에서 시작</h3><p>팔을 돌려 장면을 훑고 덩어리를 검출한 뒤, CLIP으로 자연어 대상과 연결합니다. 물체 종류를 미리 정해 두지 않습니다.</p></div>
+      <div><span class="n">03 — 파지 후보</span><h3>Contact-GraspNet</h3><p>물체 점군에서 6자유도 파지 후보를 만듭니다. 기하·IK 필터와 학습 모델이 순위를 매깁니다.</p></div>
+      <div><span class="n">04 — 동작 계획</span><h3>cuRobo, 집기와 놓기를 함께</h3><p>집는 자세와 놓는 자세를 한 번에 계획합니다. 충돌과 놓기 조건을 같이 검사하므로 "집었는데 놓을 수 없는" 파지를 피합니다.</p></div>
+      <div><span class="n">05 — 실행</span><h3>ros2_control 궤적</h3><p>계획된 궤적을 Isaac Sim의 로봇이 그대로 따릅니다. 놓은 뒤에는 카메라로 결과를 확인합니다.</p></div>
+      <div><span class="n">06 — 분담</span><h3>PC와 Jetson</h3><p>PC가 시뮬레이션과 실행을, Jetson AGX Thor가 파지 후보·계획·접지·LLM 추론을 맡습니다.</p></div>
     </div>
   </div>
 </section>
@@ -98,152 +192,175 @@
 <section id="flow">
   <div class="wrap">
     <h2>시스템 흐름</h2>
-    <p class="sub">명령 하나가 처리되는 순서입니다. 점선은 계획이 서지 않거나 놓기가 틀렸을 때 LLM에게 되돌아가는 길입니다.</p>
-    <div class="flow">
-      <svg viewBox="0 0 900 470" role="img" aria-label="자연어 명령에서 LLM 판단, 탐색·인식, 파지 후보, 후보 선별, 동작 계획, 실행, 검증까지 이어지는 흐름도">
+    <div class="flow-wrap">
+      <svg class="flow" viewBox="0 0 1200 560" role="img" aria-label="자연어 명령이 LLM 판단을 거쳐 탐색·인식, 파지 후보, 후보 선별, 동작 계획, 실행, 검증·복구로 이어지고, 계획 실패 이유와 검증 결과가 LLM에게 되돌아가는 흐름도">
         <defs>
-          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="context-stroke"/></marker>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" class="head"/></marker>
+          <marker id="ah-neg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" class="head-neg"/></marker>
         </defs>
-        <!-- row 1 -->
-        <rect class="box" x="20" y="24" width="170" height="74" rx="10"/>
-        <text class="t" x="105" y="56" text-anchor="middle">자연어 명령</text>
-        <text class="d" x="105" y="78" text-anchor="middle">"장난감은 보관함에"</text>
-
-        <rect class="llm" x="250" y="14" width="630" height="94" rx="10"/>
-        <text class="t" x="270" y="44">LLM 판단</text>
-        <text class="d" x="270" y="68">과제 계획: 어떤 물체를 어느 목적지로, 어떤 순서로</text>
-        <text class="d" x="270" y="88">놓기 자세: 사진과 형상 설명을 보고 놓을 면·방향 조건 결정</text>
-        <text class="d" x="640" y="68">실패 대응: 이유를 듣고</text>
-        <text class="d" x="640" y="88">조건 완화 또는 포기</text>
-        <path class="arrow" d="M190 61H248" marker-end="url(#ah)"/>
-
-        <!-- row 2 -->
-        <path class="arrow" d="M330 108V160" marker-end="url(#ah)"/>
-        <text class="d" x="340" y="140">대상·목적지·놓기 조건</text>
-
-        <rect class="box" x="20" y="164" width="200" height="84" rx="10"/>
-        <text class="t" x="120" y="196" text-anchor="middle">① 탐색·인식</text>
-        <text class="d" x="120" y="216" text-anchor="middle">팔을 돌려 훑기</text>
-        <text class="d" x="120" y="234" text-anchor="middle">덩어리 검출 + CLIP 접지</text>
-
-        <rect class="box" x="250" y="164" width="200" height="84" rx="10"/>
-        <text class="t" x="350" y="196" text-anchor="middle">② 파지 후보</text>
-        <text class="d" x="350" y="216" text-anchor="middle">Contact-GraspNet</text>
-        <text class="d" x="350" y="234" text-anchor="middle">점군 → 6자유도 후보</text>
-
-        <rect class="box" x="480" y="164" width="190" height="84" rx="10"/>
-        <text class="t" x="575" y="196" text-anchor="middle">③ 후보 선별</text>
-        <text class="d" x="575" y="216" text-anchor="middle">기하·IK 필터</text>
-        <text class="d" x="575" y="234" text-anchor="middle">학습 모델로 순위</text>
-
-        <rect class="box" x="700" y="164" width="180" height="84" rx="10"/>
-        <text class="t" x="790" y="196" text-anchor="middle">④ 동작 계획</text>
-        <text class="d" x="790" y="216" text-anchor="middle">cuRobo: 집기+놓기</text>
-        <text class="d" x="790" y="234" text-anchor="middle">충돌·놓기 조건 검사</text>
-
-        <path class="arrow" d="M220 206H248" marker-end="url(#ah)"/>
-        <path class="arrow" d="M450 206H478" marker-end="url(#ah)"/>
-        <path class="arrow" d="M670 206H698" marker-end="url(#ah)"/>
-
-        <!-- row 3 -->
-        <path class="arrow" d="M790 248V318" marker-end="url(#ah)"/>
-        <rect class="box" x="700" y="322" width="180" height="84" rx="10"/>
-        <text class="t" x="790" y="354" text-anchor="middle">⑤ 실행</text>
-        <text class="d" x="790" y="374" text-anchor="middle">ros2_control 궤적</text>
-        <text class="d" x="790" y="392" text-anchor="middle">Isaac Sim</text>
-
-        <rect class="box" x="440" y="322" width="200" height="84" rx="10"/>
-        <text class="t" x="540" y="354" text-anchor="middle">⑥ 검증·복구</text>
-        <text class="d" x="540" y="374" text-anchor="middle">놓은 뒤 카메라로 확인</text>
-        <text class="d" x="540" y="392" text-anchor="middle">틀리면 다시 시도</text>
-        <path class="arrow" d="M700 364H642" marker-end="url(#ah)"/>
-
-        <rect class="box" x="20" y="322" width="200" height="84" rx="10"/>
-        <text class="t" x="120" y="354" text-anchor="middle">다음 물체</text>
-        <text class="d" x="120" y="374" text-anchor="middle">관측 자세로 돌아와</text>
-        <text class="d" x="120" y="392" text-anchor="middle">남은 물체 계속</text>
-        <path class="arrow" d="M440 364H222" marker-end="url(#ah)"/>
-        <path class="arrow" d="M120 322V250" marker-end="url(#ah)"/>
-
-        <!-- feedback to LLM -->
-        <path class="dash" d="M860 164V110" marker-end="url(#ah)"/>
-        <text class="lab" x="852" y="142" text-anchor="end">계획 실패 이유</text>
-        <path class="dash" d="M540 322V282H685V110" marker-end="url(#ah)"/>
-        <text class="lab" x="548" y="300">검증 결과</text>
-        <text class="d" x="20" y="450">실선: 정상 진행 · 점선: LLM 에게 되돌아가는 정보</text>
+        <text class="name" x="0" y="52">자연어 명령</text>
+        <text class="desc" x="0" y="78">"젖은 면이 위로 가게 작업대 위에"</text>
+        <path class="line" d="M300 60H352" marker-end="url(#ah)"/>
+        <rect class="band" x="360" y="16" width="840" height="100"/>
+        <text class="band-t" x="388" y="54">LLM 판단</text>
+        <text class="band-d" x="388" y="86">대상·목적지·순서 / 놓을 면과 방향 조건 / 막히면 조건 완화 또는 포기</text>
+        <path class="line" d="M460 116V178" marker-end="url(#ah)"/>
+        <text class="desc" x="474" y="152">대상 · 목적지 · 놓기 조건</text>
+        <g>
+          <rect class="box" x="0" y="186" width="190" height="170"/>
+          <text class="num" x="20" y="256">1</text>
+          <text class="name" x="20" y="300">탐색·인식</text>
+          <text class="desc" x="20" y="330">훑기, 덩어리 검출, CLIP 접지</text>
+        </g>
+        <path class="line" d="M190 271H206" marker-end="url(#ah)"/>
+        <g>
+          <rect class="box" x="208" y="186" width="190" height="170"/>
+          <text class="num" x="228" y="256">2</text>
+          <text class="name" x="228" y="300">파지 후보</text>
+          <text class="desc" x="228" y="330">Contact-GraspNet</text>
+        </g>
+        <path class="line" d="M398 271H414" marker-end="url(#ah)"/>
+        <g>
+          <rect class="box" x="416" y="186" width="190" height="170"/>
+          <text class="num" x="436" y="256">3</text>
+          <text class="name" x="436" y="300">후보 선별</text>
+          <text class="desc" x="436" y="330">기하·IK 필터, 학습 순위</text>
+        </g>
+        <path class="line" d="M606 271H622" marker-end="url(#ah)"/>
+        <g>
+          <rect class="box" x="624" y="186" width="190" height="170"/>
+          <text class="num" x="644" y="256">4</text>
+          <text class="name" x="644" y="300">동작 계획</text>
+          <text class="desc" x="644" y="330">cuRobo, 집기+놓기 동시</text>
+        </g>
+        <path class="line" d="M814 271H830" marker-end="url(#ah)"/>
+        <g>
+          <rect class="box" x="832" y="186" width="180" height="170"/>
+          <text class="num" x="852" y="256">5</text>
+          <text class="name" x="852" y="300">실행</text>
+          <text class="desc" x="852" y="330">ros2_control, Isaac Sim</text>
+        </g>
+        <path class="line" d="M1012 271H1028" marker-end="url(#ah)"/>
+        <g>
+          <rect class="box" x="1030" y="186" width="170" height="170"/>
+          <text class="num" x="1050" y="256">6</text>
+          <text class="name" x="1050" y="300">검증·복구</text>
+          <text class="desc" x="1050" y="330">놓은 뒤 카메라 확인</text>
+        </g>
+        <path class="line" d="M1115 356V420H95V362" marker-end="url(#ah)"/>
+        <text class="desc" x="560" y="444" text-anchor="middle">다음 물체: 관측 자세로 돌아와 남은 물체를 계속</text>
+        <path class="back" d="M719 186V150H1000V116" marker-end="url(#ah-neg)"/>
+        <text class="back-l" x="740" y="142">계획 실패 이유</text>
+        <path class="back" d="M1160 186V116" marker-end="url(#ah-neg)"/>
+        <text class="back-l" x="1150" y="170" text-anchor="end">검증 결과</text>
+        <text class="desc" x="0" y="536">실선: 정상 진행 · 붉은 점선: LLM에게 되돌아가는 정보</text>
       </svg>
+    </div>
+    <img class="flow-texture" src="img/flow_texture.jpg" alt="위에서 내려다본 작업 바닥 위의 막대 기둥들" width="2000" height="594" loading="lazy">
+    <div class="steps">
+      <div><div class="sn">1</div><h3>탐색·인식</h3><p>팔을 돌려 장면을 훑고 덩어리를 검출한 뒤, CLIP으로 명령 속 대상과 연결합니다.</p></div>
+      <div><div class="sn">2</div><h3>파지 후보</h3><p>물체 점군을 Contact-GraspNet에 넣어 6자유도 파지 후보를 받습니다.</p></div>
+      <div><div class="sn">3</div><h3>후보 선별</h3><p>닿지 않거나 이웃과 부딪히는 후보를 걸러 내고, 학습 모델이 순위를 매깁니다.</p></div>
+      <div><div class="sn">4</div><h3>동작 계획</h3><p>cuRobo가 집기와 놓기를 함께 계획합니다. 놓기 조건에 맞는 자세와 충돌 없는 경로가 있어야 통과합니다.</p></div>
+      <div><div class="sn">5</div><h3>실행</h3><p>계획된 궤적을 ros2_control로 실행합니다. 쥐었는지, 놓였는지는 그리퍼 폭과 카메라로 확인합니다.</p></div>
+      <div><div class="sn">6</div><h3>검증·복구</h3><p>결과가 조건과 다르면 다시 계획하거나 LLM에게 묻습니다. 계획이 서지 않은 이유도 LLM에게 돌아갑니다.</p></div>
     </div>
   </div>
 </section>
 
-<section id="videos">
+<section id="demo">
   <div class="wrap">
     <h2>데모 영상</h2>
-    <p class="sub">과제마다 한 번 실행한 장면을 4배속으로 줄인 영상입니다. 잘라낸 구간은 없습니다.</p>
-    <div class="tasks" id="tasks"></div>
+    <p class="cap" style="margin-bottom: clamp(32px, 4vw, 64px)">과제마다 한 번 실행한 장면을 4배속으로 줄였습니다. 잘라낸 구간은 없습니다.</p>
+    <div class="demo" id="tasks"></div>
   </div>
 </section>
 
 <section>
-  <div class="wrap">
-    <h2>구성</h2>
-    <p class="sub">PC가 시뮬레이션과 실행을 맡고, Jetson이 무거운 추론을 맡습니다.</p>
-    <div class="tablewrap">
+  <div class="wrap conf">
+    <div>
+      <h2>구성</h2>
       <table>
-        <tr><th>위치</th><th>구성 요소</th><th>역할</th></tr>
-        <tr><td>PC</td><td>실시간 루프 <code>discover_object.py</code></td><td>탐색, 인식, 집기, 놓기, 검증을 잇는 본체</td></tr>
-        <tr><td>PC</td><td>MCP 서버 <code>nero-rt</code></td><td>LLM이 로봇을 부리는 도구 (조사, 집기, 놓기, 분류)</td></tr>
-        <tr><td>PC</td><td>Isaac Sim, ROS 2, cuRobo IK</td><td>시뮬레이션, 궤적 실행, 역기구학</td></tr>
-        <tr><td>Jetson</td><td>Contact-GraspNet 서버</td><td>파지 후보 생성과 선별</td></tr>
-        <tr><td>Jetson</td><td>cuRobo 계획 서버</td><td>집기와 놓기 동시 계획, 놓기 조건 검사</td></tr>
-        <tr><td>Jetson</td><td>CLIP 서버, vLLM(Gemma 4)</td><td>자연어 접지, 놓기 자세 판단</td></tr>
+        <thead><tr><th><span class="chip"></span>위치</th><th>구성 요소</th><th>역할</th></tr></thead>
+        <tbody>
+          <tr><th>PC</th><td>실시간 루프 <code>discover_object.py</code></td><td>탐색, 인식, 집기, 놓기, 검증을 잇는 본체</td></tr>
+          <tr><th>PC</th><td>MCP 서버 <code>nero-rt</code></td><td>LLM이 로봇을 부리는 도구: 조사, 집기, 놓기, 분류</td></tr>
+          <tr><th>PC</th><td>Isaac Sim, ROS 2, cuRobo IK</td><td>시뮬레이션, 궤적 실행, 역기구학</td></tr>
+          <tr><th>Jetson</th><td>Contact-GraspNet 서버</td><td>파지 후보 생성과 선별</td></tr>
+          <tr><th>Jetson</th><td>cuRobo 계획 서버</td><td>집기와 놓기 동시 계획, 놓기 조건 검사</td></tr>
+          <tr><th>Jetson</th><td>CLIP 서버, vLLM(Gemma 4)</td><td>자연어 접지, 놓기 자세 판단</td></tr>
+        </tbody>
       </table>
+    </div>
+    <div class="meta-list">
+      <div><b>저장소</b><span><a id="repo-link3" href="#">github.com/osj-nero/nero-project</a></span></div>
+      <div><b>설치·실행</b><span>저장소 README의 4·5절</span></div>
+      <div><b>라이선스</b><span>MIT. 로봇 모델, cuRobo, Contact-GraspNet, CLIP, Gemma는 각자의 라이선스를 따릅니다.</span></div>
+      <div><b>환경</b><span>시뮬레이션 전용. 채점과 일부 판정은 Isaac Sim의 정답 자세를 읽습니다.</span></div>
+      <div><b>갱신</b><span>2026-11-12</span></div>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">
-    설치와 실행 방법은 <a id="repo-link2" href="#">저장소 README</a>에 있습니다.
+  <img src="img/footer.jpg" alt="바닥에 세워진 막대 기둥 네 개와 로봇팔 받침" width="2200" height="688" loading="lazy">
+  <div class="wrap foot">
+    <span>NERO Manipulation</span>
+    <span>Isaac Sim 렌더링 장면. 모든 사진은 이 시스템의 실행 기록에서 가져왔습니다.</span>
   </div>
 </footer>
 
 <script>
   // ── 공개 전에 채울 값 ─────────────────────────────────────────────
   const REPO_URL = "https://github.com/osj-nero/nero-project";
-  // youtube: 영상 주소의 v= 뒤 11자 ID. 비워 두면 "영상 준비 중"으로 표시된다.
+  // videos[].id: 영상 주소의 v= 뒤 11자 ID. 모두 비어 있으면 사진과 "영상 추가 예정"으로 표시된다.
   const TASKS = [
-    { tag: "TASK 1", title: "높은 작업대 위 의미 배치",
+    { tag: "과제 1", title: "높은 작업대 위 의미 배치",
       text: "30cm 높이 작업대 위에 물체를 명령의 뜻에 맞는 자세로 놓습니다. 장애물로 막힌 장면에서는 LLM이 조건을 풀지 포기할지 판단합니다.",
-      youtube: "" },
-    { tag: "TASK 2", title: "정밀 배치",
-      text: "막대로 井(우물 정)자와 삼각형 구조를 만들고, 기둥 위에 판을 얹습니다. LLM이 구조 명세를 쓰고 코드가 검사한 뒤 로봇이 실행합니다.",
-      youtube: "" },
-    { tag: "TASK 3", title: "여러 물체 분류 정리",
+      photo: "img/task1_platform.jpg", alt: "작업대 위에 놓인 상자와 그 옆의 로봇팔",
+      videos: [ { label: "장애물 없음", id: "" }, { label: "장애물 있음 — 조건을 풀어 성공", id: "" } ] },
+    { tag: "과제 2", title: "정밀 배치",
+      text: "막대로 井(우물 정)자와 삼각형 구조를 만들고, 기둥 네 개 위에 판을 얹습니다. LLM이 구조 명세를 쓰고 코드가 검사한 뒤 로봇이 실행합니다.",
+      photo: "img/task2_pillars.jpg", alt: "막대 기둥 네 개 위에 얹힌 판",
+      videos: [ { label: "井 구조 쌓기", id: "" }, { label: "삼각형 테두리", id: "" }, { label: "기둥 네 개 위에 판 얹기", id: "" } ] },
+    { tag: "과제 3", title: "여러 물체 분류 정리",
       text: "여러 물체가 섞인 장면을 조사하고, LLM이 물체마다 목적지를 정해 순서대로 옮겨 놓습니다.",
-      youtube: "" },
+      photo: "img/task3_sort.jpg", alt: "바닥에 놓인 머그컵, 상자, 바나나",
+      videos: [ { label: "분류 정리", id: "" } ] },
   ];
   // ────────────────────────────────────────────────────────────────
-  document.getElementById("repo-link").href = REPO_URL;
-  document.getElementById("repo-link2").href = REPO_URL + "#readme";
+  for (const id of ["repo-link", "repo-link2", "repo-link3"]) document.getElementById(id).href = REPO_URL;
   const root = document.getElementById("tasks");
   for (const t of TASKS) {
     const el = document.createElement("article"); el.className = "task";
-    const v = document.createElement("div"); v.className = "video";
-    if (/^[\w-]{11}$/.test(t.youtube)) {
-      const f = document.createElement("iframe");
-      f.src = "https://www.youtube-nocookie.com/embed/" + t.youtube;
-      f.title = t.title; f.loading = "lazy"; f.allowFullscreen = true;
-      f.allow = "accelerometer; encrypted-media; picture-in-picture";
-      v.appendChild(f);
-    } else {
-      const e = document.createElement("div"); e.className = "empty"; e.textContent = "영상 준비 중"; v.appendChild(e);
-    }
-    const b = document.createElement("div"); b.className = "body";
-    const tag = document.createElement("div"); tag.className = "tag"; tag.textContent = t.tag;
+    const txt = document.createElement("div");
+    const tag = document.createElement("span"); tag.className = "n"; tag.textContent = t.tag;
     const h = document.createElement("h3"); h.textContent = t.title;
     const p = document.createElement("p"); p.textContent = t.text;
-    b.append(tag, h, p); el.append(v, b); root.appendChild(el);
+    txt.append(tag, h, p);
+    const clips = document.createElement("div"); clips.className = "clips";
+    const ready = t.videos.filter(v => /^[\w-]{11}$/.test(v.id));
+    if (ready.length) {
+      for (const v of ready) {
+        const box = document.createElement("div");
+        const c = document.createElement("div"); c.className = "clip";
+        const f = document.createElement("iframe");
+        f.src = "https://www.youtube-nocookie.com/embed/" + v.id; f.title = t.title + " — " + v.label;
+        f.loading = "lazy"; f.allowFullscreen = true; f.allow = "accelerometer; encrypted-media; picture-in-picture";
+        c.appendChild(f);
+        const cap = document.createElement("div"); cap.className = "clip-cap"; cap.textContent = v.label + " · 4배속";
+        box.append(c, cap); clips.appendChild(box);
+      }
+    } else {
+      const box = document.createElement("div");
+      const c = document.createElement("div"); c.className = "clip";
+      const im = document.createElement("img"); im.src = t.photo; im.alt = t.alt; im.loading = "lazy";
+      const m = document.createElement("div"); m.className = "meta"; m.textContent = "영상 추가 예정 · " + t.videos.map(v => v.label).join(" / ");
+      c.append(im, m);
+      const cap = document.createElement("div"); cap.className = "clip-cap"; cap.textContent = "실행 기록에서 가져온 장면";
+      box.append(c, cap); clips.appendChild(box);
+    }
+    el.append(txt, clips); root.appendChild(el);
   }
 </script>
 </body>
