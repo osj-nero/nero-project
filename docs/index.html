@@ -11,7 +11,7 @@
 <meta property="og:url" content="https://osj-nero.github.io/nero-project/">
 <meta property="og:image" content="https://osj-nero.github.io/nero-project/img/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23B3122E'/%3E%3Ctext x='32' y='44' font-family='Helvetica,Arial,sans-serif' font-size='34' font-weight='700' fill='%23fff' text-anchor='middle'%3EN%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23B3122E'/%3E%3Cpath d='M12 4v5M7 9h10M7 9v6.5l2.2 2.7M17 9v6.5l-2.2 2.7' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
@@ -55,7 +55,8 @@
   .top { position: sticky; top: 0; z-index: 10; background: rgba(250,250,248,0.82); -webkit-backdrop-filter: saturate(160%) blur(14px); backdrop-filter: saturate(160%) blur(14px); border-bottom: 1px solid var(--line); }
   .top .wrap { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; height: 64px; }
   .brand { justify-self: start; font-weight: 700; letter-spacing: -0.02em; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
-  .brand i { width: 22px; height: 22px; background: var(--accent); color: #fff; font: 700 12px/22px var(--font); text-align: center; font-style: normal; }
+  .brand i { width: 24px; height: 24px; background: var(--accent); display: grid; place-items: center; }
+  .brand i svg { width: 17px; height: 17px; display: block; }
   .seg { display: inline-flex; gap: 28px; align-self: stretch; }
   .seg button { border: 0; background: transparent; padding: 0 2px; font-size: 15px; font-weight: 550; color: var(--ink-3); white-space: nowrap; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .18s, border-color .18s; }
   .seg button:hover { color: var(--ink); }
@@ -203,15 +204,21 @@
   .motion .hero > div > :nth-child(3) { animation-delay: .16s; }
   .motion .hero > div > :nth-child(4) { animation-delay: .24s; }
   .motion .hero img { animation: zoom 1.6s cubic-bezier(.2,.7,.2,1) both; }
-  .motion .rv { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
-  .motion .rv.in { opacity: 1; transform: none; }
+  .motion .rv { opacity: 0; transform: translateY(16px); }
+  .motion .rv.in { opacity: 1; transform: none; transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
   .motion .tasks.auto .task.on::before { transform-origin: top; animation: fill 6s linear both; }
-  .motion .diagram svg > *:not(defs) { opacity: 0; transition: opacity .5s ease; }
-  .motion .diagram svg.in > *:not(defs) { opacity: 1; }
+  .motion .diagram svg > *:not(defs) { opacity: 0; }
+  .motion .diagram svg.in > *:not(defs) { opacity: 1; transition: opacity .25s ease calc(var(--o, 0) * 120ms); }
   .motion .diagram .back { animation: march 1.6s linear infinite; }
-  .motion .replan .lr, .motion .replan .sc { opacity: 0; transition: opacity .5s ease var(--d, 0s); }
-  .motion .replan.play .lr, .motion .replan.play .sc { opacity: 1; }
-  .motion .replan.reset .lr, .motion .replan.reset .sc { transition: none; }
+  .fig .box-a { display: none; }
+  .fig .ghost { fill: none; }
+  @keyframes dropfail { 0% { opacity: 0; transform: translateY(-56px); } 38% { opacity: 1; transform: translateY(-4px); } 46% { transform: translate(-4px, -4px); } 54% { transform: translate(4px, -4px); } 62% { transform: translate(-3px, -4px); } 70% { transform: translate(3px, -4px); } 78% { opacity: 1; transform: translateY(-4px); } 100% { opacity: 0; transform: translateY(-30px); } }
+  @keyframes drop { from { opacity: 0; transform: translateY(-56px); } to { opacity: 1; transform: none; } }
+  .motion .fig .box-a { display: inline; }
+  .motion .replan .lr, .motion .replan .sc, .motion .replan .box-a, .motion .replan .box-b { opacity: 0; }
+  .motion .replan.play .lr, .motion .replan.play .sc { opacity: 1; transition: opacity .45s ease var(--d, 0s); }
+  .motion .replan.play .box-a { animation: dropfail 1.5s ease-in-out var(--d) both; }
+  .motion .replan.play .box-b { animation: drop .8s cubic-bezier(.2,.7,.2,1) var(--d) both; }
 
   footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; padding-block: 22px 40px; border-top: 1px solid var(--line); }
   .badge { display: inline-block; border: 1px solid var(--line-2); padding: 5px 14px; font-size: 13px; font-weight: 550; color: var(--ink-2); background: var(--surface); }
@@ -242,7 +249,7 @@
 
 <div class="top">
   <div class="wrap">
-    <a class="brand" href="#demo" data-go="demo"><i>N</i>NERO Manipulation</a>
+    <a class="brand" href="#demo" data-go="demo"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v5M6 8h12M6 8v8l2.6 3.2M18 8v8l-2.6 3.2" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></i>NERO Manipulation</a>
     <div class="seg" role="tablist" aria-label="화면 선택">
       <button role="tab" data-tab="demo" aria-controls="demo" aria-selected="true" class="on">Demo</button>
       <button role="tab" data-tab="how" aria-controls="how" aria-selected="false">How it works</button>
@@ -335,51 +342,51 @@
             <marker id="h" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="hd"/></marker>
             <marker id="ha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="hd-a"/></marker>
           </defs>
-          <rect class="lane" x="0" y="118" width="760" height="130"/>
-          <text class="lane-t" x="14" y="140">PC · ISAAC SIM, ROS 2</text>
-          <rect class="lane" x="0" y="262" width="760" height="130"/>
-          <text class="lane-t" x="116" y="284">JETSON AGX THOR · 추론 서버</text>
-          <text class="t" x="12" y="40">자연어 명령</text>
-          <text class="d" x="12" y="60">"이 상자를 높은 작업대 위에 올려 줘"</text>
-          <path class="line" d="M250 46H292" marker-end="url(#h)"/>
-          <rect class="llm" x="300" y="14" width="448" height="70"/>
-          <text class="t" x="316" y="40">LLM 판단</text>
-          <text class="d" x="316" y="60">배치 자세 제약 생성 → 실패 원인을 받아 제약 완화 또는 중단</text>
-          <text class="d" x="316" y="76">배치 제약: 로컬 Gemma 4 · 분류 과제 계획: MCP로 연결된 LLM</text>
-          <path class="line" d="M400 84V150" marker-end="url(#h)"/>
-          <text class="d" x="408" y="112">대상 · 목적지 · 배치 제약</text>
-          <rect class="box" x="24" y="156" width="150" height="72" data-s="1"/>
-          <text class="t" x="36" y="184"><tspan class="num">1</tspan> 탐색·인식</text>
-          <text class="d" x="36" y="206">RGB-D 클러스터 검출</text>
-          <rect class="box" x="328" y="156" width="150" height="72" data-s="5"/>
-          <text class="t" x="340" y="184"><tspan class="num">5</tspan> 실행</text>
-          <text class="d" x="340" y="206">ros2_control 궤적</text>
-          <rect class="box" x="500" y="156" width="150" height="72" data-s="6"/>
-          <text class="t" x="512" y="184"><tspan class="num">6</tspan> 검증</text>
-          <text class="d" x="512" y="206">그리퍼 개도, 카메라 관측</text>
-          <rect class="box" x="24" y="300" width="150" height="72" data-s="2"/>
-          <text class="t" x="36" y="328"><tspan class="num">2</tspan> 파지 후보</text>
-          <text class="d" x="36" y="350">Contact-GraspNet</text>
-          <rect class="box" x="196" y="300" width="150" height="72" data-s="3"/>
-          <text class="t" x="208" y="328"><tspan class="num">3</tspan> 후보 선별</text>
-          <text class="d" x="208" y="350">IK 필터, 학습 순위</text>
-          <rect class="box" x="368" y="300" width="150" height="72" data-s="4"/>
-          <text class="t" x="380" y="328"><tspan class="num">4</tspan> 동작 계획</text>
-          <text class="d" x="380" y="350">cuRobo, pick+place</text>
-          <rect class="box" x="540" y="300" width="110" height="72"/>
-          <text class="t" x="552" y="328">CLIP</text>
-          <text class="d" x="552" y="350">언어 grounding</text>
-          <path class="line" d="M99 228V298" marker-end="url(#h)"/>
-          <path class="line" d="M174 336H194" marker-end="url(#h)"/>
-          <path class="line" d="M346 336H366" marker-end="url(#h)"/>
-          <path class="line" d="M443 300V230" marker-end="url(#h)"/>
-          <path class="line" d="M478 192H498" marker-end="url(#h)"/>
-          <path class="line" d="M174 192H326" marker-end="url(#h)"/>
-          <text class="d" x="190" y="184">점군·장면</text>
-          <path class="back" d="M443 372V383H690V84" marker-end="url(#ha)"/>
-          <text class="back-l" x="676" y="290" text-anchor="end">계획 실패 이유</text>
-          <path class="back" d="M600 156V84" marker-end="url(#ha)"/>
-          <text class="back-l" x="608" y="112">검증 결과</text>
+          <rect data-o="0" class="lane" x="0" y="118" width="760" height="130"/>
+          <text data-o="0" class="lane-t" x="14" y="140">PC · ISAAC SIM, ROS 2</text>
+          <rect data-o="0" class="lane" x="0" y="262" width="760" height="130"/>
+          <text data-o="0" class="lane-t" x="116" y="284">JETSON AGX THOR · 추론 서버</text>
+          <text data-o="1" class="t" x="12" y="40">자연어 명령</text>
+          <text data-o="1" class="d" x="12" y="60">"이 상자를 높은 작업대 위에 올려 줘"</text>
+          <path data-o="2" class="line" d="M250 46H292" marker-end="url(#h)"/>
+          <rect data-o="3" class="llm" x="300" y="14" width="448" height="70"/>
+          <text data-o="3" class="t" x="316" y="40">LLM 판단</text>
+          <text data-o="3" class="d" x="316" y="60">배치 자세 제약 생성 → 실패 원인을 받아 제약 완화 또는 중단</text>
+          <text data-o="3" class="d" x="316" y="76">배치 제약: 로컬 Gemma 4 · 분류 과제 계획: MCP로 연결된 LLM</text>
+          <path data-o="4" class="line" d="M400 84V150" marker-end="url(#h)"/>
+          <text data-o="4" class="d" x="408" y="112">대상 · 목적지 · 배치 제약</text>
+          <rect data-o="5" class="box" x="24" y="156" width="150" height="72" data-s="1"/>
+          <text data-o="5" class="t" x="36" y="184"><tspan class="num">1</tspan> 탐색·인식</text>
+          <text data-o="5" class="d" x="36" y="206">RGB-D 클러스터 검출</text>
+          <rect data-o="13" class="box" x="328" y="156" width="150" height="72" data-s="5"/>
+          <text data-o="13" class="t" x="340" y="184"><tspan class="num">5</tspan> 실행</text>
+          <text data-o="13" class="d" x="340" y="206">ros2_control 궤적</text>
+          <rect data-o="15" class="box" x="500" y="156" width="150" height="72" data-s="6"/>
+          <text data-o="15" class="t" x="512" y="184"><tspan class="num">6</tspan> 검증</text>
+          <text data-o="15" class="d" x="512" y="206">그리퍼 개도, 카메라 관측</text>
+          <rect data-o="7" class="box" x="24" y="300" width="150" height="72" data-s="2"/>
+          <text data-o="7" class="t" x="36" y="328"><tspan class="num">2</tspan> 파지 후보</text>
+          <text data-o="7" class="d" x="36" y="350">Contact-GraspNet</text>
+          <rect data-o="9" class="box" x="196" y="300" width="150" height="72" data-s="3"/>
+          <text data-o="9" class="t" x="208" y="328"><tspan class="num">3</tspan> 후보 선별</text>
+          <text data-o="9" class="d" x="208" y="350">IK 필터, 학습 순위</text>
+          <rect data-o="11" class="box" x="368" y="300" width="150" height="72" data-s="4"/>
+          <text data-o="11" class="t" x="380" y="328"><tspan class="num">4</tspan> 동작 계획</text>
+          <text data-o="11" class="d" x="380" y="350">cuRobo, pick+place</text>
+          <rect data-o="5" class="box" x="540" y="300" width="110" height="72"/>
+          <text data-o="5" class="t" x="552" y="328">CLIP</text>
+          <text data-o="5" class="d" x="552" y="350">언어 grounding</text>
+          <path data-o="6" class="line" d="M99 228V298" marker-end="url(#h)"/>
+          <path data-o="8" class="line" d="M174 336H194" marker-end="url(#h)"/>
+          <path data-o="10" class="line" d="M346 336H366" marker-end="url(#h)"/>
+          <path data-o="12" class="line" d="M443 300V230" marker-end="url(#h)"/>
+          <path data-o="14" class="line" d="M478 192H498" marker-end="url(#h)"/>
+          <path data-o="13" class="line" d="M174 192H326" marker-end="url(#h)"/>
+          <text data-o="13" class="d" x="190" y="184">점군·장면</text>
+          <path data-o="17" class="back" d="M443 372V383H690V84" marker-end="url(#ha)"/>
+          <text data-o="17" class="back-l" x="676" y="290" text-anchor="end">계획 실패 이유</text>
+          <path data-o="16" class="back" d="M600 156V84" marker-end="url(#ha)"/>
+          <text data-o="16" class="back-l" x="608" y="112">검증 결과</text>
         </svg>
       </div>
     </div>
@@ -391,12 +398,12 @@
       <div class="card replan">
         <div class="log">
           <div class="log-h">실행 로그 요약</div>
-          <div class="lr" style="--d:0.0s"><span class="role">USER</span><span>이 상자를 높은 작업대 위에 올려 줘</span></div>
-          <div class="lr" style="--d:0.55s"><span class="role">LLM</span><span><code>constraint = top_up</code><em>내용물(책)이 쏟아지지 않도록 윗면 법선을 +z로 지정</em></span></div>
-          <div class="lr" style="--d:1.1s"><span class="role">PLANNER</span><span><code class="x">infeasible</code><em>도달 불가 또는 배치 영역 충돌. 원인을 LLM에 반환</em></span></div>
-          <div class="lr" style="--d:1.65s"><span class="role">LLM</span><span><code>constraint = not_top_down</code><em>윗면이 −z를 향하지만 않으면 허용하도록 완화</em></span></div>
-          <div class="lr" style="--d:2.2s"><span class="role">PLANNER</span><span><code>feasible</code><em>측면 자세로 파지–배치 궤적 확보</em></span></div>
-          <div class="lr" style="--d:2.75s"><span class="role">ROBOT</span><span>작업대 위 측면 배치 완료</span></div>
+          <div class="lr" style="--d:0s"><span class="role">USER</span><span>이 상자를 높은 작업대 위에 올려 줘</span></div>
+          <div class="lr" style="--d:.6s"><span class="role">LLM</span><span><code>constraint = top_up</code><em>내용물(책)이 쏟아지지 않도록 윗면 법선을 +z로 지정</em></span></div>
+          <div class="lr" style="--d:2.3s"><span class="role">PLANNER</span><span><code class="x">infeasible</code><em>도달 불가 또는 배치 영역 충돌. 원인을 LLM에 반환</em></span></div>
+          <div class="lr" style="--d:2.9s"><span class="role">LLM</span><span><code>constraint = not_top_down</code><em>윗면이 −z를 향하지만 않으면 허용하도록 완화</em></span></div>
+          <div class="lr" style="--d:3.5s"><span class="role">PLANNER</span><span><code>feasible</code><em>측면 자세로 파지–배치 궤적 확보</em></span></div>
+          <div class="lr" style="--d:4.4s"><span class="role">ROBOT</span><span>작업대 위 측면 배치 완료</span></div>
         </div>
         <div class="fig"><svg viewBox="0 0 620 356" role="img" aria-label="(a) 윗면이 위를 향하는 자세는 해가 없어 기각. (b) 제약을 완화해 상자를 옆으로 세운 자세로 배치">
           <defs>
@@ -404,14 +411,15 @@
             <marker id="nh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" class="nhd"/></marker>
             <marker id="gh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="ghd"/></marker>
           </defs>
-          <g class="sc" style="--d:.7s"><polygon class="plat f-top" points="150.0,97.0 243.5,151.0 150.0,205.0 56.5,151.0"/><polygon class="plat f-right" points="243.5,259.0 150.0,313.0 150.0,205.0 243.5,151.0"/><polygon class="plat f-left" points="56.5,259.0 150.0,313.0 150.0,205.0 56.5,151.0"/><polygon class="obst f-top" points="153.1,70.0 227.9,113.2 190.5,134.8 115.7,91.6"/><polygon class="obst f-right" points="227.9,149.2 190.5,170.8 190.5,134.8 227.9,113.2"/><polygon class="obst f-left" points="115.7,127.6 190.5,170.8 190.5,134.8 115.7,91.6"/><polygon class="obj f-top" points="115.7,116.8 178.1,152.8 140.6,174.4 78.3,138.4" stroke-dasharray="5 4"/><polygon class="hatch" points="115.7,116.8 178.1,152.8 140.6,174.4 78.3,138.4" stroke-dasharray="5 4"/><polygon class="obj f-right" points="178.1,170.8 140.6,192.4 140.6,174.4 178.1,152.8" stroke-dasharray="5 4"/><polygon class="obj f-left" points="78.3,156.4 140.6,192.4 140.6,174.4 78.3,138.4" stroke-dasharray="5 4"/><path class="nrm" d="M128.2 145.6L128.2 84.4" marker-end="url(#nh)"/><path class="dim" d="M44.5 259.0V151.0 M40.5 259.0h8 M40.5 151.0h8"/><text class="an" x="38.5" y="209.0" text-anchor="end">0.30 m</text>
-          <text class="an r" x="120.19999999999999" y="88.4" text-anchor="end">윗면 법선 n̂</text></g>
-          <g class="sc" style="--d:2.4s"><polygon class="plat f-top" points="470.0,97.0 563.5,151.0 470.0,205.0 376.5,151.0"/><polygon class="plat f-right" points="563.5,259.0 470.0,313.0 470.0,205.0 563.5,151.0"/><polygon class="plat f-left" points="376.5,259.0 470.0,313.0 470.0,205.0 376.5,151.0"/><polygon class="obst f-top" points="473.1,70.0 547.9,113.2 510.5,134.8 435.7,91.6"/><polygon class="obst f-right" points="547.9,149.2 510.5,170.8 510.5,134.8 547.9,113.2"/><polygon class="obst f-left" points="435.7,127.6 510.5,170.8 510.5,134.8 435.7,91.6"/><polygon class="obj f-top" points="423.2,98.8 485.6,134.8 470.0,143.8 407.6,107.8"/><polygon class="obj f-right" points="485.6,178.0 470.0,187.0 470.0,143.8 485.6,134.8"/><polygon class="obj f-left" points="407.6,151.0 470.0,187.0 470.0,143.8 407.6,107.8"/><polygon class="hatch" points="407.6,151.0 470.0,187.0 470.0,143.8 407.6,107.8"/><path class="nrm" d="M438.8 147.4L385.8 178.0" marker-end="url(#nh)"/>
-          <text class="an r" x="385.8" y="194.0" text-anchor="middle">n̂</text></g>
-          <g class="sc" style="--d:1.8s"><path class="go" d="M286 150H336" marker-end="url(#gh)"/>
-          <text class="an" x="311" y="140" text-anchor="middle">제약 완화</text></g>
-          <text class="cap sc" style="--d:.7s" x="150" y="338" text-anchor="middle">(a) top-up — 해 없음</text>
-          <text class="cap sc" style="--d:2.4s" x="470" y="338" text-anchor="middle">(b) not top-down — 측면 배치</text>
+          <g class="sc" style="--d:.6s"><polygon class="plat f-top" points="150.0,97.0 243.5,151.0 150.0,205.0 56.5,151.0"/><polygon class="plat f-right" points="243.5,259.0 150.0,313.0 150.0,205.0 243.5,151.0"/><polygon class="plat f-left" points="56.5,259.0 150.0,313.0 150.0,205.0 56.5,151.0"/><polygon class="obst f-top" points="153.1,70.0 227.9,113.2 190.5,134.8 115.7,91.6"/><polygon class="obst f-right" points="227.9,149.2 190.5,170.8 190.5,134.8 227.9,113.2"/><polygon class="obst f-left" points="115.7,127.6 190.5,170.8 190.5,134.8 115.7,91.6"/><path class="dim" d="M44.5 259.0V151.0 M40.5 259.0h8 M40.5 151.0h8"/><text class="an" x="38.5" y="209.0" text-anchor="end">0.30 m</text></g>
+          <g class="box-a" style="--d:1s"><polygon class="obj f-top" points="115.7,116.8 178.1,152.8 140.6,174.4 78.3,138.4"/><polygon class="hatch" points="115.7,116.8 178.1,152.8 140.6,174.4 78.3,138.4"/><polygon class="obj f-right" points="178.1,170.8 140.6,192.4 140.6,174.4 178.1,152.8"/><polygon class="obj f-left" points="78.3,156.4 140.6,192.4 140.6,174.4 78.3,138.4"/></g>
+          <g class="sc" style="--d:2.4s"><polygon class="obj ghost f-top" points="115.7,116.8 178.1,152.8 140.6,174.4 78.3,138.4" stroke-dasharray="5 4"/><polygon class="hatch" points="115.7,116.8 178.1,152.8 140.6,174.4 78.3,138.4"/><polygon class="obj ghost f-right" points="178.1,170.8 140.6,192.4 140.6,174.4 178.1,152.8" stroke-dasharray="5 4"/><polygon class="obj ghost f-left" points="78.3,156.4 140.6,192.4 140.6,174.4 78.3,138.4" stroke-dasharray="5 4"/><path class="nrm" d="M128.2 145.6L128.2 84.4" marker-end="url(#nh)"/><text class="an r" x="120.19999999999999" y="88.4" text-anchor="end">윗면 법선 n̂</text></g>
+          <text class="cap sc" style="--d:2.4s" x="150" y="338" text-anchor="middle">(a) top-up — 해 없음</text>
+          <g class="sc" style="--d:2.9s"><path class="go" d="M286 150H336" marker-end="url(#gh)"/><text class="an" x="311" y="140" text-anchor="middle">제약 완화</text></g>
+          <g class="sc" style="--d:3.2s"><polygon class="plat f-top" points="470.0,97.0 563.5,151.0 470.0,205.0 376.5,151.0"/><polygon class="plat f-right" points="563.5,259.0 470.0,313.0 470.0,205.0 563.5,151.0"/><polygon class="plat f-left" points="376.5,259.0 470.0,313.0 470.0,205.0 376.5,151.0"/><polygon class="obst f-top" points="473.1,70.0 547.9,113.2 510.5,134.8 435.7,91.6"/><polygon class="obst f-right" points="547.9,149.2 510.5,170.8 510.5,134.8 547.9,113.2"/><polygon class="obst f-left" points="435.7,127.6 510.5,170.8 510.5,134.8 435.7,91.6"/></g>
+          <g class="box-b" style="--d:3.5s"><polygon class="obj f-top" points="423.2,98.8 485.6,134.8 470.0,143.8 407.6,107.8"/><polygon class="obj f-right" points="485.6,178.0 470.0,187.0 470.0,143.8 485.6,134.8"/><polygon class="obj f-left" points="407.6,151.0 470.0,187.0 470.0,143.8 407.6,107.8"/><polygon class="hatch" points="407.6,151.0 470.0,187.0 470.0,143.8 407.6,107.8"/></g>
+          <g class="sc" style="--d:4.4s"><path class="nrm" d="M438.8 147.4L385.8 178.0" marker-end="url(#nh)"/><text class="an r" x="385.8" y="194.0" text-anchor="middle">n̂</text></g>
+          <text class="cap sc" style="--d:4.4s" x="470" y="338" text-anchor="middle">(b) not top-down — 측면 배치</text>
         </svg></div>
       </div>
       <p class="small" style="margin-top:14px"><button class="replay" type="button">↻ 다시 재생</button>빗금: 상자 윗면. 회색: 장애물. 제약 표기는 설명용 약식이다. 계획기는 현재 도달 불가와 배치 영역 충돌을 구분해 보고하지 못한다.</p>
@@ -483,7 +491,9 @@
     a.addEventListener('click', function (e) { e.preventDefault(); go(a.dataset.go); });
   });
   window.addEventListener('hashchange', function () { show(location.hash.slice(1), true); });
-  show(location.hash.slice(1), false);
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  show(location.hash.slice(1), true);
+  window.addEventListener('load', function () { window.scrollTo(0, 0); });
 
   var $$ = function (q, r) { return [].slice.call((r || document).querySelectorAll(q)); };
   var motion = !matchMedia('(prefers-reduced-motion: reduce)').matches && location.search.indexOf('static') < 0 && 'IntersectionObserver' in window;
@@ -534,8 +544,8 @@
 
   /* 구성 그림: 순서대로 나타남, 단계에 마우스를 올리면 해당 칸 강조 */
   var svg = document.querySelector('.diagram svg');
-  [].slice.call(svg.children).filter(function (el) { return el.tagName !== 'defs'; })
-    .forEach(function (el, i) { el.style.transitionDelay = (i * 45) + 'ms'; });
+  /* data-o = 구동 순서: 명령 → LLM → 1 → 2 → 3 → 4 → 5 → 6 → 되돌림 */
+  $$('[data-o]', svg).forEach(function (el) { el.style.setProperty('--o', el.dataset.o); });
   seen(svg, function () { svg.classList.add('in'); }, 0.3);
   $$('.steps li').forEach(function (li) {
     var box = svg.querySelector('.box[data-s="' + li.dataset.s + '"]');
@@ -546,9 +556,9 @@
   /* 재판단 사례: 로그와 그림이 차례로 나타남 */
   var rp = document.querySelector('.replan');
   function play() {
-    rp.classList.add('reset'); rp.classList.toggle('play', false);
+    rp.classList.toggle('play', false);
     void rp.offsetWidth;
-    rp.classList.toggle('reset', false); rp.classList.add('play');
+    rp.classList.add('play');
   }
   seen(rp, play, 0.35);
   document.querySelector('.replay').addEventListener('click', play);
