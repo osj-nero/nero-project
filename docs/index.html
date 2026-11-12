@@ -58,16 +58,14 @@
   .hero h1 small { display: block; font-size: 0.42em; font-weight: 600; letter-spacing: 0; color: var(--ink-soft); margin-top: 10px; }
   .hero .lead { font-size: clamp(17px, 1.4vw, 20px); line-height: 1.6; max-width: 32em; margin-bottom: 18px; }
   .hero .links { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 15.5px; }
-  .facts { border-top: 2px solid var(--ink); }
-  .facts div { display: grid; grid-template-columns: 6.5em 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--rule); font-size: 15.5px; line-height: 1.5; }
-  .facts b { font: 500 12.5px/1.6 var(--mono); letter-spacing: 0.08em; color: var(--ink-faint); padding-top: 3px; }
-  .flowbar { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; margin-top: clamp(28px, 4vw, 48px); }
-  .flowbar div { background: var(--bg-elevated); border: 1px solid var(--rule); border-top: 3px solid var(--accent); padding: 10px 12px 12px; min-width: 0; }
-  .flowbar .n { font: 700 22px/1 var(--font); color: var(--accent); letter-spacing: -0.02em; }
-  .flowbar b { display: block; font-size: 15px; margin-top: 8px; }
-  .flowbar span { display: block; font-size: 13px; color: var(--ink-faint); line-height: 1.4; margin-top: 2px; }
-  .hero figure { margin: clamp(20px, 3vw, 32px) 0 0; }
-  .hero img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; object-position: 50% 60%; }
+  .hero-grid { align-items: center; }
+  .hero figure { margin: 0; }
+  .hero img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 60%; }
+  .facts { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: clamp(28px, 4vw, 48px); border-top: 1px solid var(--rule-strong); border-bottom: 1px solid var(--rule); }
+  .facts div { padding: 14px 16px 16px 0; min-width: 0; }
+  .facts div + div { padding-left: 16px; border-left: 1px solid var(--rule); }
+  .facts b { display: block; font: 500 12px/1.6 var(--mono); letter-spacing: 0.08em; color: var(--ink-faint); }
+  .facts span { display: block; font-size: 14.5px; line-height: 1.5; color: var(--ink-soft); margin-top: 4px; }
   figcaption { margin-top: 8px; font-size: 14.5px; line-height: 1.5; color: var(--ink-faint); }
 
   /* 과제 카드 3열 */
@@ -115,12 +113,27 @@
   .stat .s { font-size: 14.5px; line-height: 1.5; margin-top: 4px; color: var(--on-dark-soft); }
 
   /* 재판단 기록 */
-  .trace { background: var(--bg-elevated); border: 1px solid var(--rule); border-left: 4px solid var(--accent); padding: clamp(18px, 2.5vw, 28px); display: grid; grid-template-columns: 9em 1fr; gap: 10px 20px; align-items: baseline; }
+  .cmdline { font-size: clamp(19px, 2vw, 24px); font-weight: 700; margin: 0 0 18px; }
+  .cmdline b { font: 500 12.5px/1 var(--mono); letter-spacing: 0.08em; color: var(--accent); margin-right: 12px; vertical-align: middle; }
+  .trace { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; background: var(--bg-elevated); border: 1px solid var(--rule); }
+  .trace .st { padding: 18px 18px 20px; min-width: 0; position: relative; }
+  .trace .st + .st { border-left: 1px solid var(--rule); }
+  .trace .st + .st::before { content: "→"; position: absolute; left: -11px; top: 62px; width: 22px; height: 22px; line-height: 20px; text-align: center; background: var(--bg-elevated); border: 1px solid var(--rule-strong); border-radius: 50%; font-size: 13px; color: var(--ink-soft); }
   .trace .k { font: 500 12.5px/1.6 var(--mono); letter-spacing: 0.08em; color: var(--accent); }
-  .trace .v { font-size: 16px; line-height: 1.55; }
-  .trace .v.cmd { font-size: 19px; font-weight: 700; }
-  .trace q { quotes: "“" "”"; color: var(--ink-soft); }
-  .trace .arrow { grid-column: 1 / -1; height: 1px; background: var(--rule); }
+  .trace svg { display: block; width: 100%; max-width: 190px; height: auto; margin: 8px 0 10px; }
+  .trace .pf { fill: var(--bg-section); stroke: var(--rule-strong); }
+  .trace .bx { fill: var(--bg-elevated); stroke: var(--ink); stroke-width: 1.6; }
+  .trace .topf { stroke: var(--accent); stroke-width: 5; stroke-linecap: round; }
+  .trace .ob { fill: var(--rule-strong); }
+  .trace .bad { stroke: #B3261E; stroke-width: 3; stroke-linecap: round; fill: none; }
+  .trace .ok { stroke: #1E7B4B; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+  .trace .gl { font: 500 11px var(--font); fill: var(--ink-faint); }
+  .trace h3 { font-size: 16.5px; margin: 0 0 4px; }
+  .trace p { font-size: 14.5px; line-height: 1.5; color: var(--ink-soft); margin: 0; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 12px; }
+  .legend i { display: inline-block; width: 18px; height: 5px; border-radius: 3px; background: var(--accent); vertical-align: middle; margin-right: 6px; }
+  .legend i.g { background: var(--rule-strong); height: 10px; width: 10px; border-radius: 0; }
+  .badge { display: inline-block; border: 1px solid var(--rule-strong); padding: 5px 10px; font: 500 12.5px/1.3 var(--font); color: var(--ink-soft); background: var(--bg-elevated); }
 
   /* 구성 */
   table { width: 100%; border-collapse: collapse; font-size: 15.5px; line-height: 1.5; background: var(--bg-elevated); border: 1px solid var(--rule); }
@@ -145,12 +158,15 @@
   @media (max-width: 960px) {
     .hero-grid, .how, .author { grid-template-columns: 1fr; }
     .cards, .stats { grid-template-columns: 1fr; }
-    .flowbar { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    .trace { grid-template-columns: 1fr; gap: 4px; }
-    .trace .k { margin-top: 10px; }
+    .facts { grid-template-columns: 1fr 1fr; }
+    .facts div, .facts div + div { padding: 12px 12px 12px 0; border-left: 0; border-bottom: 1px solid var(--rule); }
+    .trace { grid-template-columns: 1fr 1fr; }
+    .trace .st + .st::before { display: none; }
+    .trace .st:nth-child(n+3) { border-top: 1px solid var(--rule); }
+    .trace .st:nth-child(3) { border-left: 0; }
     .hero img { aspect-ratio: 16 / 9; }
   }
-  @media (max-width: 560px) { .flowbar { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .facts, .trace { grid-template-columns: 1fr; } .trace .st + .st { border-left: 0; border-top: 1px solid var(--rule); } }
 </style>
 </head>
 <body>
@@ -173,48 +189,39 @@
     <div>
       <div class="eyebrow">NERO MANIPULATION · ISAAC SIM</div>
       <h1>LLM 판단 기반<br>로봇 Pick-and-Place<small>7축 로봇팔 · 자연어 명령 · 놓기 자세 판단 · 실패 시 재판단</small></h1>
-      <p class="lead">자연어 명령을 받아 7축 로봇팔이 물체를 찾아 집습니다. 어디에 어떤 자세로 놓을지는 로컬 멀티모달 LLM(Gemma 4)이 정하고, 계획이 막히면 이유를 받아 조건을 풀거나 포기를 판단합니다. 파지는 Contact-GraspNet, 경로는 cuRobo가 맡습니다.</p>
+      <p class="lead">말로 시키면 로봇팔이 물체를 찾아 집어서 옮겨 놓습니다. 어디에, 어느 면을 위로 해서 놓을지는 LLM이 정합니다. 그 자세로 놓을 수 없으면 LLM이 조건을 바꾸거나 그만둡니다.</p>
       <nav class="links">
         <a href="https://github.com/osj-nero/nero-project">GitHub 저장소</a>
         <a href="https://github.com/osj-nero/nero-project#readme">설치와 실행</a>
         <a href="#results">결과 보기</a>
       </nav>
     </div>
-    <div class="facts">
-      <div><b>과제</b><span>높은 작업대 의미 배치 · 정밀 배치(井·삼각형·기둥+판) · 여러 물체 분류</span></div>
-      <div><b>평가</b><span>Isaac Sim 16장면 87경우, 집어서 놓기 성공 <span class="num">96%</span>(장애물 없음) · <span class="num">58%</span>(장애물 있음)</span></div>
-      <div><b>계획 시간</b><span>집기 동작 계획 <span class="num">0.5~2.4초</span>(cuRobo, 이전 MoveIt STOMP 10~35초)</span></div>
-      <div><b>구성</b><span>PC(Isaac Sim, ROS 2) + Jetson AGX Thor(Contact-GraspNet, cuRobo, CLIP, Gemma 4)</span></div>
-      <div><b>만든 사람</b><span>오세준 · 서강대학교 대학원 BPDL · LG이노텍 산학장학생</span></div>
-    </div>
+    <figure>
+      <img src="img/hero.jpg" alt="바닥에 세워 둔 막대 기둥 네 개 옆에서 로봇팔이 판을 집으러 내려오는 장면" width="2000" height="1200">
+    </figure>
   </div>
-  <div class="flowbar" aria-label="동작 흐름 여섯 단계">
-    <div><div class="n">1</div><b>탐색·인식</b><span>훑기, 덩어리 검출, CLIP 접지</span></div>
-    <div><div class="n">2</div><b>파지 후보</b><span>Contact-GraspNet</span></div>
-    <div><div class="n">3</div><b>후보 선별</b><span>IK 필터, 학습 순위</span></div>
-    <div><div class="n">4</div><b>동작 계획</b><span>cuRobo, 집기+놓기 동시</span></div>
-    <div><div class="n">5</div><b>실행</b><span>ros2_control 궤적</span></div>
-    <div><div class="n">6</div><b>검증·재판단</b><span>실패 이유를 LLM에게</span></div>
+  <div class="facts" aria-label="요약">
+    <div><b>과제</b><span>높은 작업대 배치 · 정밀 배치 · 물체 분류</span></div>
+    <div><b>평가</b><span>Isaac Sim 87경우. 성공 <span class="num">96%</span>(장애물 없음), <span class="num">58%</span>(있음)</span></div>
+    <div><b>소요 시간</b><span>한 경우 평균 <span class="num">143초</span>. LLM 판단 50초 포함</span></div>
+    <div><b>구성</b><span>PC(Isaac Sim, ROS 2) + Jetson AGX Thor</span></div>
+    <div><b>만든 사람</b><span>오세준 · 서강대학교 대학원 BPDL</span></div>
   </div>
-  <figure>
-    <img src="img/hero.jpg" alt="바닥에 세워 둔 막대 기둥 네 개 옆에서 로봇팔이 판을 집으러 내려오는 장면" width="2000" height="1200">
-    <figcaption>기둥 네 개를 세운 뒤 판을 집으러 가는 장면. Isaac Sim.</figcaption>
-  </figure>
 </header>
 
 <section id="tasks">
   <div class="wrap">
     <div class="eyebrow">TASKS</div>
     <h2>과제</h2>
-    <p class="measure">세 과제를 같은 시스템으로 수행합니다. 영상은 녹화 뒤 이 자리에 넣고, 지금은 실행 기록의 장면입니다.</p>
+    <p class="measure">과제는 셋이고 같은 코드로 돌립니다. 영상은 녹화하는 대로 올립니다.</p>
     <div class="cards">
       <article class="card">
         <span class="idx">01</span>
         <div class="frame"><img src="img/task1_platform.jpg" alt="장애물이 놓인 30cm 작업대 위에 상자를 놓은 결과" width="1600" height="900" loading="lazy"></div>
         <div class="body">
           <h3>높은 작업대 의미 배치</h3>
-          <p>30cm 작업대 위에 물체를 명령의 뜻에 맞는 자세로 놓습니다. 장애물로 막히면 LLM이 조건을 풀지 포기할지 판단합니다.</p>
-          <p class="small">장애물이 놓인 작업대. 처음 조건으로는 계획이 서지 않아 LLM이 조건을 푼 뒤 놓은 결과.</p>
+          <p>30cm 높이 작업대에 물체를 올립니다. 책이 든 상자는 윗면이 위로 가게 놓는 식으로, 놓는 자세를 LLM이 정합니다.</p>
+          <p class="small">사진: 작업대에 장애물이 있어 조건을 한 번 바꾼 뒤 놓은 결과</p>
         </div>
       </article>
       <article class="card">
@@ -222,8 +229,8 @@
         <div class="frame"><img src="img/task2_jeong.jpg" alt="로봇팔이 막대 네 개로 우물 정자 구조를 쌓는 장면" width="1600" height="900" loading="lazy"></div>
         <div class="body">
           <h3>정밀 배치</h3>
-          <p>막대로 井자와 삼각형 구조를 만들고, 기둥 네 개 위에 판을 얹습니다. LLM이 구조 명세를 쓰고 코드가 검사한 뒤 로봇이 실행합니다.</p>
-          <p class="small">井 구조 쌓기. 명세를 검사한 뒤 막대를 하나씩 올립니다.</p>
+          <p>막대로 井자, 삼각형을 만들고 기둥 네 개 위에 판을 얹습니다. 막대마다 놓을 위치와 각도는 LLM이 씁니다.</p>
+          <p class="small">사진: 井자 쌓는 중. 위치 오차 3.5~22mm</p>
         </div>
       </article>
       <article class="card">
@@ -231,8 +238,8 @@
         <div class="frame"><img src="img/task3_sort.jpg" alt="바닥에 놓인 머그컵, 상자, 바나나" width="1280" height="720" loading="lazy"></div>
         <div class="body">
           <h3>여러 물체 분류 정리</h3>
-          <p>섞인 물체를 조사하고, LLM이 물체마다 목적지를 정해 순서대로 옮깁니다.</p>
-          <p class="small">분류 전 장면. 로봇과 결과가 담긴 장면은 영상 녹화 때 바꿉니다.</p>
+          <p>바닥의 물체를 훑어 목록을 만들고, 물체마다 보낼 곳을 LLM이 정해 하나씩 옮깁니다.</p>
+          <p class="small">사진: 분류 전 장면</p>
         </div>
       </article>
     </div>
@@ -243,15 +250,15 @@
   <div class="wrap">
     <div class="eyebrow">HOW IT WORKS</div>
     <h2>동작 방식</h2>
-    <p class="measure">집는 방법은 <a href="https://github.com/NVlabs/contact_graspnet">Contact-GraspNet</a>이, 팔이 움직이는 경로는 <a href="https://github.com/NVlabs/curobo">cuRobo</a>가 맡습니다. 로봇이 스스로 정하기 어려운 것, 곧 이 물체를 어디에 어떤 자세로 놓아야 명령의 뜻에 맞는가를 LLM이 판단합니다. 6번 단계는 다시 LLM으로 돌아가는 고리입니다.</p>
+    <p class="measure">어떻게 쥘지는 <a href="https://github.com/NVlabs/contact_graspnet">Contact-GraspNet</a>, 팔 경로는 <a href="https://github.com/NVlabs/curobo">cuRobo</a>가 계산합니다. LLM은 놓는 자리와 자세만 정합니다.</p>
     <div class="how">
       <div class="steps">
-        <div class="step"><div class="n num">1</div><div><b>탐색·인식</b><span>팔을 돌려 장면을 훑고 덩어리를 검출한 뒤, <a href="https://github.com/openai/CLIP">CLIP</a>으로 명령 속 대상과 연결합니다.</span></div></div>
-        <div class="step"><div class="n num">2</div><div><b>파지 후보</b><span>물체 점군을 Contact-GraspNet에 넣어 6자유도 파지 후보를 받습니다.</span></div></div>
-        <div class="step"><div class="n num">3</div><div><b>후보 선별</b><span>닿지 않거나 이웃과 부딪히는 후보를 걸러 내고, 학습 모델이 순위를 매깁니다.</span></div></div>
-        <div class="step"><div class="n num">4</div><div><b>동작 계획</b><span>cuRobo가 집기와 놓기를 함께 계획합니다. 놓기 조건과 충돌을 같이 검사합니다.</span></div></div>
-        <div class="step"><div class="n num">5</div><div><b>실행</b><span>계획된 궤적을 ros2_control로 실행하고, 쥐었는지와 놓였는지를 그리퍼 폭과 카메라로 확인합니다.</span></div></div>
-        <div class="step"><div class="n num">6</div><div><b>검증·재판단</b><span>결과가 조건과 다르거나 계획이 서지 않으면, 그 이유가 LLM에게 돌아가 조건을 풀거나 포기를 판단합니다.</span></div></div>
+        <div class="step"><div class="n num">1</div><div><b>탐색·인식</b><span>팔을 돌려 바닥을 훑고, 찾은 물체 중 명령에 나온 것을 <a href="https://github.com/openai/CLIP">CLIP</a>으로 고릅니다.</span></div></div>
+        <div class="step"><div class="n num">2</div><div><b>파지 후보</b><span>물체 점군에서 쥘 수 있는 자세 수백 개를 뽑습니다.</span></div></div>
+        <div class="step"><div class="n num">3</div><div><b>후보 선별</b><span>팔이 안 닿거나 옆 물체에 부딪히는 후보를 버리고 나머지에 순위를 매깁니다.</span></div></div>
+        <div class="step"><div class="n num">4</div><div><b>동작 계획</b><span>집는 경로와 놓는 경로를 한 번에 계산합니다. 놓는 자세가 LLM 조건에 맞는 후보만 씁니다.</span></div></div>
+        <div class="step"><div class="n num">5</div><div><b>실행</b><span>궤적을 실행합니다. 쥐었는지는 그리퍼 폭으로, 놓였는지는 카메라로 확인합니다.</span></div></div>
+        <div class="step"><div class="n num">6</div><div><b>검증·재판단</b><span>경로가 안 나오거나 놓은 결과가 다르면 이유를 LLM에 돌려보냅니다. LLM은 조건을 바꾸거나 그만둡니다.</span></div></div>
       </div>
       <div class="diagram">
         <svg viewBox="0 0 760 400" role="img" aria-label="PC와 Jetson으로 나뉜 구성도. 명령이 LLM 판단을 거쳐 인식, 파지 후보, 선별, 계획, 실행, 검증으로 이어지고, 계획 실패 이유와 검증 결과가 LLM으로 되돌아간다">
@@ -314,11 +321,11 @@
   <div class="wrap">
     <div class="eyebrow">RESULTS</div>
     <h2>평가 결과</h2>
-    <p class="measure">높은 작업대 과제, Isaac Sim 16장면 87경우. 경우마다 한 번씩 실행했고 판단(LLM이 쓴 조건)과 실행(로봇이 놓은 결과)을 따로 채점했습니다.</p>
+    <p class="measure">높은 작업대 과제, 16장면 87경우를 한 번씩 실행했습니다.</p>
     <div class="stats">
       <div class="stat"><div class="v">96<small>%</small></div><div class="l">장애물 없음 · 집어서 놓기 성공</div><div class="s">24 / 25 경우</div></div>
-      <div class="stat"><div class="v">58<small>%</small></div><div class="l">장애물 있음 · 집어서 놓기 성공</div><div class="s">18 / 31 경우. 실패 13건은 모두 계획이 선 뒤 파지·운반·해제·안착 단계에서 생겼고, 구현 결함으로 인한 실패는 없었습니다.</div></div>
-      <div class="stat"><div class="v">0.5~2.4<small>초</small></div><div class="l">집기 동작 계획 시간</div><div class="s">MoveIt STOMP 10~35초를 cuRobo로 바꾼 뒤. 2026-10 측정.</div></div>
+      <div class="stat"><div class="v">58<small>%</small></div><div class="l">장애물 있음 · 집어서 놓기 성공</div><div class="s">18 / 31 경우. 실패 13건은 모두 경로가 나온 뒤 쥐고 옮기고 놓는 중에 생겼습니다.</div></div>
+      <div class="stat"><div class="v">143<small>초</small></div><div class="l">한 경우 평균 소요 시간</div><div class="s">로봇 인식·계획·실행 78초, LLM 판단 50초, 나머지 장면 준비. 10경우 측정.</div></div>
     </div>
   </div>
 </section>
@@ -327,18 +334,35 @@
   <div class="wrap">
     <div class="eyebrow">LOG</div>
     <h2>재판단 기록</h2>
-    <p class="measure small" style="margin-bottom:14px">실제 기록 한 건. 장면 R_box_y33.1, 장애물 있음, 상자 안에 얇은 책이 들어 있음.</p>
+    <p class="measure small" style="margin-bottom:14px">실제 기록 한 건. 작업대에 장애물이 있고, 상자 안에 얇은 책이 들어 있습니다.</p>
+    <p class="cmdline"><b>명령</b>이 상자를 높은 작업대 위에 올려 줘</p>
     <div class="trace">
-      <div class="k">명령</div><div class="v cmd">이 상자를 높은 작업대 위에 올려 줘</div>
-      <div class="k">LLM 조건 1</div><div class="v">윗면이 위를 향하게, 윗면이 바닥을 향하면 안 됨. <q>상자 안에 얇은 책이 들어 있으므로 내용물이 쏟아지거나 상자가 뒤집히지 않도록 윗면이 위를 향하게 안정적으로 놓아야 합니다.</q></div>
-      <div class="arrow"></div>
-      <div class="k">계획기</div><div class="v">이 조건을 만족하는 집기·놓기 계획이 서지 않음. LLM에게 돌아간 이유: <q>놓을 자세에 팔이 닿지 않거나 놓을 자리가 막힘</q></div>
-      <div class="arrow"></div>
-      <div class="k">LLM 조건 2</div><div class="v">윗면이 바닥을 향하지만 않으면 됨. <q>기존의 '윗면이 위를 향해야 한다'는 조건이 로봇의 작업 범위를 너무 제한했으므로, 측면이 위로 가더라도 윗면이 바닥에 닿지만 않게 조건을 완화했습니다.</q></div>
-      <div class="arrow"></div>
-      <div class="k">결과</div><div class="v">계획이 서고, 로봇이 상자를 옆면이 위로 가게 작업대 위에 놓았습니다. 완화된 조건을 만족합니다.</div>
+      <div class="st">
+        <div class="k">1 · LLM</div>
+        <svg viewBox="0 0 190 112" aria-hidden="true"><rect class="pf" x="20" y="92" width="150" height="14"/><rect class="ob" x="126" y="52" width="32" height="40"/><rect class="bx" x="44" y="56" width="60" height="36"/><path class="topf" d="M48 56H100"/></svg>
+        <h3>윗면이 위로</h3>
+        <p>책이 쏟아지지 않게 윗면을 위로 놓으라고 정함</p>
+      </div>
+      <div class="st">
+        <div class="k">2 · 계획기</div>
+        <svg viewBox="0 0 190 112" aria-hidden="true"><rect class="pf" x="20" y="92" width="150" height="14"/><rect class="ob" x="126" y="52" width="32" height="40"/><rect class="bx" x="44" y="56" width="60" height="36" stroke-dasharray="5 4"/><path class="topf" d="M48 56H100"/><path class="bad" d="M58 18L90 46M90 18L58 46"/></svg>
+        <h3>경로 없음</h3>
+        <p>그 자세로는 팔이 닿지 않거나 자리가 막혀 있음</p>
+      </div>
+      <div class="st">
+        <div class="k">3 · LLM</div>
+        <svg viewBox="0 0 190 112" aria-hidden="true"><rect class="pf" x="20" y="92" width="150" height="14"/><rect class="ob" x="126" y="52" width="32" height="40"/><rect class="bx" x="56" y="32" width="36" height="60" stroke-dasharray="5 4"/><path class="topf" d="M56 36V88"/></svg>
+        <h3>뒤집히지만 않게</h3>
+        <p>윗면이 바닥을 향하지만 않으면 된다고 조건을 바꿈</p>
+      </div>
+      <div class="st">
+        <div class="k">4 · 로봇</div>
+        <svg viewBox="0 0 190 112" aria-hidden="true"><rect class="pf" x="20" y="92" width="150" height="14"/><rect class="ob" x="126" y="52" width="32" height="40"/><rect class="bx" x="56" y="32" width="36" height="60"/><path class="topf" d="M56 36V88"/><path class="ok" d="M62 14L72 24L90 6"/></svg>
+        <h3>옆으로 세워 놓음</h3>
+        <p>경로가 나와 상자를 작업대에 올림</p>
+      </div>
     </div>
-    <p class="small" style="margin-top:14px">계획기가 돌려주는 이유는 지금 '팔이 닿지 않음'과 '자리가 막힘'을 구분하지 않습니다. 개선 과제로 두고 있습니다.</p>
+    <div class="legend small"><span><i></i>상자 윗면</span><span><i class="g"></i>장애물</span><span>계획기는 아직 '팔이 안 닿음'과 '자리가 막힘'을 구분해 알려주지 못합니다.</span></div>
   </div>
 </section>
 
@@ -346,7 +370,7 @@
   <div class="wrap">
     <div class="eyebrow">SYSTEM</div>
     <h2>시스템 구성</h2>
-    <p class="measure">PC가 시뮬레이션과 궤적 실행을, Jetson AGX Thor가 추론 서버를 맡습니다. 놓기 조건은 Thor의 로컬 멀티모달 LLM(Gemma 4)이 쓰고, 분류 과제의 과제 계획은 MCP 도구(nero-rt)로 연결된 LLM이 맡습니다.</p>
+    <p class="measure">PC에서 시뮬레이션과 로봇을 돌리고, Jetson AGX Thor에서 모델 서버를 돌립니다. 놓는 자세는 Thor의 Gemma 4가 정합니다. 분류 과제의 순서 계획은 MCP 도구(nero-rt)로 연결한 LLM이 합니다.</p>
     <div class="tablewrap">
       <table>
         <thead><tr><th>위치</th><th>구성 요소</th><th>역할</th><th>출처</th></tr></thead>
@@ -362,7 +386,7 @@
       </table>
     </div>
     <div class="author" id="author">
-      <div class="who">오세준<small>서강대학교 대학원 BPDL(Robot Learning) · LG이노텍 산학장학생</small></div>
+      <div class="who">오세준<small>서강대학교 대학원 BPDL(Robot Learning)</small></div>
       <dl>
         <dt>연락</dt><dd>osj8476@sogang.ac.kr</dd>
         <dt>로봇</dt><dd>AgileX NERO 7축 팔, 평행 그리퍼(최대 5cm), 손목 RGB-D 카메라</dd>
@@ -377,7 +401,7 @@
 <footer>
   <div class="wrap row small">
     <span>NERO Manipulation · 오세준 · <a href="https://github.com/osj-nero/nero-project">GitHub</a></span>
-    <span>갱신 2026-11-12</span>
+    <span class="badge">LG이노텍 산학장학생 지원 포트폴리오</span>
   </div>
 </footer>
 
