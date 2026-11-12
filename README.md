@@ -56,32 +56,7 @@
 
 파지 자세는 Contact-GraspNet, 궤적은 cuRobo가 계산한다. LLM은 배치 위치와 자세 제약만 결정한다.
 
-```mermaid
-flowchart LR
-    CMD([자연어 명령]) --> LLM
-
-    subgraph PC["PC · Isaac Sim, ROS 2"]
-        S1["1 탐색·인식<br/>RGB-D 클러스터 검출"]
-        S5["5 실행<br/>ros2_control 궤적"]
-        S6["6 검증<br/>그리퍼 개도, 카메라 관측"]
-    end
-
-    subgraph THOR["Jetson AGX Thor · 추론 서버"]
-        CLIP["CLIP<br/>언어 grounding"]
-        S2["2 파지 후보<br/>Contact-GraspNet"]
-        S3["3 후보 선별<br/>IK 필터, 학습 순위"]
-        S4["4 동작 계획<br/>cuRobo, pick+place"]
-    end
-
-    LLM["LLM 판단<br/>배치 자세 제약 생성"] -- "대상 · 목적지 · 배치 제약" --> S1
-    S1 <--> CLIP
-    S1 --> S2 --> S3 --> S4 --> S5 --> S6
-    S4 -. "계획 실패 원인" .-> LLM
-    S6 -. "검증 결과" .-> LLM
-
-    classDef llm fill:#FBEDEF,stroke:#B3122E,color:#0E1116;
-    class LLM llm;
-```
+<p align="center"><img src="docs/img/pipeline.png" alt="구성도: 자연어 명령이 LLM 판단을 거쳐 1 탐색·인식, 2 파지 후보, 3 후보 선별, 4 동작 계획, 5 실행, 6 검증으로 이어지고, 계획 실패 이유와 검증 결과가 LLM으로 되돌아간다" width="100%"></p>
 
 | 단계 | 내용 |
 |---|---|
