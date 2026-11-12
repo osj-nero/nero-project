@@ -9,7 +9,7 @@
 <meta property="og:title" content="NERO Manipulation — LLM 판단 기반 로봇 Pick-and-Place">
 <meta property="og:description" content="7축 로봇팔이 자연어 명령으로 물체를 집어 LLM이 정한 자리와 자세로 놓는 시스템. Isaac Sim 87경우 평가.">
 <meta property="og:url" content="https://osj-nero.github.io/nero-project/">
-<meta property="og:image" content="https://osj-nero.github.io/nero-project/img/hero.jpg">
+<meta property="og:image" content="https://osj-nero.github.io/nero-project/img/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23fff'/%3E%3Cpath d='M3.5%2021h9M6%2021v-3h4v3M8%2018l2.5-8.5M10.5%209.5l7-2.5M17.5%207v3.5M14.8%2010.5h5.4M14.8%2010.5v3M20.2%2010.5v3' fill='none' stroke='%230E1116' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='10.5' cy='9.5' r='1.7' fill='%23fff' stroke='%230E1116' stroke-width='2'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -79,7 +79,16 @@
   .hero .lead { font-size: clamp(16.5px, 1.35vw, 19px); line-height: 1.7; color: var(--ink-2); max-width: 34em; margin-bottom: 28px; }
   .hero .cta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
   .hero figure { margin: 0; border-radius: var(--r-lg); overflow: hidden; background: var(--sunken);  }
-  .hero img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: 42% 50%; }
+  .hero figure img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; object-position: 42% 50%; }
+  .trio { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1.12fr 1fr; gap: 10px; aspect-ratio: 1 / 1; }
+  .tc { position: relative; display: block; min-width: 0; min-height: 0; background: var(--sunken); text-decoration: none; overflow: hidden; }
+  .tc.t1 { grid-column: 1 / 3; }
+  .tc img { position: absolute; inset: 34px 14px 12px; width: calc(100% - 28px); height: calc(100% - 46px); object-fit: contain; object-position: 50% 100%; transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+  .tc.t1 img { inset: 16px 14px 10px; height: calc(100% - 26px); }
+  .tc span { position: absolute; left: 14px; top: 12px; z-index: 1; font-size: 13px; font-weight: 600; color: var(--ink-2); letter-spacing: -0.01em; transition: color .2s; }
+  .tc span b { font-weight: 700; color: var(--accent); margin-right: 7px; font-variant-numeric: tabular-nums; }
+  .tc:hover span { color: var(--ink); }
+  .tc:hover img { transform: scale(1.035); }
   .facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 28px; margin-top: clamp(36px, 5vw, 64px); padding-top: 18px; border-top: 1px solid var(--ink); }
   .facts span { display: block; font-size: 14.5px; line-height: 1.6; color: var(--ink-2); margin-top: 6px; }
   .facts b { font-weight: 650; color: var(--ink); }
@@ -87,9 +96,10 @@
   /* Demo: 과제 보기 */
   .viewer { display: grid; grid-template-columns: minmax(0, 7.4fr) minmax(0, 4.6fr); gap: clamp(20px, 3vw, 40px); align-items: start; margin-top: 28px; }
   .stage { position: relative; border-radius: var(--r-lg); overflow: hidden; background: var(--dark); aspect-ratio: 16 / 9; }
-  .stage img, .stage iframe { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; }
-  .stage .shot { position: absolute; inset: 0; opacity: 0; transition: opacity .55s ease; }
-  .stage .shot.on { opacity: 1; }
+  .stage img, .stage iframe, .stage video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; }
+  .stage video { background: #000; }
+  .stage .shot { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .55s ease; }
+  .stage .shot.on { opacity: 1; pointer-events: auto; z-index: 1; }
   .stage .tag { position: absolute; left: 14px; bottom: 14px; padding: 6px 12px; background: rgba(14,17,22,.72); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: #fff; font-size: 13px; }
   .tasks { display: grid; border-top: 1px solid var(--ink); }
   .task { display: grid; grid-template-columns: 2.2em 1fr; gap: 4px 6px; width: 100%; text-align: left; padding: 18px 4px 18px 16px; border: 0; border-bottom: 1px solid var(--line); background: transparent; transition: background .18s; }
@@ -162,7 +172,7 @@
   .fig .cy { fill: #2E333A; stroke: #15181D; stroke-width: .8; } .fig .cy.cap-e { fill: #4A515B; }
   .fig .grip-a .obj, .fig .grip-a .hatch { stroke-width: 1.1; }
   .fig .hatch { fill: url(#ht); stroke: none; }
-  .fig .hit { fill: url(#ht); stroke: var(--accent); stroke-dasharray: 3 3; }
+  .fig .gap { stroke: var(--accent); stroke-width: 1.6; stroke-dasharray: 4 3; fill: none; }
   .fig .hl { stroke: var(--accent); stroke-width: 1.3; }
   .fig .go { stroke: var(--ink-2); stroke-width: 1.3; fill: none; } .fig .ghd { fill: var(--ink-2); }
   .fig text { font-family: var(--font); }
@@ -206,17 +216,17 @@
   .motion .hero > div > :nth-child(2) { animation-delay: .08s; }
   .motion .hero > div > :nth-child(3) { animation-delay: .16s; }
   .motion .hero > div > :nth-child(4) { animation-delay: .24s; }
-  .motion .hero img { animation: zoom 1.6s cubic-bezier(.2,.7,.2,1) both; }
+  .motion .trio .tc { animation: rise .7s cubic-bezier(.2,.7,.2,1) both; }
+  .motion .trio .t2 { animation-delay: .12s; } .motion .trio .t3 { animation-delay: .24s; }
   .motion .rv { opacity: 0; transform: translateY(16px); }
   .motion .rv.in { opacity: 1; transform: none; transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
-  .motion .tasks.auto .task.on::before { transform-origin: top; animation: fill 6s linear both; }
   .motion .diagram svg > *:not(defs) { opacity: 0; }
   .motion .diagram svg.in > *:not(defs) { opacity: 1; transition: opacity .25s ease calc(var(--o, 0) * 120ms); }
   .motion .diagram .back { animation: march 1.6s linear infinite; }
   .fig .grip-a, .fig .grip-b { display: none; }
   .fig .ghost { fill: none; }
-  /* (a) 앞쪽에서 들고 내려오다 아래쪽 핑거가 작업대에 닿아 멈춤 → 그대로 후퇴 */
-  @keyframes gripA { 0% { opacity: 0; transform: translate(-31px, -54px); } 10% { opacity: 1; } 42% { opacity: 1; transform: translate(0, -7.2px); } 52% { opacity: .28; transform: translate(0, -7.2px); } 72% { opacity: .28; transform: translate(0, -7.2px); } 100% { opacity: 0; transform: translate(-31px, -54px); } }
+  /* (a) 세운 채 목표(점선)로 가다가 팔이 닿지 않아 멈춤 → 물러남 */
+  @keyframes gripA { 0% { opacity: 0; transform: translate(46px, -12px); } 10% { opacity: 1; } 40% { opacity: 1; transform: translate(22px, -2px); } 74% { opacity: 1; transform: translate(22px, -2px); } 100% { opacity: 0; transform: translate(46px, -12px); } }
   /* (b) 옆 파지 그대로 위에서 내려와 놓고, 핑거를 벌린 뒤 옆(+x)으로 빠짐 */
   @keyframes gripB { 0% { opacity: 0; transform: translateY(-80px); } 10% { opacity: 1; } 40% { transform: none; } 62% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translate(68px, 39px); } }
   @keyframes boxB { 0% { opacity: 0; transform: translateY(-80px); } 10% { opacity: 1; } 40%, 100% { opacity: 1; transform: none; } }
@@ -228,8 +238,8 @@
   .motion .replan.play .grip-a { animation: gripA 3s ease-in-out var(--d) both; }
   .motion .replan.play .grip-b { animation: gripB 3.2s ease-in-out var(--d) both; }
   .motion .replan.play .box-b { animation: boxB 3.2s ease-in-out var(--d) both; }
-  .motion .replan.play .grip-b .fl { animation: openL 3.2s ease-in-out 4.8s both; }
-  .motion .replan.play .grip-b .fr { animation: openR 3.2s ease-in-out 4.8s both; }
+  .motion .replan.play .grip-b .fl { animation: openL 3.2s ease-in-out 5.2s both; }
+  .motion .replan.play .grip-b .fr { animation: openR 3.2s ease-in-out 5.2s both; }
 
   footer .wrap { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; padding-block: 22px 40px; border-top: 1px solid var(--line); }
   .badge { display: inline-block; border: 1px solid var(--line-2); padding: 5px 14px; font-size: 13px; font-weight: 550; color: var(--ink-2); background: var(--surface); }
@@ -287,9 +297,11 @@
           <a class="btn text" href="#how" data-go="how">동작 방식 <i class="ar">→</i></a>
         </div>
       </div>
-      <figure>
-        <img src="img/hero.jpg" alt="바닥에 세워 둔 막대 기둥 네 개 옆에서 로봇팔이 판을 집으러 내려오는 장면" width="2000" height="1200">
-      </figure>
+      <div class="trio" aria-label="세 과제 한눈에 보기">
+        <a class="tc t1" href="#demo" data-pick="0"><span><b>01</b>의미 기반 배치</span><img src="img/cut_t1.webp" alt="로봇팔이 책이 든 상자를 장애물이 있는 작업대 위로 옮기는 장면" width="863" height="707"></a>
+        <a class="tc t2" href="#demo" data-pick="1"><span><b>02</b>정밀 배치</span><img src="img/cut_t2.webp" alt="로봇팔이 마지막 막대를 3층 井자 구조 위로 옮기는 장면" width="601" height="591"></a>
+        <a class="tc t3" href="#demo" data-pick="2"><span><b>03</b>다물체 분류</span><img src="img/cut_t3.webp" alt="받침 위의 노란 통과, 인형과 종이 담긴 파란 보관함" width="1000" height="870"></a>
+      </div>
     </header>
     <div class="facts" aria-label="요약">
       <div><div class="label">과제</div><span>의미 기반 배치 · 정밀 배치<br>다물체 분류</span></div>
@@ -304,15 +316,15 @@
       <!-- 영상을 넣을 때: 해당 .shot 의 <img> 를 <iframe src="https://www.youtube.com/embed/영상ID" allowfullscreen></iframe> 로 바꾸고 .tag 문구를 지움 -->
       <div class="viewer">
         <div class="stage">
-          <div class="shot on" data-i="0"><img src="img/task1_platform.jpg" alt="장애물이 놓인 30cm 작업대 위에 상자를 놓은 결과" width="1600" height="900"><span class="tag">장애물로 top-up 배치가 불가해 제약을 1회 완화한 결과</span></div>
-          <div class="shot" data-i="1"><img src="img/task2_jeong.jpg" alt="로봇팔이 막대 네 개로 우물 정자 구조를 쌓는 장면" width="1600" height="900" loading="lazy"><span class="tag">井자 조립 중 · 위치 오차 3.5–22mm</span></div>
-          <div class="shot" data-i="2"><img src="img/task3_sort.jpg" alt="바닥에 놓인 머그컵, 상자, 바나나" width="1280" height="720" loading="lazy"><span class="tag">초기 장면</span></div>
+          <div class="shot on" data-i="0"><video src="video/task1.mp4" poster="img/task1_platform.jpg" muted playsinline controls preload="metadata" aria-label="과제 01 영상: 장애물이 있는 30cm 작업대에 책이 든 상자를 눕혀 놓는다"></video></div>
+          <div class="shot" data-i="1"><video src="video/task2.mp4" poster="img/task2_jeong.jpg" muted playsinline controls preload="none" aria-label="과제 02 영상: 막대 여섯 개로 3층 井자 구조를 조립한다"></video></div>
+          <div class="shot" data-i="2"><video src="video/task3.mp4" poster="img/task3_sort.jpg" muted playsinline controls preload="none" aria-label="과제 03 영상: 노란 통은 받침 위에, 종과 인형 둘은 파란 보관함에 넣는다"></video></div>
         </div>
-        <div class="tasks auto" role="tablist" aria-label="과제 선택">
-          <button class="task on" role="tab" aria-selected="true" data-i="0"><span class="n">01</span><h3>의미 기반 배치</h3><p>30cm 작업대 위 배치. 물체의 내용물과 용도를 근거로 LLM이 배치 자세 제약을 생성한다 <span class="nw">(예: 책이 든 상자는 top-up).</span> 계획기는 제약을 만족하는 <span class="nw">파지–배치 쌍만</span> 채택한다.</p></button>
-          <button class="task" role="tab" aria-selected="false" data-i="1"><span class="n">02</span><h3>정밀 배치</h3><p>막대 부재로 井자·삼각형 구조를 조립하고, 기둥 4개 위에 판을 올린다. 부재별 목표 위치와 yaw는 LLM이 산출한다.</p></button>
-          <button class="task" role="tab" aria-selected="false" data-i="2"><span class="n">03</span><h3>다물체 분류</h3><p>작업 영역을 스캔해 물체 목록을 구성하고, LLM이 MCP 도구 호출로 물체별 목적지와 실행 순서를 정해 순차 수행한다.</p></button>
-          <p class="small" style="margin:12px 16px 0">영상은 녹화 후 교체 예정.</p>
+        <div class="tasks" role="tablist" aria-label="과제 선택">
+          <button class="task on" role="tab" aria-selected="true" data-i="0"><span class="n">01</span><h3>의미 기반 배치</h3><p>30cm 작업대 위 배치. 물체의 내용물과 용도를 근거로 LLM이 배치 자세 제약을 생성한다 <span class="nw">(예: 책이 든 상자는 top-up).</span> 계획이 서지 않으면 실패 원인을 받아 제약을 완화한다. 영상은 두 번 완화한 뒤 상자를 눕혀 놓는 실행이다.</p></button>
+          <button class="task" role="tab" aria-selected="false" data-i="1"><span class="n">02</span><h3>정밀 배치</h3><p>막대 6개로 3층 井자 구조를 조립한다. 부재별 목표 위치와 yaw는 LLM이 명세로 쓰고, 코드가 검사한 뒤 실행한다. 6개 모두 배치, <span class="nw">위치 오차 3–16mm.</span></p></button>
+          <button class="task" role="tab" aria-selected="false" data-i="2"><span class="n">03</span><h3>다물체 분류</h3><p>작업 영역을 스캔해 물체 목록을 구성하고, LLM이 MCP 도구 호출로 물체별 목적지와 실행 순서를 정해 순차 수행한다. 영상의 명령은 "먹는 것은 받침 위에, 나머지는 파란 보관함에"이고 4개 모두 성공했다.</p></button>
+          <p class="small" style="margin:12px 16px 0">대기 구간은 빨리 감았고, 잘라낸 구간은 없다.</p>
         </div>
       </div>
     </section>
@@ -405,36 +417,37 @@
     <section class="block">
       <div class="label mark">Re-planning log</div>
       <h2>재판단 사례</h2>
-      <p class="lede small">실제 실행 로그 1건. 작업대 위에 장애물이 있고, 상자에는 얇은 책이 들어 있다.</p>
+      <p class="lede small">데모 영상 01과 같은 실행의 로그. 작업대 위에 장애물이 있고, 상자에는 얇은 책이 들어 있다.</p>
       <div class="card replan">
         <div class="log">
           <div class="log-h">실행 로그 요약</div>
           <div class="lr" style="--d:0s"><span class="role">USER</span><span>이 상자를 높은 작업대 위에 올려 줘</span></div>
-          <div class="lr" style="--d:.6s"><span class="role">LLM</span><span><code>constraint = top_up</code><em>내용물(책)이 쏟아지지 않도록 윗면 법선을 +z로 지정</em></span></div>
-          <div class="lr" style="--d:2.4s"><span class="role">PLANNER</span><span><code class="x">infeasible</code><em>이 자세는 아래쪽 핑거가 상자 밑면과 작업대 사이에 끼어 해 없음</em></span></div>
-          <div class="lr" style="--d:4.2s"><span class="role">LLM</span><span><code>constraint = not_top_down</code><em>윗면이 −z를 향하지만 않으면 허용하도록 완화</em></span></div>
-          <div class="lr" style="--d:4.9s"><span class="role">PLANNER</span><span><code>feasible</code><em>측면 자세는 핑거가 상자 양옆에 있어 간섭 없음. 궤적 확보</em></span></div>
-          <div class="lr" style="--d:7s"><span class="role">ROBOT</span><span>작업대 위 측면 배치 후 그리퍼 후퇴</span></div>
+          <div class="lr" style="--d:.6s"><span class="role">LLM</span><span><code>constraint = top_up</code><em>얇은 책이 들어 있으므로 윗면이 위를 향하게 지정</em></span></div>
+          <div class="lr" style="--d:2.4s"><span class="role">PLANNER</span><span><code class="x">infeasible</code><em>파지 후보 5개 모두 이 놓기 자세의 IK 해 없음</em></span></div>
+          <div class="lr" style="--d:3.4s"><span class="role">LLM</span><span><code>완화 ① 윗면만 위</code><em>놓기 자세가 같아 여전히 해 없음</em></span></div>
+          <div class="lr" style="--d:4.4s"><span class="role">LLM</span><span><code>완화 ② 면 제한 해제</code><em>어느 면이 위여도 허용. 내려놓는 방식은 유지</em></span></div>
+          <div class="lr" style="--d:5.3s"><span class="role">PLANNER</span><span><code>feasible</code><em>앞면이 위인 자세로 궤적 확보</em></span></div>
+          <div class="lr" style="--d:7.4s"><span class="role">ROBOT</span><span>상자를 눕혀 작업대에 배치 후 복귀</span></div>
         </div>
-        <div class="fig"><svg viewBox="0 -56 620 422" role="img" aria-label="(a) 윗면이 위인 자세는 그리퍼 아래쪽 핑거가 상자 밑면과 작업대 사이에 끼어 놓을 수 없다. (b) 상자를 옆으로 세우면 같은 옆 파지로 위에서 내려놓은 뒤 옆으로 빠진다">
+        <div class="fig"><svg viewBox="0 -56 620 422" role="img" aria-label="(a) 윗면이 위인 자세로 놓으려면 그리퍼가 작업대 위 높은 곳에서 아래를 향해야 하는데, 이 파지로는 그 자세에 팔이 닿지 않아 계획이 서지 않는다. (b) 제약을 풀어 상자를 눕히면 같은 파지로 낮은 높이에서 놓고 옆으로 빠진다">
           <defs>
             <pattern id="ht" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0V5" class="hl"/></pattern>
             <marker id="gh" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" class="ghd"/></marker>
           </defs>
           <g class="sc" style="--d:.6s"><polygon class="plat f-top" points="160.0,97.0 253.5,151.0 160.0,205.0 66.5,151.0"/><polygon class="plat f-right" points="253.5,259.0 160.0,313.0 160.0,205.0 253.5,151.0"/><polygon class="plat f-left" points="66.5,259.0 160.0,313.0 160.0,205.0 66.5,151.0"/><polygon class="obst f-top" points="163.1,70.0 237.9,113.2 200.5,134.8 125.7,91.6"/><polygon class="obst f-right" points="237.9,149.2 200.5,170.8 200.5,134.8 237.9,113.2"/><polygon class="obst f-left" points="125.7,127.6 200.5,170.8 200.5,134.8 125.7,91.6"/></g>
-          <g class="sc" style="--d:3.3s"><polygon class="obj ghost f-top" points="125.7,116.8 188.1,152.8 150.6,174.4 88.3,138.4" stroke-dasharray="5 4"/><polygon class="hatch" points="125.7,116.8 188.1,152.8 150.6,174.4 88.3,138.4"/><polygon class="obj ghost f-right" points="188.1,170.8 150.6,192.4 150.6,174.4 188.1,152.8" stroke-dasharray="5 4"/><polygon class="obj ghost f-left" points="88.3,156.4 150.6,192.4 150.6,174.4 88.3,138.4" stroke-dasharray="5 4"/></g>
-          <g class="sc" style="--d:2.3s"><polygon class="hit" points="108.2,182.3 118.2,188.1 118.2,180.9 108.2,175.1"/><polygon class="hit" points="114.5,171.5 124.5,177.3 118.2,180.9 108.2,175.1"/><text class="an r" x="113.2" y="222.4" text-anchor="middle">핑거–작업대 간섭</text></g>
-          <g class="grip-a" style="--d:1s"><polygon class="gf" points="87.7,193.5 107.6,205.0 107.6,192.8 87.7,181.2" style="fill:#A7AAAE"/><polygon class="gf" points="149.4,170.1 149.4,162.9 107.6,192.8 107.6,205.0" style="fill:#ACAEB3"/><polygon class="gf" points="139.4,157.1 87.7,181.2 107.6,192.8 149.4,162.9" style="fill:#D0D3D8"/><polygon class="obj f-top" points="125.7,116.8 188.1,152.8 150.6,174.4 88.3,138.4"/><polygon class="hatch" points="125.7,116.8 188.1,152.8 150.6,174.4 88.3,138.4"/><polygon class="obj f-right" points="188.1,170.8 150.6,192.4 150.6,174.4 188.1,152.8"/><polygon class="obj f-left" points="88.3,156.4 150.6,192.4 150.6,174.4 88.3,138.4"/><polygon class="gf" points="87.7,163.2 107.6,174.8 107.6,162.5 87.7,151.0" style="fill:#A7AAAE"/><polygon class="gf" points="149.4,144.9 149.4,137.7 107.6,162.5 107.6,174.8" style="fill:#ACAEB3"/><polygon class="gf" points="139.4,131.9 87.7,151.0 107.6,162.5 149.4,137.7" style="fill:#CED1D6"/><polygon class="gb" points="65.2,208.2 92.7,224.1 98.3,220.8 98.3,179.1 92.7,169.4 65.2,153.5 59.6,156.8 59.6,198.5" style="fill:#2F3339"/><polygon class="gb" points="117.0,210.0 117.0,168.3 98.3,179.1 98.3,220.8" style="fill:#31353C"/><polygon class="gb" points="117.0,168.3 111.4,158.6 92.7,169.4 98.3,179.1" style="fill:#3A3F47"/><polygon class="gb" points="111.4,158.6 83.9,142.7 65.2,153.5 92.7,169.4" style="fill:#3A3F47"/><polygon class="cy" points="48.4,194.6 48.5,193.1 48.7,191.7 49.2,190.5 49.8,189.4 50.5,188.6 51.4,187.9 71.7,176.2 72.7,175.8 73.8,175.5 75.0,175.6 76.3,175.8 77.6,176.2 78.9,176.9 80.3,177.8 81.6,178.9 82.9,180.1 84.1,181.5 85.2,183.0 86.2,184.6 87.1,186.3 87.9,188.0 88.4,189.7 88.9,191.5 89.1,193.1 89.2,194.7 89.1,196.2 88.9,197.6 88.4,198.8 87.9,199.9 87.1,200.7 86.2,201.4 66.0,213.1 64.9,213.5 63.8,213.8 62.6,213.7 61.3,213.5 60.0,213.1 58.7,212.4 57.3,211.5 56.0,210.4 54.7,209.2 53.5,207.8 52.4,206.3 51.4,204.7 50.5,203.0 49.8,201.3 49.2,199.6 48.7,197.8 48.5,196.2"/><polygon class="cy cap-e" points="69.0,206.4 68.9,204.8 68.6,203.2 68.2,201.4 67.6,199.7 66.8,198.0 66.0,196.3 64.9,194.7 63.8,193.2 62.6,191.8 61.3,190.6 60.0,189.5 58.7,188.6 57.3,187.9 56.0,187.5 54.7,187.3 53.5,187.2 52.4,187.5 51.4,187.9 50.5,188.6 49.8,189.4 49.2,190.5 48.7,191.7 48.5,193.1 48.4,194.6 48.5,196.2 48.7,197.8 49.2,199.6 49.8,201.3 50.5,203.0 51.4,204.7 52.4,206.3 53.5,207.8 54.7,209.2 56.0,210.4 57.3,211.5 58.7,212.4 60.0,213.1 61.3,213.5 62.6,213.7 63.8,213.8 64.9,213.5 66.0,213.1 66.8,212.4 67.6,211.6 68.2,210.5 68.6,209.3 68.9,207.9"/></g>
-          <text class="cap sc" style="--d:3.3s" x="160" y="350" text-anchor="middle">(a) top-up — 핑거 간섭, 해 없음</text>
-          <g class="sc" style="--d:4.2s"><path class="go" d="M290 150H340" marker-end="url(#gh)"/><text class="an" x="315" y="140" text-anchor="middle">제약 완화</text></g>
-          <g class="sc" style="--d:4.5s"><polygon class="plat f-top" points="470.0,97.0 563.5,151.0 470.0,205.0 376.5,151.0"/><polygon class="plat f-right" points="563.5,259.0 470.0,313.0 470.0,205.0 563.5,151.0"/><polygon class="plat f-left" points="376.5,259.0 470.0,313.0 470.0,205.0 376.5,151.0"/><polygon class="obst f-top" points="473.1,70.0 547.9,113.2 510.5,134.8 435.7,91.6"/><polygon class="obst f-right" points="547.9,149.2 510.5,170.8 510.5,134.8 547.9,113.2"/><polygon class="obst f-left" points="435.7,127.6 510.5,170.8 510.5,134.8 435.7,91.6"/></g>
-          <g class="grip-b" style="--d:4.8s"><g class="fl"><polygon class="gf" points="499.3,163.6 488.7,169.7 488.7,146.7 499.3,140.6" style="fill:#AEB0B4"/><polygon class="gf" points="441.9,137.0 441.9,125.4 488.7,146.7 488.7,169.7" style="fill:#A7AAAE"/><polygon class="gf" points="448.2,121.8 499.3,140.6 488.7,146.7 441.9,125.4" style="fill:#CDD0D5"/></g></g>
-          <g class="box-b" style="--d:4.8s"><polygon class="obj f-top" points="423.2,98.8 485.6,134.8 470.0,143.8 407.6,107.8"/><polygon class="obj f-right" points="485.6,178.0 470.0,187.0 470.0,143.8 485.6,134.8"/><polygon class="obj f-left" points="407.6,151.0 470.0,187.0 470.0,143.8 407.6,107.8"/><polygon class="hatch" points="407.6,151.0 470.0,187.0 470.0,143.8 407.6,107.8"/></g>
-          <g class="grip-b" style="--d:4.8s"><g class="fr"><polygon class="gf" points="473.1,178.7 462.5,184.8 462.5,161.8 473.1,155.7" style="fill:#AEB0B4"/><polygon class="gf" points="420.1,149.6 420.1,138.0 462.5,161.8 462.5,184.8" style="fill:#A5A8AC"/><polygon class="gf" points="426.4,134.4 473.1,155.7 462.5,161.8 420.1,138.0" style="fill:#CDD0D5"/></g><polygon class="gb" points="517.7,183.2 481.5,204.1 475.9,200.9 475.9,173.5 481.5,163.8 517.7,142.9 523.3,146.1 523.3,173.5" style="fill:#31353C"/><polygon class="gb" points="457.2,190.1 457.2,162.7 475.9,173.5 475.9,200.9" style="fill:#2F3339"/><polygon class="gb" points="457.2,162.7 462.8,153.0 481.5,163.8 475.9,173.5" style="fill:#393E45"/><polygon class="gb" points="462.8,153.0 499.0,132.1 517.7,142.9 481.5,163.8" style="fill:#3A3F47"/><polygon class="cy" points="489.3,179.4 489.4,177.8 489.7,176.2 490.1,174.4 490.7,172.7 492.3,169.3 493.4,167.7 494.5,166.2 495.7,164.8 497.0,163.6 498.3,162.5 499.6,161.6 501.0,160.9 502.3,160.5 503.6,160.3 504.8,160.2 505.9,160.5 506.9,160.9 527.2,172.6 528.0,173.3 528.8,174.1 529.4,175.2 529.8,176.4 530.1,177.8 530.2,179.3 530.1,180.9 529.8,182.5 529.4,184.3 528.8,186.0 527.2,189.4 526.1,191.0 525.0,192.5 523.8,193.9 522.5,195.1 521.2,196.2 519.9,197.1 518.5,197.8 517.2,198.2 515.9,198.4 514.7,198.5 513.6,198.2 512.6,197.8 492.3,186.1 491.5,185.4 490.7,184.6 490.1,183.5 489.7,182.3 489.4,180.9"/><polygon class="cy cap-e" points="509.6,191.1 509.7,189.5 509.9,187.9 510.4,186.1 511.0,184.4 511.7,182.7 512.6,181.0 513.6,179.4 514.7,177.9 515.9,176.5 517.2,175.3 518.5,174.2 519.9,173.3 521.2,172.6 522.5,172.2 523.8,172.0 525.0,171.9 526.1,172.2 527.2,172.6 528.0,173.3 528.8,174.1 529.4,175.2 529.8,176.4 530.1,177.8 530.2,179.3 530.1,180.9 529.8,182.5 529.4,184.3 528.8,186.0 528.0,187.7 527.2,189.4 526.1,191.0 525.0,192.5 523.8,193.9 522.5,195.1 521.2,196.2 519.9,197.1 518.5,197.8 517.2,198.2 515.9,198.4 514.7,198.5 513.6,198.2 512.6,197.8 511.7,197.1 511.0,196.3 510.4,195.2 509.9,194.0 509.7,192.6"/></g>
-          <text class="cap sc" style="--d:7s" x="470" y="350" text-anchor="middle">(b) not top-down — 배치 후 후퇴</text>
+          <g class="sc" style="--d:.9s"><polygon class="obj ghost f-top" points="131.9,95.2 163.1,113.2 141.3,125.8 110.1,107.8" stroke-dasharray="5 4"/><polygon class="hatch" points="131.9,95.2 163.1,113.2 141.3,125.8 110.1,107.8"/><polygon class="obj ghost f-right" points="163.1,167.2 141.3,179.8 141.3,125.8 163.1,113.2" stroke-dasharray="5 4"/><polygon class="obj ghost f-left" points="110.1,161.8 141.3,179.8 141.3,125.8 110.1,107.8" stroke-dasharray="5 4"/></g>
+          <g class="grip-a" style="--d:1s"><polygon class="gf" points="148.2,70.7 168.1,82.2 157.5,88.4 137.6,76.8" style="fill:#D0D3D8"/><polygon class="gf" points="158.8,125.1 152.5,128.7 157.5,88.4 168.1,82.2" style="fill:#A6A8AD"/><polygon class="gf" points="142.5,122.9 137.6,76.8 157.5,88.4 152.5,128.7" style="fill:#A7AAAE"/><polygon class="obj f-top" points="131.9,95.2 163.1,113.2 141.3,125.8 110.1,107.8"/><polygon class="hatch" points="131.9,95.2 163.1,113.2 141.3,125.8 110.1,107.8"/><polygon class="obj f-right" points="163.1,167.2 141.3,179.8 141.3,125.8 163.1,113.2"/><polygon class="obj f-left" points="110.1,161.8 141.3,179.8 141.3,125.8 110.1,107.8"/><polygon class="gf" points="115.7,89.4 135.7,101.0 125.1,107.1 105.1,95.6" style="fill:#D0D3D8"/><polygon class="gf" points="130.7,141.3 124.5,144.9 125.1,107.1 135.7,101.0" style="fill:#A6A8AD"/><polygon class="gf" points="114.5,139.1 105.1,95.6 125.1,107.1 124.5,144.9" style="fill:#A1A3A7"/><polygon class="gb" points="146.6,45.7 174.0,61.5 174.0,68.0 137.9,88.9 126.6,88.9 99.2,73.1 99.2,66.6 135.4,45.7" style="fill:#3A3F47"/><polygon class="gb" points="174.0,89.6 137.9,110.5 137.9,88.9 174.0,68.0" style="fill:#31353C"/><polygon class="gb" points="137.9,110.5 126.6,110.5 126.6,88.9 137.9,88.9" style="fill:#32363D"/><polygon class="gb" points="126.6,110.5 99.2,94.7 99.2,73.1 126.6,88.9" style="fill:#2F3339"/><polygon class="cy" points="122.1,43.9 122.2,42.8 122.6,41.7 123.2,40.7 124.0,39.7 125.1,38.8 126.3,38.0 127.8,37.2 129.3,36.6 131.1,36.1 132.9,35.8 134.7,35.6 136.6,35.5 138.5,35.6 140.4,35.8 142.2,36.1 143.9,36.6 145.5,37.2 146.9,38.0 148.2,38.8 149.2,39.7 150.1,40.7 150.7,41.7 151.0,42.8 151.2,43.9 151.2,67.3 151.0,68.4 150.7,69.5 150.1,70.5 149.2,71.5 148.2,72.4 146.9,73.2 145.5,74.0 143.9,74.6 142.2,75.1 140.4,75.4 138.5,75.6 136.6,75.7 134.7,75.6 132.9,75.4 131.1,75.1 129.3,74.6 127.8,74.0 126.3,73.2 125.1,72.4 124.0,71.5 123.2,70.5 122.6,69.5 122.2,68.4 122.1,67.3"/><polygon class="cy cap-e" points="146.9,49.8 145.5,50.6 143.9,51.2 142.2,51.7 140.4,52.0 138.5,52.2 136.6,52.3 134.7,52.2 132.9,52.0 131.1,51.7 129.3,51.2 127.8,50.6 126.3,49.8 125.1,49.0 124.0,48.1 123.2,47.1 122.6,46.1 122.2,45.0 122.1,43.9 122.2,42.8 122.6,41.7 123.2,40.7 124.0,39.7 125.1,38.8 126.3,38.0 127.8,37.2 129.3,36.6 131.1,36.1 132.9,35.8 134.7,35.6 136.6,35.5 138.5,35.6 140.4,35.8 142.2,36.1 143.9,36.6 145.5,37.2 146.9,38.0 148.2,38.8 149.2,39.7 150.1,40.7 150.7,41.7 151.0,42.8 151.2,43.9 151.0,45.0 150.7,46.1 150.1,47.1 149.2,48.1 148.2,49.0"/></g>
+          <g class="sc" style="--d:2.3s"><path class="gap" d="M136.6 135.7L158.6 133.7"/><text class="an r" x="142.6" y="20.5" text-anchor="middle">놓기 자세 IK 해 없음</text></g>
+          <text class="cap sc" style="--d:2.6s" x="160" y="350" text-anchor="middle">(a) top-up — 팔 도달 불가</text>
+          <g class="sc" style="--d:4.6s"><path class="go" d="M290 150H340" marker-end="url(#gh)"/><text class="an" x="315" y="140" text-anchor="middle">제약 완화 ×2</text></g>
+          <g class="sc" style="--d:4.9s"><polygon class="plat f-top" points="470.0,97.0 563.5,151.0 470.0,205.0 376.5,151.0"/><polygon class="plat f-right" points="563.5,259.0 470.0,313.0 470.0,205.0 563.5,151.0"/><polygon class="plat f-left" points="376.5,259.0 470.0,313.0 470.0,205.0 376.5,151.0"/><polygon class="obst f-top" points="473.1,70.0 547.9,113.2 510.5,134.8 435.7,91.6"/><polygon class="obst f-right" points="547.9,149.2 510.5,170.8 510.5,134.8 547.9,113.2"/><polygon class="obst f-left" points="435.7,127.6 510.5,170.8 510.5,134.8 435.7,91.6"/></g>
+          <g class="grip-b" style="--d:5.2s"><g class="fl"><polygon class="gf" points="511.8,170.8 501.2,176.9 501.2,153.9 511.8,147.8" style="fill:#AEB0B4"/><polygon class="gf" points="463.8,149.6 463.8,138.0 501.2,153.9 501.2,176.9" style="fill:#A7AAAE"/><polygon class="gf" points="470.0,134.4 511.8,147.8 501.2,153.9 463.8,138.0" style="fill:#CCCFD4"/></g></g>
+          <g class="box-b" style="--d:5.2s"><polygon class="obj f-top" points="435.7,109.6 482.5,136.6 460.6,149.2 413.9,122.2"/><polygon class="obj f-right" points="482.5,172.6 460.6,185.2 460.6,149.2 482.5,136.6"/><polygon class="hatch" points="482.5,172.6 460.6,185.2 460.6,149.2 482.5,136.6"/><polygon class="obj f-left" points="413.9,158.2 460.6,185.2 460.6,149.2 413.9,122.2"/></g>
+          <g class="grip-b" style="--d:5.2s"><g class="fr"><polygon class="gf" points="479.4,189.5 468.8,195.6 468.8,172.6 479.4,166.5" style="fill:#AEB0B4"/><polygon class="gf" points="435.7,165.8 435.7,154.2 468.8,172.6 468.8,195.6" style="fill:#A5A7AB"/><polygon class="gf" points="441.9,150.6 479.4,166.5 468.8,172.6 435.7,154.2" style="fill:#CCCFD4"/></g><polygon class="gb" points="527.1,192.2 490.9,213.1 485.3,209.9 485.3,182.5 490.9,172.8 527.1,151.9 532.7,155.1 532.7,182.5" style="fill:#31353C"/><polygon class="gb" points="466.6,199.1 466.6,171.7 485.3,182.5 485.3,209.9" style="fill:#2F3339"/><polygon class="gb" points="466.6,171.7 472.2,162.0 490.9,172.8 485.3,182.5" style="fill:#393E45"/><polygon class="gb" points="472.2,162.0 508.3,141.1 527.1,151.9 490.9,172.8" style="fill:#3A3F47"/><polygon class="cy" points="498.7,188.4 498.8,186.8 499.0,185.2 499.5,183.4 500.1,181.7 500.8,180.0 501.7,178.3 502.7,176.7 503.8,175.2 505.0,173.8 506.3,172.6 507.6,171.5 509.0,170.6 510.3,169.9 511.6,169.5 512.9,169.3 514.1,169.2 515.2,169.5 516.2,169.9 536.5,181.6 537.4,182.3 538.1,183.1 538.7,184.2 539.2,185.4 539.4,186.8 539.5,188.3 539.4,189.9 539.2,191.5 538.7,193.3 538.1,195.0 537.4,196.7 536.5,198.4 535.5,200.0 534.4,201.5 533.2,202.9 531.9,204.1 530.6,205.2 529.2,206.1 527.9,206.8 526.6,207.2 525.3,207.4 524.1,207.5 523.0,207.2 522.0,206.8 501.7,195.1 500.8,194.4 500.1,193.6 499.5,192.5 499.0,191.3 498.8,189.9"/><polygon class="cy cap-e" points="518.9,200.1 519.0,198.5 519.3,196.9 519.7,195.1 520.3,193.4 521.1,191.7 522.0,190.0 523.0,188.4 524.1,186.9 525.3,185.5 526.6,184.3 527.9,183.2 529.2,182.3 530.6,181.6 531.9,181.2 533.2,181.0 534.4,180.9 535.5,181.2 536.5,181.6 537.4,182.3 538.1,183.1 538.7,184.2 539.2,185.4 539.4,186.8 539.5,188.3 539.4,189.9 539.2,191.5 538.7,193.3 538.1,195.0 537.4,196.7 536.5,198.4 535.5,200.0 534.4,201.5 533.2,202.9 531.9,204.1 530.6,205.2 529.2,206.1 527.9,206.8 526.6,207.2 525.3,207.4 524.1,207.5 523.0,207.2 522.0,206.8 521.1,206.1 520.3,205.3 519.7,204.2 519.3,203.0 519.0,201.6"/></g>
+          <text class="cap sc" style="--d:7.4s" x="470" y="350" text-anchor="middle">(b) 면 제한 해제 — 눕혀서 배치</text>
         </svg></div>
       </div>
-      <p class="small" style="margin-top:14px"><button class="replay" type="button">↻ 다시 재생</button>빗금: 상자 윗면. 회색: 장애물. 그리퍼는 같은 면을 집은 채 자세만 바꾼다. 제약 표기는 설명용 약식이다. 계획기는 현재 도달 불가와 배치 영역 충돌을 구분해 보고하지 못한다.</p>
+      <p class="small" style="margin-top:14px"><button class="replay" type="button">↻ 다시 재생</button>빗금: 상자 윗면. 회색: 장애물. 그리퍼는 같은 곳을 집은 채 자세만 바꾼다. 그림의 크기와 위치는 설명용이고, 제약 표기는 약식이다.</p>
     </section>
   </div>
 </main>
@@ -510,30 +523,35 @@
   var $$ = function (q, r) { return [].slice.call((r || document).querySelectorAll(q)); };
   var motion = !matchMedia('(prefers-reduced-motion: reduce)').matches && location.search.indexOf('static') < 0 && 'IntersectionObserver' in window;
 
-  /* 과제 전환: 사진 교차, 6초마다 자동 넘김(직접 누르면 멈춤) */
-  var tasks = $$('.task'), shots = $$('.shot'), list = document.querySelector('.tasks'), timer = null;
-  function pick(b) {
+  /* 과제 전환: 고른 과제의 영상을 처음부터 재생, 끝나면 다음 과제로 */
+  var tasks = $$('.task'), shots = $$('.shot'), vids = shots.map(function (s) { return s.querySelector('video'); });
+  function pick(b, play) {
     tasks.forEach(function (x) { var on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', on); });
-    shots.forEach(function (s) { s.classList.toggle('on', s.dataset.i === b.dataset.i); });
+    shots.forEach(function (s, k) {
+      var on = s.dataset.i === b.dataset.i; s.classList.toggle('on', on);
+      if (!on) vids[k].pause();
+      else if (play) { vids[k].currentTime = 0; var p = vids[k].play(); if (p && p.catch) p.catch(function () {}); }
+    });
   }
-  tasks.forEach(function (b) {
-    b.addEventListener('click', function () { clearInterval(timer); list.classList.toggle('auto', false); pick(b); });
+  tasks.forEach(function (b) { b.addEventListener('click', function () { pick(b, true); }); });
+  $$('.tc').forEach(function (a) {
+    a.addEventListener('click', function (e) {
+      e.preventDefault(); pick(tasks[+a.dataset.pick], true);
+      document.querySelector('.viewer').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
   });
-  if (!motion) { list.classList.toggle('auto', false); return; }
+  vids.forEach(function (v, k) { v.addEventListener('ended', function () { pick(tasks[(k + 1) % tasks.length], true); }); });
+  if (!motion) return;
 
   document.documentElement.classList.add('motion');
-  timer = setInterval(function () {
-    if (document.getElementById('demo').hidden) return;
-    var i = tasks.findIndex(function (x) { return x.classList.contains('on'); });
-    pick(tasks[(i + 1) % tasks.length]);
-  }, 6000);
-
   function seen(el, fn, th) {
     var io = new IntersectionObserver(function (es) {
       es.forEach(function (e) { if (e.isIntersecting) { io.disconnect(); fn(el); } });
     }, { threshold: th || 0.2 });
     io.observe(el);
   }
+
+  seen(document.querySelector('.stage'), function () { var p = vids[0].play(); if (p && p.catch) p.catch(function () {}); }, 0.5);
 
   /* 스크롤 등장 */
   $$('.facts, .block, .how, .about').forEach(function (el) {

@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/img/hero.jpg" alt="NERO 로봇팔이 기둥 네 개 옆에서 판을 집으러 내려오는 장면" width="820">
+<img src="docs/img/hero.jpg" alt="NERO 로봇팔이 마지막 막대를 들고 3층 井자 구조 위로 옮기는 장면" width="620">
 
 # NERO Manipulation
 
@@ -32,16 +32,18 @@
 
 <table>
 <tr>
-<td width="33%"><img src="docs/img/task1_platform.jpg" alt="작업대 위에 상자를 놓은 결과"></td>
-<td width="33%"><img src="docs/img/task2_jeong.jpg" alt="막대로 井자 구조를 조립하는 장면"></td>
-<td width="33%"><img src="docs/img/task3_sort.jpg" alt="바닥에 놓인 머그컵, 상자, 바나나"></td>
+<td width="33%"><a href="https://osj-nero.github.io/nero-project/#demo"><img src="docs/img/task1_platform.jpg" alt="과제 01 결과: 책이 든 상자가 장애물 옆 작업대 위에 눕혀 놓인 장면"></a></td>
+<td width="33%"><a href="https://osj-nero.github.io/nero-project/#demo"><img src="docs/img/task2_jeong.jpg" alt="과제 02 결과: 막대 여섯 개로 쌓은 3층 井자 구조"></a></td>
+<td width="33%"><a href="https://osj-nero.github.io/nero-project/#demo"><img src="docs/img/task3_sort.jpg" alt="과제 03 결과: 받침 위의 노란 통과, 인형과 종이 담긴 파란 보관함"></a></td>
 </tr>
 <tr>
-<td valign="top"><b>01 · 의미 기반 배치</b><br>30cm 작업대 위 배치. 물체의 내용물과 용도를 근거로 LLM이 배치 자세 제약을 생성한다. 장애물로 막히면 제약 완화 또는 중단을 판단한다.<br><br><code>rq1/stage2_vlm.py</code></td>
-<td valign="top"><b>02 · 정밀 배치</b><br>막대 부재로 井자·고인돌·삼각형·3층 구조를 조립하고, 기둥 4개 위에 판을 올린다. LLM이 구조 명세를 쓰고 코드가 검사한 뒤 실행한다.<br><br><code>precise/run_claude_tasks.py</code><br><code>precise/run_floor_pillars_lid.py</code></td>
-<td valign="top"><b>03 · 다물체 분류</b><br>작업 영역을 스캔해 물체 목록을 구성하고, LLM이 MCP 도구 호출로 물체별 목적지와 실행 순서를 정해 순차 수행한다.<br><br>MCP <code>rt_survey</code> → <code>rt_sort</code></td>
+<td valign="top"><b>01 · 의미 기반 배치</b><br>30cm 작업대 위 배치. 물체의 내용물과 용도를 근거로 LLM이 배치 자세 제약을 생성한다. 계획이 서지 않으면 실패 원인을 받아 제약을 완화하거나 중단한다.<br><br><code>rq1/stage2_vlm.py</code></td>
+<td valign="top"><b>02 · 정밀 배치</b><br>막대 6개로 3층 井자 구조를 조립한다. LLM이 구조 명세를 쓰고 코드가 검사한 뒤 실행한다. 6개 모두 배치, 위치 오차 3–16mm.<br><br><code>precise/run_claude_tasks.py jeong6</code></td>
+<td valign="top"><b>03 · 다물체 분류</b><br>작업 영역을 스캔해 물체 목록을 구성하고, LLM이 MCP 도구 호출로 물체별 목적지와 실행 순서를 정해 순차 수행한다. 예: "먹는 것은 받침 위에, 나머지는 파란 보관함에".<br><br>MCP <code>rt_survey</code> → <code>rt_sort</code></td>
 </tr>
 </table>
+
+과제별 데모 영상은 [프로젝트 페이지](https://osj-nero.github.io/nero-project/#demo)에 있다. 대기 구간은 빨리 감았고 잘라낸 구간은 없다.
 
 ## Results
 
@@ -69,15 +71,16 @@
 
 ### 재판단 사례
 
-작업대 위에 장애물이 있고, 상자에는 얇은 책이 들어 있는 장면의 실행 로그 요약. 제약 표기는 설명용 약식이다.
+데모 영상 01과 같은 실행의 로그 요약. 작업대 위에 장애물이 있고, 상자에는 얇은 책이 들어 있다. 제약 표기는 약식이다.
 
 ```text
 USER     이 상자를 높은 작업대 위에 올려 줘
-LLM      constraint = top_up          # 내용물이 쏟아지지 않도록 윗면 법선을 +z로 지정
-PLANNER  infeasible                   # 이 자세는 아래쪽 핑거가 상자 밑면과 작업대 사이에 끼어 해 없음
-LLM      constraint = not_top_down    # 윗면이 -z를 향하지만 않으면 허용하도록 완화
-PLANNER  feasible                     # 측면 자세는 핑거가 상자 양옆에 있어 간섭 없음. 궤적 확보
-ROBOT    작업대 위 측면 배치 후 그리퍼 후퇴
+LLM      constraint = top_up          # 얇은 책이 들어 있으므로 윗면이 위를 향하게 지정
+PLANNER  infeasible                   # 파지 후보 5개 모두 이 놓기 자세의 IK 해 없음
+LLM      완화 ① 윗면만 위             # 놓기 자세가 같아 여전히 해 없음
+LLM      완화 ② 면 제한 해제          # 어느 면이 위여도 허용. 내려놓는 방식은 유지
+PLANNER  feasible                     # 앞면이 위인 자세로 궤적 확보
+ROBOT    상자를 눕혀 작업대에 배치 후 복귀
 ```
 
 ## System
@@ -213,7 +216,7 @@ python3 stage2_rules.py blocked_v4/exec_vlm_cases87.json S,F,C           # 비�
 
 ```bash
 cd ~/nero-manip/precise
-python3 run_claude_tasks.py jeong        # dolmen | jeong | jeong3 | triangle
+python3 run_claude_tasks.py jeong6       # 3층 井자(막대 6개). 그 밖에 dolmen | jeong | jeong3 | triangle
 FPL_AB=1 FPL_TWIST=20 FPL_CX=-0.42 python3 run_floor_pillars_lid.py demo 0.07    # 기둥 4개(간격 7cm) + 판
 ```
 
